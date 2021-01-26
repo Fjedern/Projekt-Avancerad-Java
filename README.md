@@ -1,3 +1,5 @@
+[![Contributors][contributors-shield]][contributors-url]
+
 # Projekt-Avancerad-Java
 Group project for Java20
 
