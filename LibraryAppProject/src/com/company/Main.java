@@ -9,8 +9,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MenuHelper.initMenu(MainMenu.values());
-        MenuHelper.initMenu(AdminMenu.values());
-        MenuHelper.initMenu(UserMenu.values());
+        MenuHelper menuHelper = new MenuHelper();
+
+        menuHelper.initMenu(MainMenu.values());
+        menuHelper.initMenu(AdminMenu.values());
+        menuHelper.initMenu(UserMenu.values());
     }
 }
