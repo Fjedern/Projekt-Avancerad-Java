@@ -24,4 +24,23 @@ public class User extends Person{
                 "books=" + books +
                 '}';
     }
+
+    public void borrowBook(Book book){
+        books.add(book);
+    }
+
+    public void showUserBooks(){
+        for(Book book : books){
+            System.out.println(books);
+        }
+    }
+
+    public void returnBook(String titleOrAuthor){
+        for(Book book : books){
+            if(titleOrAuthor.equalsIgnoreCase(book.getAuthor()) || titleOrAuthor.equalsIgnoreCase(book.title)){
+                books.remove(book);
+                return;
+            }
+        }
+    }
 }
