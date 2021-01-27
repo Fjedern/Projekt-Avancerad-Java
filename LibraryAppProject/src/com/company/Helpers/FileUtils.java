@@ -14,31 +14,27 @@ import java.util.List;
 public class FileUtils {
 
     public void readFile(){
-        //statiska, behöver inte skapa ett objekt av denna klass för att komma åt
+        
 
-            //hämtar path till textfilen
+            
             Path path = Paths.get("Files/Books.txt");
-            //try catch för att hantera exception.
+            
             try {
-                List<String> ourFile = Files.readAllLines(path); //strängar -> pga text -> readAllLines, läser varje rad var för sig
-                //for-each loop. Loopar igenom listan, där varje rad omvandlas till en string
+                List<String> ourFile = Files.readAllLines(path); 
+                
                 for (String line : ourFile) {
                     System.out.println(line);
                 }
 
-            } catch (Exception e) { // för alla exceptions som finns
-                e.printStackTrace(); //i detta fall för att se om där finns en fil att läsa ifrån.
+            } catch (Exception e) { 
+                e.printStackTrace(); 
 
             }
         }
 
     public void writeFile(){
         List<String>newText = new ArrayList<>();
-        newText.add("");
-        newText.add("Vår nya data...");
-        newText.add("Manchester United");
-        newText.add("Newcastle United");
-        newText.add("Burnley"); //skapat ny lista och lagt till text i form av Strings
+         
 
         try{
             Path path = Paths.get("Files/Books.txt");
@@ -54,8 +50,8 @@ public class FileUtils {
 
     public static Object readObject(String fileName){
 
-        FileInputStream streamIn = null; //För att läsa in fil
-        ObjectInputStream objectInputStream = null; //För att läsa in objekt
+        FileInputStream streamIn = null; 
+        ObjectInputStream objectInputStream = null; 
         Object object = null;
 
         try{
