@@ -17,6 +17,8 @@ public class Library {
     }
     public static void removeBook(String bookTitleToRemove){
         bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove));
+            }
+        }
     }
 
 }
