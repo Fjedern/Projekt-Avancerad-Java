@@ -3,6 +3,7 @@ package com.company;
 import com.company.Entities.Book;
 import com.company.Entities.User;
 import com.company.Helpers.MenuHelper;
+import com.company.Menus.MainMenu;
 
 import java.util.Comparator;
 import java.util.Scanner;
@@ -16,11 +17,12 @@ public class Library {
 
     public static List<Book> bookList = new ArrayList<>();
     public static List<User> userList = new ArrayList<>();
-    MenuHelper menuHelper;
+    MenuHelper menuHelper = new MenuHelper();
 
 
 
     public Library() {
+
     }
 
 
@@ -28,11 +30,14 @@ public class Library {
 
     //Funktionen som kör igång programmet
     public void openLibrary() {
+        System.out.println("== Welcome to the library ==");
+        menuHelper.initMenu(MainMenu.values());
 
     }
 
     public void showAllBooks() {
         bookList.sort(Comparator.comparing(Book::getTitle));
+        System.out.println("\n== All Books ==");
         for (Book book : bookList) {
             System.out.println("* " + book.getTitle() + " by " + book.getAuthor());
         }
@@ -41,7 +46,7 @@ public class Library {
     public void searchBookByTitle() {
         Scanner scan = new Scanner(System.in);
         int matches = 0;
-        System.out.print("Search books by title: ");
+        System.out.print("\nSearch books by title: ");
 
         try {
             String regex = scan.nextLine();
@@ -71,7 +76,7 @@ public class Library {
     public void searchBookByAuthor() {
         Scanner scan = new Scanner(System.in);
         int matches = 0;
-        System.out.print("Search books by author: ");
+        System.out.print("\nSearch books by author: ");
 
         try {
             String regex = scan.nextLine();

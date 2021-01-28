@@ -32,41 +32,46 @@ public class MenuHelper {
 
     private <T extends HasDescription> void setMenuChoice(List<T> menuAlternatives) {
         Scanner scan = new Scanner(System.in);
+        int menuInput = -1;
 
         System.out.print("\nMake a choice: ");
 
-
+        while (menuInput < 0 || menuInput > menuAlternatives.size()) {
             try {
-               int menuInput = scan.nextInt();
+                menuInput = scan.nextInt();
 
                 if (menuAlternatives.get(0).getClass().equals(MainMenu.class)) {
                     mainMenuChoice(menuInput);
-                    System.out.println("main menu choice");
                 } else if (menuAlternatives.get(0).getClass().equals(AdminMenu.class)) {
                     adminMenuChoice(menuInput);
                 } else {
                     userMenuChoice(menuInput);
                 }
             } catch (Exception e) {
-               setMenuChoice(menuAlternatives);
+                setMenuChoice(menuAlternatives);
             }
         }
-
+    }
 
     public void mainMenuChoice(int choice) {
+        library = new Library();
 
         switch (choice) {
             case 1:
                 library.showAllBooks();
+                returnToMenu(MainMenu.values());
+
                 break;
 
             case 2:
                 library.searchBookByTitle();
+                returnToMenu(MainMenu.values());
 
                 break;
 
             case 3:
                 library.searchBookByAuthor();
+                returnToMenu(MainMenu.values());
 
                 break;
 
@@ -83,10 +88,12 @@ public class MenuHelper {
     }
 
     public void adminMenuChoice(int choice) {
+        library = new Library();
 
         switch (choice) {
             case 1:
                 library.showAllBooks();
+
 
                 break;
 
@@ -128,6 +135,7 @@ public class MenuHelper {
     }
 
     public void userMenuChoice(int choice) {
+        library = new Library();
 
         switch (choice) {
             case 1:
@@ -159,6 +167,21 @@ public class MenuHelper {
                 System.out.println("User menu");
 
                 return;
+        }
+    }
+
+    public <T extends HasDescription> void returnToMenu(T[] menuItems) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("\n[0] to return: ");
+        try {
+            int menuChoice = scan.nextInt();
+            if (menuChoice == 0) {
+                initMenu(menuItems);
+            } else {
+                returnToMenu(menuItems);
+            }
+        } catch (Exception e) {
+            returnToMenu(menuItems);
         }
     }
 }

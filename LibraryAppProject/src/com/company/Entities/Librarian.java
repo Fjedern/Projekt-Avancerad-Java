@@ -63,6 +63,7 @@ public class Librarian extends Person{
         System.out.println("Enter username of user to remove: ");
         String userToRemove = scan.nextLine();
         Library.userList.removeIf(user -> user.getUsername().equalsIgnoreCase(userToRemove));
+        
     }
 
 }
