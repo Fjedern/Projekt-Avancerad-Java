@@ -28,9 +28,9 @@ public class Main {
         Librarian.librarianAddBook();
 
 
-        //System.out.println(Library.bookList);
-        //Librarian.librarianRemoveBook();
-        //System.out.println(Library.bookList);
+        System.out.println(Library.bookList);
+        Librarian.librarianRemoveBook();
+        System.out.println(Library.bookList);
 
         
         MenuHelper menuHelper = new MenuHelper();

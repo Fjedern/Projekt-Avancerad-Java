@@ -65,6 +65,7 @@ public class FileUtils {
             streamIn = new FileInputStream("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\Books.ser");
             objectInputStream = new ObjectInputStream(streamIn);
             object = objectInputStream.readObject();
+            System.out.print(object);
             objectInputStream.close();
         }catch(Exception e){
             e.printStackTrace();
