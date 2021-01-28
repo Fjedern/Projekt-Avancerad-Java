@@ -14,19 +14,17 @@ public class MenuHelper {
     }
 
     public <T extends HasDescription> void initMenu(T[] menuItems) {
+
         List<T> menuAlternatives = new ArrayList<>();
         System.out.println();
+
         int i = 1;
         for (T menuItem : menuItems) {
             System.out.println("[" + i + "] " + menuItem.getDescription());
             i++;
             menuAlternatives.add(menuItem);
-
         }
-
         setMenuChoice(menuAlternatives);
-
-
     }
 
     private <T extends HasDescription> void setMenuChoice(List<T> menuAlternatives) {
@@ -46,13 +44,10 @@ public class MenuHelper {
                 } else {
                     userMenuChoice(menuInput);
                 }
-
             } catch (Exception e) {
                 setMenuChoice(menuAlternatives);
             }
         }
-
-
     }
 
     public void mainMenuChoice(int choice) {
@@ -81,7 +76,6 @@ public class MenuHelper {
                 System.out.println("Main menu");
 
                 return;
-
         }
     }
 
@@ -127,7 +121,6 @@ public class MenuHelper {
                 System.out.println("Admin menu");
 
                 return;
-
         }
     }
 
@@ -163,9 +156,6 @@ public class MenuHelper {
                 System.out.println("User menu");
 
                 return;
-
         }
     }
-
-
 }

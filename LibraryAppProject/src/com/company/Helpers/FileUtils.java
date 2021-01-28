@@ -32,23 +32,15 @@ public class FileUtils {
 
                 for (String line : ourFile) {
                     System.out.println(line);
-
                 }
-
-
             } catch (Exception e) { 
-                e.printStackTrace(); 
-
-
+                e.printStackTrace();
             }
             return object;
         }
 
 
     public static void writeFilePerson(String fileName, Object object){
-
-
-
         try{
             Path path = Paths.get(fileName);
 
@@ -56,20 +48,13 @@ public class FileUtils {
 
         }catch(Exception e){
             e.printStackTrace();
-
         }
-
     }
-
-
-
-
 
     public Object readObject(String fileName){
 
         FileInputStream streamIn = null;
         ObjectInputStream objectInputStream = null;
-
 
         Object object = null;
 
@@ -78,11 +63,8 @@ public class FileUtils {
             objectInputStream = new ObjectInputStream(streamIn);
             object = objectInputStream.readObject();
             objectInputStream.close();
-
-
         }catch(Exception e){
             e.printStackTrace();
-
         }
         return object;
     }
@@ -93,16 +75,12 @@ public class FileUtils {
         FileOutputStream fileOutputStream = null;
 
         try{
-
             fileOutputStream = new FileOutputStream(fileName, true);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(object);
             objectOutputStream.close();
         }catch(Exception e){
             e.printStackTrace();
-
         }
-
-
     }
 }
