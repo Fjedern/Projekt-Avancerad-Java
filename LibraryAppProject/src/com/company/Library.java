@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Entities.Book;
+import com.company.Entities.Person;
 import com.company.Entities.User;
 import com.company.Helpers.FileUtils;
 import com.company.Helpers.MenuHelper;
@@ -45,6 +46,35 @@ public class Library {
         for (Book book : bookList) {
             System.out.println("* " + book.getTitle() + " by " + book.getAuthor());
         }
+    }
+
+    public void checkLogin(){
+        Scanner scan = new Scanner(System.in);
+        FileUtils.testPath();
+        Boolean adminOrNot = false;
+
+//        System.out.println(FileUtils.readFileLoginV2());
+
+
+
+        System.out.println("Please login\nUsername: ");
+        String scanUsername = scan.nextLine();
+        for(Person person : FileUtils.readFileLoginV2()){
+            if(scanUsername.equals(person.getUsername())){
+                System.out.println("Password: ");
+                String scanPassword = scan.nextLine();
+                if(scanPassword.equals(person.getPassword())){
+                    System.out.println("Logged in as: " + person.getName());
+                    if(person instanceof User){
+                        System.out.println("User");
+                    } else {
+                        System.out.println("Librarian");
+                    }
+                    return;
+                }
+            }
+        }
+
     }
 
     public void searchBookByTitle() {

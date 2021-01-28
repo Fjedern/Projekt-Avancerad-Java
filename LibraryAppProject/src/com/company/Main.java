@@ -58,7 +58,7 @@ public class Main {
 */
 
         library.openLibrary();
-
+        library.checkLogin();
 
 
 
