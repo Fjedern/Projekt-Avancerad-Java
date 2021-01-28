@@ -13,11 +13,4 @@ public class Library {
     public static List<Book> bookList = new ArrayList<>();
     public static List<User> userlist = new ArrayList<>();
 
-    public static void addBook(Book book) {
-        bookList.add(book);
-    }
-
-    public static void removeBook(String bookTitleToRemove) {
-        bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove));
-    }
 }
