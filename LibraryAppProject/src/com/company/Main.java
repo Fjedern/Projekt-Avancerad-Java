@@ -26,9 +26,11 @@ public class Main {
 
 
 
+
         menuHelper.initMenu(AdminMenu.values());
         menuHelper.initMenu(UserMenu.values());*/
         Library library = new Library();
+
         MenuHelper menuHelper = new MenuHelper();
 
         Book b1 = new Book("Sagan om ringen", "Frodo walking and having fun with his friends","J.R.R. Tolkien");
