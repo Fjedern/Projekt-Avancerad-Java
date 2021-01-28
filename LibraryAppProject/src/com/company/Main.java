@@ -22,7 +22,7 @@ public class Main {
         System.out.println(Library.bookList);
         Librarian.librarianRemoveBook();
         System.out.println(Library.bookList);
-
+        
         MenuHelper menuHelper = new MenuHelper();
 
         menuHelper.initMenu(MainMenu.values());
