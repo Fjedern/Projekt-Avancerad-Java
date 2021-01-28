@@ -37,8 +37,24 @@ public class Librarian extends Person{
 
     }
 
-    public static void librarianRemoveUser(){
+    public static void librarianAddUser(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter name: ");
+        String name = scan.nextLine();
+        System.out.println("Enter username: ");
+        String username = scan.nextLine();
+        System.out.println("Enter password: ");
+        String password = scan.nextLine();
 
+        User user = new User(name,username,password);
+        Library.userlist.add(user);
+    }
+
+    public static void librarianRemoveUser(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter username of user to remove: ");
+        String userToRemove = scan.nextLine();
+        Library.userlist.removeIf(user -> user.getUsername().equalsIgnoreCase(userToRemove));
     }
 
 }
