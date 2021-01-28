@@ -1,6 +1,8 @@
 package com.company.Entities;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
     String title;
     String description;
     String author;
