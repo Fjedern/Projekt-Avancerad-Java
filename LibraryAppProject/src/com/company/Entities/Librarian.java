@@ -20,14 +20,18 @@ public class Librarian extends Person{
         System.out.println("Enter author name: ");
         String author = scan.nextLine();
         Book book = new Book(titleName,description,author);
-        Library.addBook(book);
+        Library.bookList.add(book);
     }
 
     public static void librarianRemoveBook(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter book title to remove from library");
         String bookTitleToRemove = scan.nextLine();
-        Library.removeBook(bookTitleToRemove);
+        Library.bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove));
+    }
+
+    public static void librarianRemoveUser(){
+
     }
 
 }
