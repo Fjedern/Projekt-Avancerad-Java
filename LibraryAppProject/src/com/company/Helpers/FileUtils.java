@@ -14,7 +14,7 @@ import java.util.List;
 //FileUtils.writeObject(books, "Books.ser");
 //List<Book> books = (List<Book>) fileUtils.readObject("Books.ser");
 
-/*List<Book>books = new ArrayList<>();
+        /*List<Book>books = new ArrayList<>();
         books.add(new Book("hej", "tjena", "hallå"));
         FileUtils.writeObject(books, "Book.ser");
         FileUtils fileUtils = new FileUtils();
@@ -23,9 +23,9 @@ import java.util.List;
 public class FileUtils {
 
 
-    public static Object readFilePerson(String fileName, Object object){
+    public static void readFileLogIn(){
 
-            Path path = Paths.get(fileName);
+            Path path = Paths.get("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\LogIn.txt");
 
             try {
                 List<String> ourFile = Files.readAllLines(path);
@@ -36,22 +36,25 @@ public class FileUtils {
             } catch (Exception e) { 
                 e.printStackTrace();
             }
-            return object;
+
         }
 
 
-    public static void writeFilePerson(String fileName, Object object){
+    public static void writeFileLogIn(String name, String username, String password){
+        List<String>newText = new ArrayList<>();
+        newText.add(name + ";" + username + ";" + password);
         try{
-            Path path = Paths.get(fileName);
 
-            Files.write(path, (byte[]) object, StandardOpenOption.APPEND);
+            Path path = Paths.get("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\LogIn.txt");
+
+            Files.write(path, newText , StandardOpenOption.APPEND);
 
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public Object readObject(String fileName){
+    public static Object readObjectBook(){
 
         FileInputStream streamIn = null;
         ObjectInputStream objectInputStream = null;
@@ -59,28 +62,35 @@ public class FileUtils {
         Object object = null;
 
         try{
-            streamIn = new FileInputStream(fileName);
+            streamIn = new FileInputStream("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\Books.ser");
             objectInputStream = new ObjectInputStream(streamIn);
             object = objectInputStream.readObject();
+            System.out.print(object);
             objectInputStream.close();
         }catch(Exception e){
             e.printStackTrace();
         }
+
         return object;
     }
 
-    public static void writeObject(Object object, String fileName){
+    public static void writeObjectBook(Object object){
 
         ObjectOutputStream objectOutputStream = null;
         FileOutputStream fileOutputStream = null;
 
         try{
-            fileOutputStream = new FileOutputStream(fileName, true);
+            fileOutputStream = new FileOutputStream("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\Books.ser", true);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(object);
             objectOutputStream.close();
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static void deleteObjectBook(Object object){
+
+
     }
 }

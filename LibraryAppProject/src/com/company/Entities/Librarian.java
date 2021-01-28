@@ -1,7 +1,10 @@
 package com.company.Entities;
 
+import com.company.Helpers.FileUtils;
 import com.company.Library;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Librarian extends Person{
@@ -21,13 +24,22 @@ public class Librarian extends Person{
         String author = scan.nextLine();
         Book book = new Book(titleName,description,author);
         Library.bookList.add(book);
+
+        FileUtils.writeObjectBook(book);
+        FileUtils.readObjectBook();
+
+
     }
 
     public static void librarianRemoveBook(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter book title to remove from library");
         String bookTitleToRemove = scan.nextLine();
-        Library.bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove));
+        if(Library.bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove))){
+            FileUtils.deleteObjectBook(bookTitleToRemove);
+
+        }
+
     }
 
     public static void librarianAddUser(){
@@ -40,14 +52,17 @@ public class Librarian extends Person{
         String password = scan.nextLine();
 
         User user = new User(name,username,password);
-        Library.userlist.add(user);
+        Library.userList.add(user);
+
+        FileUtils.writeFileLogIn(name, username, password);
+        FileUtils.readFileLogIn();
     }
 
     public static void librarianRemoveUser(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter username of user to remove: ");
         String userToRemove = scan.nextLine();
-        Library.userlist.removeIf(user -> user.getUsername().equalsIgnoreCase(userToRemove));
+        Library.userList.removeIf(user -> user.getUsername().equalsIgnoreCase(userToRemove));
     }
 
 }
