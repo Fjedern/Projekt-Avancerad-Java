@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User extends Person {
+public class User extends Person{
     List<Book> books = new ArrayList<>();
 
     public User(String name, String username, String password) {
