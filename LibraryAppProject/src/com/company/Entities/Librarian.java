@@ -52,7 +52,7 @@ public class Librarian extends Person{
         String password = scan.nextLine();
 
         User user = new User(name,username,password);
-        Library.userlist.add(user);
+        Library.userList.add(user);
 
         FileUtils.writeFileLogIn(name, username, password);
         FileUtils.readFileLogIn();
@@ -62,7 +62,7 @@ public class Librarian extends Person{
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter username of user to remove: ");
         String userToRemove = scan.nextLine();
-        Library.userlist.removeIf(user -> user.getUsername().equalsIgnoreCase(userToRemove));
+        Library.userList.removeIf(user -> user.getUsername().equalsIgnoreCase(userToRemove));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.company.Helpers;
 
+import com.company.Library;
 import com.company.Menus.AdminMenu;
 import com.company.Menus.HasDescription;
 import com.company.Menus.MainMenu;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MenuHelper {
+
+    private Library library;
 
     public MenuHelper() {
     }
@@ -29,41 +32,41 @@ public class MenuHelper {
 
     private <T extends HasDescription> void setMenuChoice(List<T> menuAlternatives) {
         Scanner scan = new Scanner(System.in);
-        int menuInput = -1;
 
         System.out.print("\nMake a choice: ");
 
-        while (menuInput < 0 || menuInput > menuAlternatives.size()) {
+
             try {
-                menuInput = scan.nextInt();
+               int menuInput = scan.nextInt();
 
                 if (menuAlternatives.get(0).getClass().equals(MainMenu.class)) {
                     mainMenuChoice(menuInput);
+                    System.out.println("main menu choice");
                 } else if (menuAlternatives.get(0).getClass().equals(AdminMenu.class)) {
                     adminMenuChoice(menuInput);
                 } else {
                     userMenuChoice(menuInput);
                 }
             } catch (Exception e) {
-                setMenuChoice(menuAlternatives);
+               setMenuChoice(menuAlternatives);
             }
         }
-    }
+
 
     public void mainMenuChoice(int choice) {
 
         switch (choice) {
             case 1:
-                System.out.println("Main menu");
+                library.showAllBooks();
                 break;
 
             case 2:
-                System.out.println("Main menu");
+                library.searchBookByTitle();
 
                 break;
 
             case 3:
-                System.out.println("Main menu");
+                library.searchBookByAuthor();
 
                 break;
 
@@ -83,17 +86,17 @@ public class MenuHelper {
 
         switch (choice) {
             case 1:
-                System.out.println("Admin menu");
+                library.showAllBooks();
 
                 break;
 
             case 2:
-                System.out.println("Admin menu");
+                library.searchBookByTitle();
 
                 break;
 
             case 3:
-                System.out.println("Admin menu");
+                library.searchBookByAuthor();
 
                 break;
 
@@ -128,17 +131,17 @@ public class MenuHelper {
 
         switch (choice) {
             case 1:
-                System.out.println("User menu");
+                library.showAllBooks();
 
                 break;
 
             case 2:
-                System.out.println("User menu");
+                library.searchBookByTitle();
 
                 break;
 
             case 3:
-                System.out.println("User menu");
+                library.searchBookByAuthor();
 
                 break;
 
