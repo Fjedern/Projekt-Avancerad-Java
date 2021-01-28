@@ -23,9 +23,9 @@ import java.util.List;
 public class FileUtils {
 
 
-    public static Object readFilePerson(String fileName, Object object){
+    public static Object readFileLogIn(Object object){
 
-            Path path = Paths.get(fileName);
+            Path path = Paths.get("../Files/LogIn.txt");
 
             try {
                 List<String> ourFile = Files.readAllLines(path);
@@ -40,9 +40,9 @@ public class FileUtils {
         }
 
 
-    public static void writeFilePerson(String fileName, Object object){
+    public static void writeFileLogIn(Object object){
         try{
-            Path path = Paths.get(fileName);
+            Path path = Paths.get("../Files/LogIn.txt");
 
             Files.write(path, (byte[]) object, StandardOpenOption.APPEND);
 
@@ -51,7 +51,7 @@ public class FileUtils {
         }
     }
 
-    public Object readObject(String fileName){
+    public Object readObjectBook(){
 
         FileInputStream streamIn = null;
         ObjectInputStream objectInputStream = null;
@@ -59,7 +59,7 @@ public class FileUtils {
         Object object = null;
 
         try{
-            streamIn = new FileInputStream(fileName);
+            streamIn = new FileInputStream("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\Books.ser");
             objectInputStream = new ObjectInputStream(streamIn);
             object = objectInputStream.readObject();
             objectInputStream.close();
@@ -69,18 +69,23 @@ public class FileUtils {
         return object;
     }
 
-    public static void writeObject(Object object, String fileName){
+    public static void writeObjectBook(Object object){
 
         ObjectOutputStream objectOutputStream = null;
         FileOutputStream fileOutputStream = null;
 
         try{
-            fileOutputStream = new FileOutputStream(fileName, true);
+            fileOutputStream = new FileOutputStream("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\Books.ser", true);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(object);
             objectOutputStream.close();
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static void deleteObjectBook(Object object){
+
+
     }
 }
