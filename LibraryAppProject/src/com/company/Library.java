@@ -2,6 +2,7 @@ package com.company;
 
 import com.company.Entities.Book;
 import com.company.Entities.User;
+import com.company.Helpers.FileUtils;
 import com.company.Helpers.MenuHelper;
 import com.company.Menus.MainMenu;
 
@@ -31,7 +32,10 @@ public class Library {
     //Funktionen som kör igång programmet
     public void openLibrary() {
         System.out.println("== Welcome to the library ==");
-        menuHelper.initMenu(MainMenu.values());
+        //menuHelper.initMenu(MainMenu.values());
+        FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
+        bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
+        System.out.print(bookList);
 
     }
 

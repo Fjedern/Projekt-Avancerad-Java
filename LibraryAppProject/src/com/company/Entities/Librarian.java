@@ -25,8 +25,6 @@ public class Librarian extends Person{
         Book book = new Book(titleName,description,author);
         Library.bookList.add(book);
 
-        FileUtils.writeObjectBook(book);
-        FileUtils.readObjectBook();
 
 
     }
