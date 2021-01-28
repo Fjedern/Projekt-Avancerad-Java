@@ -23,9 +23,9 @@ import java.util.List;
 public class FileUtils {
 
 
-    public static Object readFileLogIn(Object object){
+    public static void readFileLogIn(){
 
-            Path path = Paths.get("../Files/LogIn.txt");
+            Path path = Paths.get("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\LogIn.txt");
 
             try {
                 List<String> ourFile = Files.readAllLines(path);
@@ -36,22 +36,25 @@ public class FileUtils {
             } catch (Exception e) { 
                 e.printStackTrace();
             }
-            return object;
+
         }
 
 
-    public static void writeFileLogIn(Object object){
+    public static void writeFileLogIn(String name, String username, String password){
+        List<String>newText = new ArrayList<>();
+        newText.add(name + ";" + username + ";" + password);
         try{
-            Path path = Paths.get("../Files/LogIn.txt");
 
-            Files.write(path, (byte[]) object, StandardOpenOption.APPEND);
+            Path path = Paths.get("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\LogIn.txt");
+
+            Files.write(path, newText , StandardOpenOption.APPEND);
 
         }catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    public Object readObjectBook(){
+    public static Object readObjectBook(){
 
         FileInputStream streamIn = null;
         ObjectInputStream objectInputStream = null;
@@ -66,6 +69,7 @@ public class FileUtils {
         }catch(Exception e){
             e.printStackTrace();
         }
+
         return object;
     }
 

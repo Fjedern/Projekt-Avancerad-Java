@@ -20,11 +20,18 @@ public class Main {
 
     public static void main(String[] args) {
 
+
+        Librarian.librarianAddUser();
+
         Librarian.librarianAddBook();
         Librarian.librarianAddBook();
-        System.out.println(Library.bookList);
-        Librarian.librarianRemoveBook();
-        System.out.println(Library.bookList);
+        Librarian.librarianAddBook();
+
+
+        //System.out.println(Library.bookList);
+        //Librarian.librarianRemoveBook();
+        //System.out.println(Library.bookList);
+
         
         MenuHelper menuHelper = new MenuHelper();
 

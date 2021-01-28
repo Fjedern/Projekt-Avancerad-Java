@@ -3,6 +3,8 @@ package com.company.Entities;
 import com.company.Helpers.FileUtils;
 import com.company.Library;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Librarian extends Person{
@@ -24,6 +26,9 @@ public class Librarian extends Person{
         Library.bookList.add(book);
 
         FileUtils.writeObjectBook(book);
+        System.out.print(FileUtils.readObjectBook().toString());
+
+
     }
 
     public static void librarianRemoveBook(){
@@ -48,6 +53,9 @@ public class Librarian extends Person{
 
         User user = new User(name,username,password);
         Library.userlist.add(user);
+
+        FileUtils.writeFileLogIn(name, username, password);
+        FileUtils.readFileLogIn();
     }
 
     public static void librarianRemoveUser(){
