@@ -57,7 +57,7 @@ public class Main {
         library.searchBookByAuthor();
 */
 
-        menuHelper.initMenu(MainMenu.values());
+        library.openLibrary();
 
 
 
