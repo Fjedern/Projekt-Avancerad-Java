@@ -11,35 +11,48 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+//FileUtils.writeObject(books, "Books.ser");
+//List<Book> books = (List<Book>) fileUtils.readObject("Books.ser");
+
+/*List<Book>books = new ArrayList<>();
+        books.add(new Book("hej", "tjena", "hallå"));
+        FileUtils.writeObject(books, "Book.ser");
+        FileUtils fileUtils = new FileUtils();
+        System.out.print(fileUtils.readObject("Book.ser"));*/
+
 public class FileUtils {
 
-    public void readFile(){
-        
 
-            
-            Path path = Paths.get("Files/Books.txt");
-            
+    public static Object readFilePerson(String fileName, Object object){
+
+            Path path = Paths.get(fileName);
+
             try {
-                List<String> ourFile = Files.readAllLines(path); 
-                
+                List<String> ourFile = Files.readAllLines(path);
+
                 for (String line : ourFile) {
                     System.out.println(line);
+
                 }
+
 
             } catch (Exception e) { 
                 e.printStackTrace(); 
 
+
             }
+            return object;
         }
 
-    public void writeFile(){
-        List<String>newText = new ArrayList<>();
-         
+
+    public static void writeFilePerson(String fileName, Object object){
+
+
 
         try{
-            Path path = Paths.get("Files/Books.txt");
+            Path path = Paths.get(fileName);
 
-            Files.write(path, newText, StandardOpenOption.APPEND);
+            Files.write(path, (byte[]) object, StandardOpenOption.APPEND);
 
         }catch(Exception e){
             e.printStackTrace();
@@ -48,10 +61,16 @@ public class FileUtils {
 
     }
 
-    public static Object readObject(String fileName){
 
-        FileInputStream streamIn = null; 
-        ObjectInputStream objectInputStream = null; 
+
+
+
+    public Object readObject(String fileName){
+
+        FileInputStream streamIn = null;
+        ObjectInputStream objectInputStream = null;
+
+
         Object object = null;
 
         try{
