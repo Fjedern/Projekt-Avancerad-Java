@@ -16,15 +16,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        List<Book>books = new ArrayList<>();
-        books.add(new Book("hej", "tjena", "hallå"));
-        FileUtils.writeObject(books, "Book.ser");
-        FileUtils fileUtils = new FileUtils();
-        System.out.print(fileUtils.readObject("Book.ser"));
-
-
-
-
         MenuHelper menuHelper = new MenuHelper();
 
         menuHelper.initMenu(MainMenu.values());

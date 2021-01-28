@@ -14,6 +14,12 @@ import java.util.List;
 //FileUtils.writeObject(books, "Books.ser");
 //List<Book> books = (List<Book>) fileUtils.readObject("Books.ser");
 
+/*List<Book>books = new ArrayList<>();
+        books.add(new Book("hej", "tjena", "hallå"));
+        FileUtils.writeObject(books, "Book.ser");
+        FileUtils fileUtils = new FileUtils();
+        System.out.print(fileUtils.readObject("Book.ser"));*/
+
 public class FileUtils {
 
 
