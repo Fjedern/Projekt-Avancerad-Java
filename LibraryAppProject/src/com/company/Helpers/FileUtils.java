@@ -54,7 +54,7 @@ public class FileUtils {
         }
     }
 
-    public static Object readObjectBook(){
+    public static Object readObject(String fileName){
 
         FileInputStream streamIn = null;
         ObjectInputStream objectInputStream = null;
@@ -62,7 +62,7 @@ public class FileUtils {
         Object object = null;
 
         try{
-            streamIn = new FileInputStream("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\Books.ser");
+            streamIn = new FileInputStream(fileName);
             objectInputStream = new ObjectInputStream(streamIn);
             object = objectInputStream.readObject();
             System.out.print(object);
@@ -74,13 +74,13 @@ public class FileUtils {
         return object;
     }
 
-    public static void writeObjectBook(Object object){
+    public static void writeObject(Object object, String fileName){
 
         ObjectOutputStream objectOutputStream = null;
         FileOutputStream fileOutputStream = null;
 
         try{
-            fileOutputStream = new FileOutputStream("C:\\project2\\Projekt-Avancerad-Java\\LibraryAppProject\\src\\com\\company\\Files\\Books.ser", true);
+            fileOutputStream = new FileOutputStream(fileName);
             objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(object);
             objectOutputStream.close();
