@@ -23,27 +23,30 @@ import java.util.List;
 public class FileUtils {
 
 
-
     public static Object readFilePerson(String fileName, Object object){
 
             Path path = Paths.get(fileName);
 
             try {
                 List<String> ourFile = Files.readAllLines(path);
+
                 for (String line : ourFile) {
                     System.out.println(line);
 
                 }
 
 
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception e) { 
+                e.printStackTrace(); 
+
 
             }
             return object;
         }
 
+
     public static void writeFilePerson(String fileName, Object object){
+
 
 
         try{
@@ -66,6 +69,8 @@ public class FileUtils {
 
         FileInputStream streamIn = null;
         ObjectInputStream objectInputStream = null;
+
+
         Object object = null;
 
         try{
