@@ -11,39 +11,39 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+//FileUtils.writeObject(books, "Books.ser");
+//List<Book> books = (List<Book>) fileUtils.readObject("Books.ser");
+
 public class FileUtils {
 
-    public void readFile(){
-        //statiska, behöver inte skapa ett objekt av denna klass för att komma åt
 
-            //hämtar path till textfilen
-            Path path = Paths.get("Files/Books.txt");
-            //try catch för att hantera exception.
+
+    public static Object readFilePerson(String fileName, Object object){
+
+            Path path = Paths.get(fileName);
+
             try {
-                List<String> ourFile = Files.readAllLines(path); //strängar -> pga text -> readAllLines, läser varje rad var för sig
-                //for-each loop. Loopar igenom listan, där varje rad omvandlas till en string
+                List<String> ourFile = Files.readAllLines(path);
                 for (String line : ourFile) {
                     System.out.println(line);
+
                 }
 
-            } catch (Exception e) { // för alla exceptions som finns
-                e.printStackTrace(); //i detta fall för att se om där finns en fil att läsa ifrån.
+
+            } catch (Exception e) {
+                e.printStackTrace();
 
             }
+            return object;
         }
 
-    public void writeFile(){
-        List<String>newText = new ArrayList<>();
-        newText.add("");
-        newText.add("Vår nya data...");
-        newText.add("Manchester United");
-        newText.add("Newcastle United");
-        newText.add("Burnley"); //skapat ny lista och lagt till text i form av Strings
+    public static void writeFilePerson(String fileName, Object object){
+
 
         try{
-            Path path = Paths.get("Files/Books.txt");
+            Path path = Paths.get(fileName);
 
-            Files.write(path, newText, StandardOpenOption.APPEND);
+            Files.write(path, (byte[]) object, StandardOpenOption.APPEND);
 
         }catch(Exception e){
             e.printStackTrace();
@@ -52,10 +52,14 @@ public class FileUtils {
 
     }
 
-    public static Object readObject(String fileName){
 
-        FileInputStream streamIn = null; //För att läsa in fil
-        ObjectInputStream objectInputStream = null; //För att läsa in objekt
+
+
+
+    public Object readObject(String fileName){
+
+        FileInputStream streamIn = null;
+        ObjectInputStream objectInputStream = null;
         Object object = null;
 
         try{
