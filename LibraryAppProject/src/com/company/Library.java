@@ -18,7 +18,7 @@ import java.util.List;
 public class Library {
 
     public static List<Book> bookList = new ArrayList<>();
-    public static List<User> userList = new ArrayList<>();
+    public static List<Person> userList = FileUtils.readFileLoginV2();
     MenuHelper menuHelper = new MenuHelper();
 
 
@@ -33,7 +33,7 @@ public class Library {
     //Funktionen som kör igång programmet
     public void openLibrary() {
         System.out.println("== Welcome to the library ==");
-        //menuHelper.initMenu(MainMenu.values());
+        menuHelper.initMenu(MainMenu.values());
         FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
         bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
         System.out.print(bookList);
@@ -49,17 +49,15 @@ public class Library {
     }
 
     public void checkLogin(){
-        Scanner scan = new Scanner(System.in);
-        FileUtils.testPath();
-        Boolean adminOrNot = false;
+
 
 //        System.out.println(FileUtils.readFileLoginV2());
 
 
 
-        System.out.println("Please login\nUsername: ");
+        /*System.out.println("Please login\nUsername: ");
         String scanUsername = scan.nextLine();
-        for(Person person : FileUtils.readFileLoginV2()){
+        for(Person person : userList){
             if(scanUsername.equals(person.getUsername())){
                 System.out.println("Password: ");
                 String scanPassword = scan.nextLine();
@@ -73,9 +71,38 @@ public class Library {
                     return;
                 }
             }
+        }*/
+        try(Scanner scan = new Scanner(System.in)){
+           System.out.println("Please login\nUsername: ");
+           if(usernameCheck(scan.nextLine())){
+               while(true){
+                   System.out.println("Password: ");
+                   if(passCheck(scan.nextLine())) break;
+               }
+               System.out.println("Klar");
+           }else {
+               checkLogin();
+           }
         }
-
     }
+    // <editor-fold defaultstate="collapsed" desc="username and password checks">
+    private Boolean passCheck(String pass){
+        for(Person person : userList){
+            if(pass.equals(person.getPassword())){
+                return true;
+            }
+        }
+        return false;
+    }
+    private Boolean usernameCheck(String username){
+        for(Person person : userList){
+            if(username.equals(person.getUsername())){
+                return true;
+            }
+        }
+        return false;
+    }
+    // </editor-fold>
 
     public void searchBookByTitle() {
         Scanner scan = new Scanner(System.in);
