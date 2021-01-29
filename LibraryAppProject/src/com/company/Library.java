@@ -18,16 +18,13 @@ import java.util.List;
 public class Library {
 
     public static List<Book> bookList = new ArrayList<>();
-    public static List<Person> userList = FileUtils.readFileLoginV2();
+    public static List<Person> userList = new ArrayList<>();
     MenuHelper menuHelper = new MenuHelper();
-
 
 
     public Library() {
 
     }
-
-
 
 
     //Funktionen som kör igång programmet
@@ -48,14 +45,13 @@ public class Library {
         }
     }
 
-    public void checkLogin(){
-
-
+    public void checkLogin() {
+        userList = FileUtils.readFileLoginV2();
 //        System.out.println(FileUtils.readFileLoginV2());
+        Scanner scan;
 
-
-
-        /*System.out.println("Please login\nUsername: ");
+        System.out.println("Please login\nUsername: ");
+        scan = new Scanner(System.in);
         String scanUsername = scan.nextLine();
         for(Person person : userList){
             if(scanUsername.equals(person.getUsername())){
@@ -70,33 +66,56 @@ public class Library {
                     }
                     return;
                 }
+            }else {
+                
+            }
+        }
+
+        /*try (Scanner scan = new Scanner(System.in)) {
+            System.out.println("Please login\nUsername: ");
+            String scanUsername = scan.nextLine();
+            for (Person person : userList) {
+                if (scanUsername.equals(person.getUsername())) {
+                    while(true){
+                        System.out.println("Password: ");
+                        String scanPassword = scan.nextLine();
+                        if(scanPassword.equals(person.getPassword())) break;
+                    }
+                } else {
+                    System.out.println("Fel");
+                }
             }
         }*/
-        try(Scanner scan = new Scanner(System.in)){
+
+        /*try(Scanner scan = new Scanner(System.in)){
            System.out.println("Please login\nUsername: ");
-           if(usernameCheck(scan.nextLine())){
+           String scanUsername = scan.nextLine();
+           if(userList.stream().map(Person::getUsername).anyMatch(scanUsername::equals)){
                while(true){
                    System.out.println("Password: ");
-                   if(passCheck(scan.nextLine())) break;
+                   String scanPass = scan.nextLine();
+                   if(userList.stream().map(Person::getPassword).anyMatch(scanPass::equals)) break;
                }
                System.out.println("Klar");
            }else {
                checkLogin();
            }
-        }
+        }*/
     }
+
     // <editor-fold defaultstate="collapsed" desc="username and password checks">
-    private Boolean passCheck(String pass){
-        for(Person person : userList){
-            if(pass.equals(person.getPassword())){
+    private Boolean passCheck(String pass) {
+        for (Person person : userList) {
+            if (pass.equals(person.getPassword())) {
                 return true;
             }
         }
         return false;
     }
-    private Boolean usernameCheck(String username){
-        for(Person person : userList){
-            if(username.equals(person.getUsername())){
+
+    private Boolean usernameCheck(String username) {
+        for (Person person : userList) {
+            if (username.equals(person.getUsername())) {
                 return true;
             }
         }
@@ -119,7 +138,7 @@ public class Library {
                 Matcher matcher = pattern.matcher(book.getTitle());
                 boolean matchFound = matcher.find();
 
-                if(matchFound) {
+                if (matchFound) {
                     matches++;
                     System.out.println("* " + book.getTitle().toUpperCase() + " by " + book.getAuthor());
                 }
@@ -149,7 +168,7 @@ public class Library {
                 Matcher matcher = pattern.matcher(book.getAuthor());
                 boolean matchFound = matcher.find();
 
-                if(matchFound) {
+                if (matchFound) {
                     matches++;
                     System.out.println("* " + book.getTitle() + " by " + book.getAuthor().toUpperCase());
                 }
