@@ -130,7 +130,6 @@ public class MenuHelper {
             case 8:
                 System.out.println("Admin menu");
 
-                return;
         }
     }
 

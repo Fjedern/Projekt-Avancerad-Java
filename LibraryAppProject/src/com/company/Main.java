@@ -26,6 +26,8 @@ public class Main {
         Librarian.librarianRemoveBook();
         System.out.println(Library.bookList);
 
+        U
+
 
 
 
@@ -38,7 +40,7 @@ public class Main {
 
         MenuHelper menuHelper = new MenuHelper();
 
-        Book b1 = new Book("Sagan om ringen", "Frodo walking and having fun with his friends","J.R.R. Tolkien");
+        /*Book b1 = new Book("Sagan om ringen", "Frodo walking and having fun with his friends","J.R.R. Tolkien");
         Book b2 = new Book("Sagan om de två tornen", "Frodo having some more fun with his friends","J.R.R. Tolkien");
         Book b3 = new Book("Sagan om de konungens återkomst", "Frodo having even more fun with his friends","J.R.R. Tolkien");
         Book b4 = new Book("Papillion", "Papillion having fun on his own","Henri Charriere");
@@ -50,12 +52,13 @@ public class Main {
         library.addBookToList(b3);
         library.addBookToList(b4);
         library.addBookToList(b5);
-        library.addBookToList(b6);
-
+        library.addBookToList(b6);*/
         /*library.showAllBooks();
         library.searchBookByTitle();
         library.searchBookByAuthor();
 */
+        /*User user = new User("afafa" , "fdfdsf", "fafadfda");
+        library.addUserToList(user);*/
 
         library.openLibrary();
 

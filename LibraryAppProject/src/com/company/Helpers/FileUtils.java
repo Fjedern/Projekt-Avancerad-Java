@@ -103,7 +103,7 @@ public class FileUtils {
             streamIn = new FileInputStream(fileName);
             objectInputStream = new ObjectInputStream(streamIn);
             object = objectInputStream.readObject();
-            System.out.print(object);
+            //System.out.print(object);
             objectInputStream.close();
         } catch (Exception e) {
             e.printStackTrace();

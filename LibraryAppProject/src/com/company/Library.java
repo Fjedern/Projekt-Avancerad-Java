@@ -5,7 +5,9 @@ import com.company.Entities.Person;
 import com.company.Entities.User;
 import com.company.Helpers.FileUtils;
 import com.company.Helpers.MenuHelper;
+import com.company.Menus.AdminMenu;
 import com.company.Menus.MainMenu;
+import com.company.Menus.UserMenu;
 
 import java.util.Comparator;
 import java.util.Scanner;
@@ -30,10 +32,16 @@ public class Library {
     //Funktionen som kör igång programmet
     public void openLibrary() {
         System.out.println("== Welcome to the library ==");
-        menuHelper.initMenu(MainMenu.values());
-        FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
         bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
-        System.out.print(bookList);
+        //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
+        userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
+
+        for(Person person : userList) {
+            System.out.println(person.getName());
+        }
+
+
+       // menuHelper.initMenu(MainMenu.values());
 
     }
 
@@ -46,30 +54,38 @@ public class Library {
     }
 
     public void checkLogin() {
-        userList = FileUtils.readFileLoginV2();
+        List<Person> persons = FileUtils.readFileLoginV2();
+        System.out.println(persons);
 //        System.out.println(FileUtils.readFileLoginV2());
-        Scanner scan;
+        Scanner scan = new Scanner(System.in);
 
         System.out.println("Please login\nUsername: ");
-        scan = new Scanner(System.in);
+
         String scanUsername = scan.nextLine();
-        for(Person person : userList){
-            if(scanUsername.equals(person.getUsername())){
+        for (Person person : persons) {
+            System.out.println(person.toString());
+            if (scanUsername.equals(person.getUsername())) {
                 System.out.println("Password: ");
                 String scanPassword = scan.nextLine();
-                if(scanPassword.equals(person.getPassword())){
+                if (scanPassword.equals(person.getPassword())) {
                     System.out.println("Logged in as: " + person.getName());
-                    if(person instanceof User){
+                    if (person instanceof User) {
                         System.out.println("User");
+                        menuHelper.initMenu(UserMenu.values());
                     } else {
                         System.out.println("Librarian");
+                        menuHelper.initMenu(AdminMenu.values());
                     }
-                    return;
                 }
-            }else {
-                
             }
+
+
         }
+        System.out.println("\nNo user matches '" + scanUsername + "'");
+        checkLogin();
+    }
+
+
 
         /*try (Scanner scan = new Scanner(System.in)) {
             System.out.println("Please login\nUsername: ");
@@ -101,7 +117,7 @@ public class Library {
                checkLogin();
            }
         }*/
-    }
+
 
     // <editor-fold defaultstate="collapsed" desc="username and password checks">
     private Boolean passCheck(String pass) {
