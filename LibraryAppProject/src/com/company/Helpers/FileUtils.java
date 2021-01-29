@@ -127,8 +127,5 @@ public class FileUtils {
         }
     }
 
-    public static void deleteObjectBook(Object object) {
-
-
-    }
+    //public static void deleteObjectBook(Object object) {}
 }

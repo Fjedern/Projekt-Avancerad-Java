@@ -1,6 +1,7 @@
 package com.company;
 
 import com.company.Entities.Book;
+import com.company.Entities.Librarian;
 import com.company.Entities.Person;
 import com.company.Entities.User;
 import com.company.Helpers.FileUtils;
@@ -36,11 +37,11 @@ public class Library {
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
         userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
 
-        for(Person person : userList) {
-            System.out.println(person.getName());
-        }
 
-
+       /* Librarian.librarianRemoveBook();
+        for(Book book : bookList) {
+            System.out.println(book.getTitle());
+        }*/
        // menuHelper.initMenu(MainMenu.values());
 
     }
