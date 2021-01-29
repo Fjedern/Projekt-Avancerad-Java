@@ -1,2 +1,2 @@
-
 Eli;Svensson;admin
+David;ananas;user

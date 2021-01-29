@@ -76,12 +76,12 @@ public class MenuHelper {
                 break;
 
             case 4:
-                System.out.println("Main menu");
-
+                System.out.println("Login");
+                library.checkLogin();
                 break;
 
             case 5:
-                System.out.println("Main menu");
+                System.out.println("Quit");
 
                 return;
         }
@@ -130,7 +130,6 @@ public class MenuHelper {
             case 8:
                 System.out.println("Admin menu");
 
-                return;
         }
     }
 
