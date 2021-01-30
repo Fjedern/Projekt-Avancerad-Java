@@ -3,11 +3,12 @@ package com.company.Entities;
 import com.company.Helpers.FileUtils;
 import com.company.Library;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Librarian extends Person{
+public class Librarian extends Person implements Serializable {
     public Librarian(String name, String username, String password) {
         super(name, username, password);
     }
@@ -24,9 +25,7 @@ public class Librarian extends Person{
         String author = scan.nextLine();
         Book book = new Book(titleName,description,author);
         Library.bookList.add(book);
-
-
-
+        FileUtils.writeObject(Library.bookList, "src/com/company/Files/Books.ser");
     }
 
     public static void librarianRemoveBook(){
@@ -34,8 +33,8 @@ public class Librarian extends Person{
         System.out.println("Enter book title to remove from library");
         String bookTitleToRemove = scan.nextLine();
         if(Library.bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove))){
-            FileUtils.deleteObjectBook(bookTitleToRemove);
-
+            //FileUtils.deleteObjectBook(bookTitleToRemove);
+            FileUtils.writeObject(Library.bookList, "src/com/company/Files/Books.ser");
         }
 
     }
@@ -51,6 +50,7 @@ public class Librarian extends Person{
 
         User user = new User(name,username,password);
         Library.userList.add(user);
+        FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
 
         FileUtils.writeFileLogIn(name, username, password);
         FileUtils.readFileLogIn();
@@ -60,7 +60,8 @@ public class Librarian extends Person{
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter username of user to remove: ");
         String userToRemove = scan.nextLine();
-        Library.userList.removeIf(user -> user.getUsername().equalsIgnoreCase(userToRemove));
+        Library.userList.removeIf(person -> userToRemove.equalsIgnoreCase(person.getUsername()));
+        FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
         
     }
 
