@@ -1,186 +1,253 @@
 package com.company.Helpers;
 
+import com.company.Entities.Book;
+import com.company.Entities.User;
 import com.company.Library;
 import com.company.Menus.AdminMenu;
 import com.company.Menus.HasDescription;
 import com.company.Menus.MainMenu;
+import com.company.Menus.UserMenu;
 
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Scanner;
+
+import static com.company.Library.bookList;
 
 public class MenuHelper {
 
-    private Library library;
+
 
     public MenuHelper() {
     }
 
-    public <T extends HasDescription> void initMenu(T[] menuItems) {
+    public <T extends HasDescription> void initMenu(T[] menuItems, Library library) {
+        if(library.getOpen()) {
+            System.out.println();
+            int i = 1;
 
-        List<T> menuAlternatives = new ArrayList<>();
-        System.out.println();
-
-        int i = 1;
-        for (T menuItem : menuItems) {
-            System.out.println("[" + i + "] " + menuItem.getDescription());
-            i++;
-            menuAlternatives.add(menuItem);
+            for (T menuItem : menuItems) {
+                System.out.println("[" + i + "] " + menuItem.getDescription());
+                i++;
+            }
+            setMenuChoice(menuItems, library);
         }
-        setMenuChoice(menuAlternatives);
     }
 
-    private <T extends HasDescription> void setMenuChoice(List<T> menuAlternatives) {
+
+    private <T extends HasDescription> void setMenuChoice(T[] menuItems, Library library) {
         Scanner scan = new Scanner(System.in);
         int menuInput = -1;
 
         System.out.print("\nMake a choice: ");
 
-        while (menuInput < 0 || menuInput > menuAlternatives.size()) {
+        while (menuInput < 0 || menuInput > menuItems.length) {
             try {
                 menuInput = scan.nextInt();
 
-                if (menuAlternatives.get(0).getClass().equals(MainMenu.class)) {
-                    mainMenuChoice(menuInput);
-                } else if (menuAlternatives.get(0).getClass().equals(AdminMenu.class)) {
-                    adminMenuChoice(menuInput);
+                if (menuItems[0].getClass().equals(MainMenu.class)) {
+                    mainMenuChoice(menuInput, library);
+                } else if (menuItems[0].getClass().equals(AdminMenu.class)) {
+                    adminMenuChoice(menuInput, library);
                 } else {
-                    userMenuChoice(menuInput);
+                    userMenuChoice(menuInput, library);
                 }
+
             } catch (Exception e) {
-                setMenuChoice(menuAlternatives);
+                setMenuChoice(menuItems, library);
             }
         }
     }
 
-    public void mainMenuChoice(int choice) {
-        library = new Library();
+    public void mainMenuChoice(int choice, Library library) {
 
         switch (choice) {
-            case 1:
+            case 1 -> {
                 library.showAllBooks();
-                returnToMenu(MainMenu.values());
-
-                break;
-
-            case 2:
+                selectBookOption(MainMenu.values(), library);
+            }
+            case 2 -> {
                 library.searchBookByTitle();
-                returnToMenu(MainMenu.values());
-
-                break;
-
-            case 3:
+                selectBookOption(MainMenu.values(), library);
+            }
+            case 3 -> {
                 library.searchBookByAuthor();
-                returnToMenu(MainMenu.values());
-
-                break;
-
-            case 4:
-                System.out.println("Login");
+                selectBookOption(MainMenu.values(), library);
+            }
+            case 4 -> {
+                System.out.println("Main menu");
                 library.checkLogin();
-                break;
+            }
+            case 5 -> {
+                System.out.println("Logging out");
+                library.setOpen(false);
+                initMenu(MainMenu.values(), library);
 
-            case 5:
-                System.out.println("Quit");
-
-                return;
+            }
         }
     }
 
-    public void adminMenuChoice(int choice) {
-        library = new Library();
+    public void adminMenuChoice(int choice, Library library) {
 
         switch (choice) {
-            case 1:
+
+            case 1 -> {
                 library.showAllBooks();
+                selectBookOption(AdminMenu.values(), library);
+            }
 
-
-                break;
-
-            case 2:
+            case 2 -> {
                 library.searchBookByTitle();
+                selectBookOption(AdminMenu.values(), library);
+            }
 
-                break;
-
-            case 3:
+            case 3 -> {
                 library.searchBookByAuthor();
+                selectBookOption(AdminMenu.values(), library);
+            }
 
-                break;
 
-            case 4:
+            case 4 -> {
+                System.out.println("Admin menu");
+            }
+            case 5 -> {
+                System.out.println("Admin menu");
+            }
+            case 6 -> {
+                System.out.println("Admin menu");
+            }
+            case 7 -> {
+                System.out.println("Admin menu");
+            }
+
+
+            case 8 -> {
                 System.out.println("Admin menu");
 
-                break;
+            }
 
-            case 5:
-                System.out.println("Admin menu");
+            case 9 -> {
+                System.out.println("Logging out");
+                library.setOpen(false);
+                initMenu(MainMenu.values(), library);
 
-                break;
-
-            case 6:
-                System.out.println("Admin menu");
-
-                break;
-
-            case 7:
-                System.out.println("Admin menu");
-
-                break;
-
-            case 8:
-                System.out.println("Admin menu");
-
+            }
         }
     }
 
-    public void userMenuChoice(int choice) {
-        library = new Library();
+
+    public void userMenuChoice(int choice, Library library) {
 
         switch (choice) {
-            case 1:
+            case 1 -> {
                 library.showAllBooks();
-
-                break;
-
-            case 2:
+                selectBookOption(UserMenu.values(), library);
+            }
+            case 2 -> {
                 library.searchBookByTitle();
-
-                break;
-
-            case 3:
+                selectBookOption(UserMenu.values(), library);
+            }
+            case 3 -> {
                 library.searchBookByAuthor();
+                selectBookOption(UserMenu.values(), library);
+            }
+            case 4 -> System.out.println("User menu");
+            case 5 -> System.out.println("User menu");
+            case 6 -> {
+                System.out.println("Logging out");
+                library.setOpen(false);
+                initMenu(MainMenu.values(), library);
 
-                break;
-
-            case 4:
-                System.out.println("User menu");
-
-                break;
-
-            case 5:
-                System.out.println("User menu");
-
-                break;
-
-            case 6:
-                System.out.println("User menu");
-
-                return;
+            }
         }
     }
 
-    public <T extends HasDescription> void returnToMenu(T[] menuItems) {
+
+
+
+    public <T extends HasDescription> void selectBookOption(T[] menuItems, Library library) {
         Scanner scan = new Scanner(System.in);
-        System.out.print("\n[0] to return: ");
+        System.out.print("\n[0] to return. Make a choice: ");
         try {
             int menuChoice = scan.nextInt();
+
             if (menuChoice == 0) {
-                initMenu(menuItems);
+                initMenu(menuItems, library);
+
+            } else if (menuChoice > 0) {
+                for (Book book : bookList) {
+                    if (menuChoice == book.getI()) {
+                        book.showBookInfo();
+                        initBookMenu(menuItems, book, library);
+                    }
+                }
             } else {
-                returnToMenu(menuItems);
+                selectBookOption(menuItems, library);
+            }
+
+        } catch (Exception e) {
+            selectBookOption(menuItems, library);
+        }
+    }
+
+    private <T> void initBookMenu(T[] menuItems, Book book, Library library) {
+
+        if (menuItems[0].getClass().equals(MainMenu.class)) {
+            mainBookMenu(library);
+
+        } else if (menuItems[0].getClass().equals(AdminMenu.class)) {
+            adminBookMenu(book, library);
+
+        } else {
+            userBookMenu(book, library);
+        }
+    }
+
+    private void mainBookMenu(Library library) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("\n[0] to return: ");
+
+        try {
+            int input = scan.nextInt();
+            if (input == 0) {
+                initMenu(MainMenu.values(), library);
             }
         } catch (Exception e) {
-            returnToMenu(menuItems);
+            mainBookMenu(library);
+        }
+    }
+
+    private void adminBookMenu(Book book, Library library) {
+        //Librarian librarian = new Librarian();
+        Scanner scan = new Scanner(System.in);
+        System.out.println("\n[1] Remove book \n[0] to return\n");
+        System.out.print("Make a choice: ");
+
+        try {
+            int input = scan.nextInt();
+            if (input == 0) {
+                initMenu(AdminMenu.values(), library);
+            } else if (input == 1) {
+                //librarian.removeBook
+            }
+        } catch (Exception e) {
+            adminBookMenu(book, library);
+        }
+    }
+
+    private void userBookMenu(Book book, Library library) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("\n[0] to return     [1] Borrow book");
+
+        try {
+            int input = scan.nextInt();
+            if (input == 0) {
+                initMenu(UserMenu.values(), library);
+            } else if (input == 1) {
+                //user.borrowBook(book);
+
+            }
+        } catch (Exception e) {
+            mainBookMenu(library);
         }
     }
 }

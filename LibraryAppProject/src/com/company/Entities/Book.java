@@ -6,6 +6,7 @@ public class Book implements Serializable {
     String title;
     String description;
     String author;
+    private int i;
     boolean available = true;
     long timeStamp;
 
@@ -56,6 +57,24 @@ public class Book implements Serializable {
 
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public void showBookInfo() {
+        System.out.println("\n== " + getTitle().toUpperCase() + " ==\nWritten by: " + getAuthor()+ "\nDescription: " + getDescription());
+        if (isAvailable()) {
+            System.out.println("* Available");
+        }
+        else {
+            System.out.println("* Not available");
+        }
+    }
+
+    public int getI() {
+        return i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
     }
 
     @Override
