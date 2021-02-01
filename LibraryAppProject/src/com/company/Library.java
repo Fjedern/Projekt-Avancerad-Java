@@ -22,6 +22,7 @@ public class Library {
 
     public static List<Book> bookList = new ArrayList<>();
     public static List<Person> userList = new ArrayList<>();
+    public Boolean isOpen = true;
     MenuHelper menuHelper = new MenuHelper();
 
 
@@ -33,6 +34,8 @@ public class Library {
     //Funktionen som kör igång programmet
     public void openLibrary() {
         System.out.println("== Welcome to the library ==");
+        //FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
+
         bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
         userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
@@ -42,17 +45,10 @@ public class Library {
         for(Book book : bookList) {
             System.out.println(book.getTitle());
         }*/
-       // menuHelper.initMenu(MainMenu.values());
+       menuHelper.initMenu(MainMenu.values(), this);
 
     }
 
-    public void showAllBooks() {
-        bookList.sort(Comparator.comparing(Book::getTitle));
-        System.out.println("\n== All Books ==");
-        for (Book book : bookList) {
-            System.out.println("* " + book.getTitle() + " by " + book.getAuthor());
-        }
-    }
 
     public void checkLogin() {
         List<Person> persons = FileUtils.readFileLoginV2();
@@ -72,10 +68,10 @@ public class Library {
                     System.out.println("Logged in as: " + person.getName());
                     if (person instanceof User) {
                         System.out.println("User");
-                        menuHelper.initMenu(UserMenu.values());
+                        menuHelper.initMenu(UserMenu.values(),this);
                     } else {
                         System.out.println("Librarian");
-                        menuHelper.initMenu(AdminMenu.values());
+                        menuHelper.initMenu(AdminMenu.values(), this);
                     }
                 }
             }
@@ -140,8 +136,21 @@ public class Library {
     }
     // </editor-fold>
 
+    public void showAllBooks() {
+        int i = 1;
+        bookList.sort(Comparator.comparing(Book::getTitle));
+        System.out.println("\n== All Books ==");
+
+        for (Book book : bookList) {
+            book.setI(i);
+            System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor());
+            i++;
+        }
+    }
+
     public void searchBookByTitle() {
         Scanner scan = new Scanner(System.in);
+        int i = 1;
         int matches = 0;
         System.out.print("\nSearch books by title: ");
 
@@ -150,14 +159,17 @@ public class Library {
             Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
             bookList.sort(Comparator.comparing(Book::getTitle));
 
-            System.out.println("\nBooks matching: '" + regex + "'");
+            System.out.println("\nTitle of books matching: '" + regex + "'");
             for (Book book : bookList) {
+                book.setI(-1);
                 Matcher matcher = pattern.matcher(book.getTitle());
                 boolean matchFound = matcher.find();
 
                 if (matchFound) {
                     matches++;
-                    System.out.println("* " + book.getTitle().toUpperCase() + " by " + book.getAuthor());
+                    book.setI(i);
+                    System.out.println("[" + i + "] " + book.getTitle().toUpperCase() + " by " + book.getAuthor());
+                    i++;
                 }
             }
 
@@ -172,22 +184,26 @@ public class Library {
 
     public void searchBookByAuthor() {
         Scanner scan = new Scanner(System.in);
+        int i = 1;
         int matches = 0;
         System.out.print("\nSearch books by author: ");
 
         try {
             String regex = scan.nextLine();
             Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-            bookList.sort(Comparator.comparing(Book::getTitle));
+            bookList.sort(Comparator.comparing(Book::getAuthor));
 
-            System.out.println("\nAuthors matching: '" + regex + "'");
+            System.out.println("\nBooks by authors matching: '" + regex + "'");
             for (Book book : bookList) {
+                book.setI(-1);
                 Matcher matcher = pattern.matcher(book.getAuthor());
                 boolean matchFound = matcher.find();
 
                 if (matchFound) {
                     matches++;
-                    System.out.println("* " + book.getTitle() + " by " + book.getAuthor().toUpperCase());
+                    book.setI(i);
+                    System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor().toUpperCase());
+                    i++;
                 }
             }
 
@@ -198,6 +214,14 @@ public class Library {
         } catch (Exception e) {
             searchBookByTitle();
         }
+    }
+
+    public void setOpen(Boolean open) {
+        isOpen = open;
+    }
+
+    public Boolean getOpen() {
+        return isOpen;
     }
 
 
