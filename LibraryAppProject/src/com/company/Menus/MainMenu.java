@@ -5,9 +5,7 @@ public enum MainMenu implements HasDescription {
     SEARCH_BOOK_BY_NAME("Search book by title"),
     SEARCH_BOOK_BY_AUTHOR("Search book by author"),
     LOGIN("Login"),
-    QUIT("Quit"),
-
-    ;
+    QUIT("Quit");
 
     private String description;
 

@@ -1,7 +1,6 @@
 package com.company;
 
 import com.company.Entities.Book;
-import com.company.Entities.Librarian;
 import com.company.Entities.Person;
 import com.company.Entities.User;
 import com.company.Helpers.FileUtils;
@@ -9,13 +8,12 @@ import com.company.Helpers.MenuHelper;
 import com.company.Menus.AdminMenu;
 import com.company.Menus.UserMenu;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Library {
 
@@ -49,8 +47,8 @@ public class Library {
 
 
     public void checkLogin() {
-        List<Person> persons = FileUtils.readFileLoginV2();
-        System.out.println(persons);
+        List<Person> persons = userList;
+        //System.out.println(persons);
 //        System.out.println(FileUtils.readFileLoginV2());
         Scanner scan = new Scanner(System.in);
 
@@ -58,7 +56,7 @@ public class Library {
 
         String scanUsername = scan.nextLine();
         for (Person person : persons) {
-            System.out.println(person.toString());
+            //System.out.println(person.toString());
             if (scanUsername.equals(person.getUsername())) {
                 System.out.println("Password: ");
                 String scanPassword = scan.nextLine();
@@ -66,6 +64,7 @@ public class Library {
                     System.out.println("Logged in as: " + person.getName());
                     if (person instanceof User) {
                         System.out.println("User");
+                        menuHelper.setCurrentUser(person);
                         menuHelper.initMenu(UserMenu.values());
                     } else {
                         System.out.println("Librarian");
@@ -73,7 +72,6 @@ public class Library {
                     }
                 }
             }
-
 
         }
         System.out.println("\nNo user matches '" + scanUsername + "'");
@@ -229,5 +227,13 @@ public class Library {
 
     public void addUserToList(User user) {
         userList.add(user);
+    }
+
+    public static List<Person> getUserList() {
+        return userList;
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
     }
 }

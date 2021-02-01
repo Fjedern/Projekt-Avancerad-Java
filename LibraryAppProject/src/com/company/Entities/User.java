@@ -2,6 +2,7 @@ package com.company.Entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class User extends Person implements Serializable{
@@ -28,11 +29,16 @@ public class User extends Person implements Serializable{
 
     public void borrowBook(Book book){
         books.add(book);
+        book.setAvailable(false);
     }
 
     public void showUserBooks(){
+        int i = 1;
+        books.sort(Comparator.comparing(Book::getTitle));
         for(Book book : books){
-            System.out.println(books);
+            book.setI(i);
+            System.out.println("[" + i + "] " + book.getTitle().toUpperCase() + " (" + book.showDaysRemainingOnLoan() + ") ");
+            i++;
         }
     }
 
@@ -44,4 +50,6 @@ public class User extends Person implements Serializable{
             }
         }
     }
+
+
 }
