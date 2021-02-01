@@ -60,8 +60,8 @@ public class Book implements Serializable {
     }
 
     public void showBookInfo() {
-        System.out.println("\n== " + getTitle().toUpperCase() + " ==\nWritten by: " + getAuthor()+ "\nDescription: " + getDescription());
-        if (isAvailable()) {
+        System.out.println("\n== " + title.toUpperCase() + " ==\nWritten by: " + author + "\nDescription: " + description);
+        if (available) {
             System.out.println("* Available");
         }
         else {

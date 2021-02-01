@@ -7,7 +7,6 @@ import com.company.Entities.User;
 import com.company.Helpers.FileUtils;
 import com.company.Helpers.MenuHelper;
 import com.company.Menus.AdminMenu;
-import com.company.Menus.MainMenu;
 import com.company.Menus.UserMenu;
 
 import java.util.Comparator;
@@ -45,8 +44,7 @@ public class Library {
         for(Book book : bookList) {
             System.out.println(book.getTitle());
         }*/
-       menuHelper.initMenu(MainMenu.values(), this);
-
+        menuHelper.runSystem(this);
     }
 
 
@@ -68,10 +66,10 @@ public class Library {
                     System.out.println("Logged in as: " + person.getName());
                     if (person instanceof User) {
                         System.out.println("User");
-                        menuHelper.initMenu(UserMenu.values(),this);
+                        menuHelper.initMenu(UserMenu.values());
                     } else {
                         System.out.println("Librarian");
-                        menuHelper.initMenu(AdminMenu.values(), this);
+                        menuHelper.initMenu(AdminMenu.values());
                     }
                 }
             }
