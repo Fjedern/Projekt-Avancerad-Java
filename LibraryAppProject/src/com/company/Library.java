@@ -49,7 +49,11 @@ public class Library {
 //        System.out.println(FileUtils.readFileLoginV2());
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("Please login\nUsername: ");
+        final String RED = "\u001B[31m";
+        final String BLACK = "\u001B[30m";
+
+        System.out.println(RED + "Please login");
+        System.out.println("[0] to return\n" + BLACK +  " == Username ==");
 
         String scanUsername = scan.nextLine();
 //        String scanPass = scan.nextLine();
@@ -59,32 +63,35 @@ public class Library {
         for (Person person : userList) {
             //System.out.println(person.toString());
             if (scanUsername.equals(person.getUsername())) {
-                System.out.println("Password: ");
-                String scanPassword = scan.nextLine();
-                if (scanPassword.equals(person.getPassword())) {
-                    System.out.println("Logged in as: " + person.getName());
-                    if (person instanceof User) {
-                        login = true;
-                        System.out.println("User");
-                        menuHelper.setCurrentUser(person);
-                        menuHelper.initMenu(UserMenu.values());
-                        break;
-                    } else {
-                        login = true;
-                        System.out.println("Librarian");
-                        menuHelper.initMenu(AdminMenu.values());
+                do {
+                    System.out.println("Password: ");
+                    String scanPassword = scan.nextLine();
+                    if (scanPassword.equals(person.getPassword())) {
+                        System.out.println("Logged in as: " + person.getName());
+                        if (person instanceof User) {
+                            login = true;
+                            System.out.println("User");
+                            menuHelper.setCurrentUser(person);
+                            menuHelper.initMenu(UserMenu.values());
+                            break;
+                        } else {
+                            login = true;
+                            System.out.println("Librarian");
+                            menuHelper.initMenu(AdminMenu.values());
+                            break;
+                        }
+                    }
+                    if(scanPassword.equals("0")){
+                        menuHelper.initMenu(MainMenu.values());
                         break;
                     }
-                }
+                } while (true);
             } else {
-                System.out.println("Wrong login");
                 login = false;
             }
         }
-
-        if(login == false){
-            menuHelper.initMenu(MainMenu.values());
-        }
+        System.out.println("Wrong username");
+        menuHelper.initMenu(MainMenu.values());
         /*for(Person person : userList){
             if(scanUsername.equals(person.getUsername()) && scanPass.equals(person.getPassword())){
                 if (person instanceof User) {
@@ -122,8 +129,8 @@ public class Library {
 //        System.out.println("\nNo user matches '" + scanUsername + "'");
     }
 
-    public void printForDebug(){
-        for(Person person : userList){
+    public void printForDebug() {
+        for (Person person : userList) {
             System.out.println(person.getUsername() + " " + person.getPassword());
         }
     }

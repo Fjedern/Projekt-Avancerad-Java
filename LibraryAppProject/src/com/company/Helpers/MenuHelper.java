@@ -80,7 +80,6 @@ public class MenuHelper {
                 selectBookOption(MainMenu.values(), library.getBookList());
             }
             case 4 -> {
-                System.out.println("Main menu");
                 library.checkLogin();
             }
             case 5 -> {
