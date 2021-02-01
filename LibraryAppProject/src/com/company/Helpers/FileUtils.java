@@ -1,19 +1,9 @@
 package com.company.Helpers;
 
-import com.company.Entities.Librarian;
-import com.company.Entities.Person;
-import com.company.Entities.User;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class FileUtils {
@@ -42,7 +32,8 @@ public class FileUtils {
 
     public static void writeObject(Object object, String fileName) {
 
-        ObjectOutputStream objectOutputStream = null;        FileOutputStream fileOutputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+        FileOutputStream fileOutputStream = null;
 
 
         try {
