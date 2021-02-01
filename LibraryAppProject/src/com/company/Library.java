@@ -51,8 +51,6 @@ public class Library {
 
             String scanUsername = scan.nextLine();
 
-            Boolean login = false;
-
             for (Person person : userList) {
                 if (scanUsername.equals(person.getUsername())) {
                     do {
@@ -61,25 +59,22 @@ public class Library {
                         if (scanPassword.equals(person.getPassword())) {
                             System.out.println("Logged in as: " + person.getName());
                             if (person instanceof User) {
-                                login = true;
                                 System.out.println("User");
+
                                 menuHelper.setCurrentUser(person);
                                 menuHelper.initMenu(UserMenu.values());
-                                break;
                             } else {
-                                login = true;
                                 System.out.println("Librarian");
                                 menuHelper.initMenu(AdminMenu.values());
-                                break;
                             }
+                            person.setLoggedIn(true);
+                            break;
                         }
                         if (scanPassword.equals("0")) {
                             menuHelper.initMenu(MainMenu.values());
                             break;
                         }
                     } while (true);
-                } else {
-                    login = false;
                 }
             }
             System.out.println("Wrong username");
