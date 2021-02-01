@@ -11,11 +11,14 @@ import com.company.Menus.UserMenu;
 
 import java.util.Scanner;
 
+
+
 import static com.company.Library.bookList;
 
 public class MenuHelper {
 
     Library library;
+    User user;
 
 
     public MenuHelper() {
@@ -160,7 +163,12 @@ public class MenuHelper {
                 selectBookOption(UserMenu.values());
             }
 
-            case 4 -> System.out.println("User menu");
+            case 4 -> {
+
+                selectBookOption(UserMenu.values());
+
+                user.borrowBook();
+            }
 
             case 5 -> System.out.println("User menu");
 

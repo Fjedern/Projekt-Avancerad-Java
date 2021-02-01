@@ -23,7 +23,8 @@ public class Librarian extends Person implements Serializable {
         String description = scan.nextLine();
         System.out.println("Enter author name: ");
         String author = scan.nextLine();
-        Book book = new Book(titleName,description,author);
+        Boolean isAvailable = true;
+        Book book = new Book(titleName,description,author, isAvailable);
         Library.bookList.add(book);
         FileUtils.writeObject(Library.bookList, "src/com/company/Files/Books.ser");
     }
@@ -52,8 +53,6 @@ public class Librarian extends Person implements Serializable {
         Library.userList.add(user);
         FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
 
-        FileUtils.writeFileLogIn(name, username, password);
-        FileUtils.readFileLogIn();
     }
 
     public static void librarianRemoveUser(){

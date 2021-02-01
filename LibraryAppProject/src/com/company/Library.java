@@ -48,7 +48,7 @@ public class Library {
     }
 
 
-    public void checkLogin() {
+    /*public void checkLogin() {
         List<Person> persons = FileUtils.readFileLoginV2();
         System.out.println(persons);
 //        System.out.println(FileUtils.readFileLoginV2());
@@ -78,7 +78,7 @@ public class Library {
         }
         System.out.println("\nNo user matches '" + scanUsername + "'");
         checkLogin();
-    }
+    }*/
 
 
 
