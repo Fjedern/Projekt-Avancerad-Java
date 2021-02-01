@@ -45,23 +45,16 @@ public class Library {
 
 
     public void checkLogin() {
-        //System.out.println(persons);
-//        System.out.println(FileUtils.readFileLoginV2());
         Scanner scan = new Scanner(System.in);
-
-        final String RED = "\u001B[31m";
-        final String BLACK = "\u001B[30m";
 
         System.out.println(RED + "Please login");
         System.out.println("[0] to return\n" + BLACK +  " == Username ==");
 
         String scanUsername = scan.nextLine();
-//        String scanPass = scan.nextLine();
+
         Boolean login = false;
 
-
         for (Person person : userList) {
-            //System.out.println(person.toString());
             if (scanUsername.equals(person.getUsername())) {
                 do {
                     System.out.println("Password: ");
@@ -108,25 +101,6 @@ public class Library {
 
             }
         }*/
-
-        /*for(int i = 0; i < persons.size(); i++){
-            if(scanUsername.equals(persons.get(i).getUsername())){
-                System.out.println("Password: ");
-                String scanPassword = scan.nextLine();
-                if(scanPassword.equals(persons.get(i).getPassword())){
-                    System.out.println("Logged in as: " + persons.get(i).getName());
-                    if (persons.get(i).getClass() instanceof User) {
-                        System.out.println("User");
-                        menuHelper.setCurrentUser(person);
-                        menuHelper.initMenu(UserMenu.values());
-                    } else {
-                        System.out.println("Librarian");
-                        menuHelper.initMenu(AdminMenu.values());
-                    }
-                }
-            }
-        }*/
-//        System.out.println("\nNo user matches '" + scanUsername + "'");
     }
 
     public void printForDebug() {
@@ -152,40 +126,9 @@ public class Library {
             }
         }*/
 
-        /*try(Scanner scan = new Scanner(System.in)){
-           System.out.println("Please login\nUsername: ");
-           String scanUsername = scan.nextLine();
-           if(userList.stream().map(Person::getUsername).anyMatch(scanUsername::equals)){
-               while(true){
-                   System.out.println("Password: ");
-                   String scanPass = scan.nextLine();
-                   if(userList.stream().map(Person::getPassword).anyMatch(scanPass::equals)) break;
-               }
-               System.out.println("Klar");
-           }else {
-               checkLogin();
-           }
-        }*/
-
-
-    // <editor-fold defaultstate="collapsed" desc="username and password checks">
-    private Boolean passCheck(String pass) {
-        for (Person person : userList) {
-            if (pass.equals(person.getPassword())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Boolean usernameCheck(String username) {
-        for (Person person : userList) {
-            if (username.equals(person.getUsername())) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // <editor-fold defaultstate="collapsed" desc="Colors lol">
+    private final String RED = "\u001B[31m";
+    private final String BLACK = "\u001B[30m";
     // </editor-fold>
 
     public void showAllBooks() {
