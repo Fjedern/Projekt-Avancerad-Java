@@ -86,8 +86,10 @@ public class Library {
     }
 
     // <editor-fold defaultstate="collapsed" desc="Colors lol">
-    private final String RED = "\u001B[31m";
-    private final String BLACK = "\u001B[30m";
+    private static final String RED = "\u001B[31m";
+    private static final String BLACK = "\u001B[30m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_GREEN = "\u001B[32m";
     // </editor-fold>
 
     public void showAllBooks() {
