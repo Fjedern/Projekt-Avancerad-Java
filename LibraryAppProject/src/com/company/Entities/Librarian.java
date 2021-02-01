@@ -59,7 +59,18 @@ public class Librarian extends Person implements Serializable {
         String userToRemove = scan.nextLine();
         Library.userList.removeIf(person -> userToRemove.equalsIgnoreCase(person.getUsername()));
         FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
-        
+    }
+
+    public static void seeAllUsers(){
+        for (Person p: Library.userList) {
+            if (p instanceof User){
+                System.out.println("Name of user: "+ p.getName()+
+                        "\nBorrowed books:");
+                for (Book book: ((User) p).getBooks()) {
+                    System.out.println(book.getTitle());
+                }
+            }
+        }
     }
 
 }
