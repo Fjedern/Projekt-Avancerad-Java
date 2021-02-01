@@ -45,86 +45,50 @@ public class Library {
 
 
     public void checkLogin() {
-        Scanner scan = new Scanner(System.in);
+        try (Scanner scan = new Scanner(System.in)) {
+            System.out.println(RED + "Please login");
+            System.out.println("[0] to return\n" + BLACK + " == Username ==");
 
-        System.out.println(RED + "Please login");
-        System.out.println("[0] to return\n" + BLACK +  " == Username ==");
-
-        String scanUsername = scan.nextLine();
-
-        Boolean login = false;
-
-        for (Person person : userList) {
-            if (scanUsername.equals(person.getUsername())) {
-                do {
-                    System.out.println("Password: ");
-                    String scanPassword = scan.nextLine();
-                    if (scanPassword.equals(person.getPassword())) {
-                        System.out.println("Logged in as: " + person.getName());
-                        if (person instanceof User) {
-                            login = true;
-                            System.out.println("User");
-                            menuHelper.setCurrentUser(person);
-                            menuHelper.initMenu(UserMenu.values());
-                            break;
-                        } else {
-                            login = true;
-                            System.out.println("Librarian");
-                            menuHelper.initMenu(AdminMenu.values());
-                            break;
-                        }
-                    }
-                    if(scanPassword.equals("0")){
-                        menuHelper.initMenu(MainMenu.values());
-                        break;
-                    }
-                } while (true);
-            } else {
-                login = false;
-            }
-        }
-        System.out.println("Wrong username");
-        menuHelper.initMenu(MainMenu.values());
-        /*for(Person person : userList){
-            if(scanUsername.equals(person.getUsername()) && scanPass.equals(person.getPassword())){
-                if (person instanceof User) {
-                    System.out.println("User");
-                    menuHelper.setCurrentUser(person);
-                    menuHelper.initMenu(UserMenu.values());
-                    break;
-                } else {
-                    System.out.println("Librarian");
-                    menuHelper.initMenu(AdminMenu.values());
-                    break;
-                }
-            }else {
-
-            }
-        }*/
-    }
-
-    public void printForDebug() {
-        for (Person person : userList) {
-            System.out.println(person.getUsername() + " " + person.getPassword());
-        }
-    }
-
-
-        /*try (Scanner scan = new Scanner(System.in)) {
-            System.out.println("Please login\nUsername: ");
             String scanUsername = scan.nextLine();
+
+            Boolean login = false;
+
             for (Person person : userList) {
                 if (scanUsername.equals(person.getUsername())) {
-                    while(true){
+                    do {
                         System.out.println("Password: ");
                         String scanPassword = scan.nextLine();
-                        if(scanPassword.equals(person.getPassword())) break;
-                    }
+                        if (scanPassword.equals(person.getPassword())) {
+                            System.out.println("Logged in as: " + person.getName());
+                            if (person instanceof User) {
+                                login = true;
+                                System.out.println("User");
+                                menuHelper.setCurrentUser(person);
+                                menuHelper.initMenu(UserMenu.values());
+                                break;
+                            } else {
+                                login = true;
+                                System.out.println("Librarian");
+                                menuHelper.initMenu(AdminMenu.values());
+                                break;
+                            }
+                        }
+                        if (scanPassword.equals("0")) {
+                            menuHelper.initMenu(MainMenu.values());
+                            break;
+                        }
+                    } while (true);
                 } else {
-                    System.out.println("Fel");
+                    login = false;
                 }
             }
-        }*/
+            System.out.println("Wrong username");
+            menuHelper.initMenu(MainMenu.values());
+        } catch (Exception e){
+            System.out.println("Something went wrong");
+            menuHelper.initMenu(MainMenu.values());
+        }
+    }
 
     // <editor-fold defaultstate="collapsed" desc="Colors lol">
     private final String RED = "\u001B[31m";
