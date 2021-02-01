@@ -1,6 +1,7 @@
 package com.company.Entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 public class Book implements Serializable {
     String title;
@@ -9,6 +10,7 @@ public class Book implements Serializable {
     private int i;
     boolean available = true;
     long timeStamp;
+    private LocalDate returnBookDate;
 
     public Book() {
     }
@@ -47,17 +49,27 @@ public class Book implements Serializable {
         return available;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
+
+
+    public void setAvailable(boolean setAvailable) {
+        available = setAvailable;
+        setReturnBookDate();
+    }
+    private void setReturnBookDate() {
+        this.returnBookDate = LocalDate.now().plusDays(14);
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public LocalDate getReturnBookDate() {
+        return returnBookDate;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public String showDaysRemainingOnLoan() {
+        return LocalDate.now().until(returnBookDate).getDays() + " days left on the loan";
+
     }
+
+
+
 
     public void showBookInfo() {
         System.out.println("\n== " + title.toUpperCase() + " ==\nWritten by: " + author + "\nDescription: " + description);

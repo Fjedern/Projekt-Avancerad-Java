@@ -6,9 +6,7 @@ public enum UserMenu implements HasDescription {
     SEARCH_BOOK_BY_AUTHOR("Search book by author"),
     BORROW_BOOK("Borrow book"),
     SHOW_MY_BOOKS("Show my books"),
-    QUIT("Quit"),
-
-    ;
+    QUIT("Quit");
 
     private String description;
 

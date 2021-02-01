@@ -4,8 +4,6 @@ import com.company.Helpers.FileUtils;
 import com.company.Library;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Librarian extends Person implements Serializable {
@@ -52,6 +50,7 @@ public class Librarian extends Person implements Serializable {
         User user = new User(name,username,password);
         Library.userList.add(user);
         FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
+
 
     }
 
