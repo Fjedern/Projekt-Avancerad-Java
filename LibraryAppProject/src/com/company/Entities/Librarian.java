@@ -22,7 +22,7 @@ public class Librarian extends Person implements Serializable {
         System.out.println("Enter author name: ");
         String author = scan.nextLine();
         Boolean isAvailable = true;
-        Book book = new Book(titleName,description,author, isAvailable);
+        Book book = new Book(titleName,description,author);
         Library.bookList.add(book);
         FileUtils.writeObject(Library.bookList, "src/com/company/Files/Books.ser");
     }
