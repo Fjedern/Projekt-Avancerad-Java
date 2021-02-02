@@ -16,6 +16,7 @@ public class Library {
 
     public static List<Book> bookList = new ArrayList<>();
     public static List<Person> userList = new ArrayList<>();
+    Map<String, Person> userListAsMap = new HashMap<>();
     public Boolean isOpen = true;
     MenuHelper menuHelper = new MenuHelper();
 
@@ -87,12 +88,14 @@ public class Library {
         }
     }
 
-    public void checkLoginV2(){
-        Scanner scan = new Scanner(System.in);
-        Map<String, Person> userListAsMap = new HashMap<>();
+    public void fillUserListMap(){
         for(Person person : userList){
             userListAsMap.put(person.getUsername(), person);
         }
+    }
+
+    public void checkLoginV2(){
+        Scanner scan = new Scanner(System.in);
 
         System.out.println(RED + "Please login");
         System.out.println("[0] to return\n" + BLACK + " == Username ==");

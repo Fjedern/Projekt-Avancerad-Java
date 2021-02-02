@@ -80,6 +80,7 @@ public class Main {
         library.addUserToList(user2);
         library.addUserToList(user3);
         library.getUserList().add(librarian);
+        library.fillUserListMap();
 
         //library.showAllBooks();
         library.openLibrary();
