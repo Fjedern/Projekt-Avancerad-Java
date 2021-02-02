@@ -2,13 +2,14 @@ package com.company.Entities;
 
 import com.company.Helpers.FileUtils;
 import com.company.Library;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Scanner;
 import java.util.List;
+import java.util.Scanner;
 
-public class User extends Person implements Serializable{
+public class User extends Person implements Serializable {
     List<Book> books = new ArrayList<>();
 
     public User(String name, String username, String password) {
@@ -37,15 +38,13 @@ public class User extends Person implements Serializable{
         System.out.println("\nWhich book would you like to borrow? (Use title)");
         String title = scanner.nextLine();
 
-        for(Book book: library.getBookList()){
-            if(book.getTitle().equalsIgnoreCase(title)){
+        for (Book book : library.getBookList()) {
+            if (book.getTitle().equalsIgnoreCase(title)) {
                 System.out.print(book.getTitle() + title);
-                if(book.isAvailable()){
+                if (book.isAvailable()) {
                     book.setAvailable(false);
                     library.bookList.add(book);
                     FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
-
-
 
 
                     //FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
@@ -57,14 +56,13 @@ public class User extends Person implements Serializable{
 
     }
 
-    public void borrowBook(Book book){
+    public void borrowBook(Book book) {
         books.add(book);
         book.setAvailable(false);
     }
 
 
-
-    public void returnBook(Book bookToReturn, Library mainLibrary){
+    public void returnBook(Book bookToReturn, Library mainLibrary) {
         if (books.removeIf(book -> book.equals(bookToReturn))) {
             bookToReturn.setAvailable(true);
             FileUtils.writeObject(mainLibrary.bookList, "src/com/company/Files/Books.ser");
@@ -72,22 +70,35 @@ public class User extends Person implements Serializable{
 
     }
 
-    public void showUserBooks(){
+    public void showUserBooks() {
         int i = 1;
         books.sort(Comparator.comparing(Book::getTitle));
-        for(Book book : books){
+        for (Book book : books) {
             book.setI(i);
             System.out.println("[" + i + "] " + book.getTitle().toUpperCase() + " (" + book.showDaysRemainingOnLoan() + ") ");
             i++;
         }
     }
 
-    public void returnBook(String titleOrAuthor){
-        for(Book book : books){
-            if(titleOrAuthor.equalsIgnoreCase(book.getAuthor()) || titleOrAuthor.equalsIgnoreCase(book.title)){
-                books.remove(book);
-                return;
+    public void returnBook() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("\nYour books:");
+        books.forEach(book -> System.out.println("* " + book.getTitle() + " [" + book.showDaysRemainingOnLoan() + "]"));
+        try {
+            System.out.print("\nTitle of book to return: ");
+            String titleOfBookToRemove = scan.nextLine();
+
+            for (Book book : books) {
+                if (titleOfBookToRemove.equalsIgnoreCase(book.title)) {
+                    books.remove(book);
+                    book.setAvailable(true);
+                    System.out.println(book.getTitle() + " by " + book.getAuthor() + " returned to library");
+                    return;
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Something went wrong");
         }
+
     }
 }

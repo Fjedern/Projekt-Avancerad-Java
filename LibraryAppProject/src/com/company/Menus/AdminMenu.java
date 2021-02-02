@@ -9,7 +9,7 @@ public enum AdminMenu implements HasDescription {
     REMOVE_USER("Remove user"),
     ADD_BOOK("Add book"),
     REMOVE_BOOK("Remove book"),
-    QUIT("Quit");
+    QUIT("Logout");
 
     private String description;
 

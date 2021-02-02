@@ -8,9 +8,14 @@ import com.company.Menus.AdminMenu;
 import com.company.Menus.MainMenu;
 import com.company.Menus.UserMenu;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.company.Helpers.Color.*;
 
 public class Library {
 
@@ -27,7 +32,7 @@ public class Library {
 
     //Funktionen som kör igång programmet
     public void openLibrary() {
-        System.out.println("== Welcome to the library ==");
+        System.out.println(BLUE + "\n== Welcome to the library ==" + RESET);
         //FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
         //bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
@@ -45,11 +50,10 @@ public class Library {
 
 
     public void logOutAllUsers() {
-        for(Person person : userList) {
+        for (Person person : userList) {
             person.setLoggedIn(false);
         }
     }
-
 
 
     public void checkLogin() {
@@ -66,7 +70,7 @@ public class Library {
                         System.out.println("Password: ");
                         String scanPassword = scan.nextLine();
                         if (scanPassword.equals(person.getPassword())) {
-                            System.out.println("Logged in as: " + person.getName());
+                            System.out.println("\nLogged in as: " + person.getName());
                             if (person instanceof User) {
                                 System.out.println("User");
 
@@ -74,6 +78,7 @@ public class Library {
                                 menuHelper.initMenu(UserMenu.values());
                             } else {
                                 System.out.println("Librarian");
+                                menuHelper.setCurrentLibrarian(person);
                                 menuHelper.initMenu(AdminMenu.values());
                             }
                             person.setLoggedIn(true);
@@ -88,18 +93,18 @@ public class Library {
             }
             System.out.println("Wrong username");
             menuHelper.initMenu(MainMenu.values());
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Something went wrong");
             menuHelper.initMenu(MainMenu.values());
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Colors lol">
+/*    // <editor-fold defaultstate="collapsed" desc="Colors lol">
     private static final String RED = "\u001B[31m";
     private static final String BLACK = "\u001B[30m";
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_GREEN = "\u001B[32m";
-    // </editor-fold>
+    private static final String RESET = "\u001B[0m";
+    private static final String GREEN = "\u001B[32m";
+    // </editor-fold>*/
 
     public void showAllBooks() {
         Scanner scan = new Scanner(System.in);
@@ -109,41 +114,39 @@ public class Library {
 
         for (Book book : bookList) {
             book.setI(i);
-            System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor());
+            System.out.println(BLUE + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor());
             i++;
         }
 
         System.out.println("\nWould you like to sort list by Author or Title?");
+        System.out.printf("Type: ");
 
         String sortOption = scan.nextLine();
-        if(sortOption.equalsIgnoreCase("Author") || sortOption.equalsIgnoreCase("Title")){
+        if (sortOption.equalsIgnoreCase("Author") || sortOption.equalsIgnoreCase("Title")) {
             sortBooks(sortOption);
 
         }
 
 
-
-
     }
 
-    public void sortBooks(String compare){
-        int i=1;
-        if(compare == "T"){
+    public void sortBooks(String compare) {
+        int i = 1;
+        if (compare == "T") {
             bookList.sort(Comparator.comparing(Book::getTitle));
 
 
             for (Book book : bookList) {
                 book.setI(i);
-                System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor());
+                System.out.println(BLUE + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor());
                 i++;
             }
 
-        }
-        else {
+        } else {
             bookList.sort(Comparator.comparing(Book::getAuthor));
             for (Book book : bookList) {
                 book.setI(i);
-                System.out.println("[" + i + "] " + book.getAuthor() + " - " + book.getTitle());
+                System.out.println(BLUE + "[" + i + "] " + RESET + book.getAuthor() + " - " + book.getTitle());
                 i++;
             }
 
@@ -173,7 +176,7 @@ public class Library {
                 if (matchFound) {
                     matches++;
                     book.setI(i);
-                    System.out.println("[" + i + "] " + book.getTitle().toUpperCase() + " by " + book.getAuthor());
+                    System.out.println(BLUE + "[" + i + "] " + RESET + book.getTitle().toUpperCase() + " by " + book.getAuthor());
                     i++;
                 }
             }
@@ -207,7 +210,7 @@ public class Library {
                 if (matchFound) {
                     matches++;
                     book.setI(i);
-                    System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor().toUpperCase());
+                    System.out.println(BLUE + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor().toUpperCase());
                     i++;
                 }
             }

@@ -8,6 +8,8 @@ import java.util.Scanner;
 
 public class Librarian extends Person implements Serializable {
 
+    private Library library;
+
     public Librarian(String name, String username, String password) {
         super(name, username, password);
     }
@@ -17,7 +19,7 @@ public class Librarian extends Person implements Serializable {
     }
 
 
-    public void librarianAddBook(Library mainLibrary) {
+    public void librarianAddBook() {
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter book title: ");
@@ -28,28 +30,28 @@ public class Librarian extends Person implements Serializable {
         String author = scan.nextLine();
 
         Book book = new Book(titleName, description, author);
-        mainLibrary.getBookList().add(book);
-        FileUtils.writeObject(mainLibrary.bookList, "src/com/company/Files/Books.ser");
+        library.getBookList().add(book);
+        FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
     }
 
-    public void librarianRemoveBookByTitle(Library mainLibrary) {
+    public void librarianRemoveBookByTitle() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter book title to remove from library");
         String bookTitleToRemove = scan.nextLine();
-        if (mainLibrary.bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove))) {
+        if (library.bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove))) {
             //FileUtils.deleteObjectBook(bookTitleToRemove);
-            FileUtils.writeObject(mainLibrary.bookList, "src/com/company/Files/Books.ser");
+            FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
         }
 
     }
 
-    public void librarianRemoveBookByChoice(Book bookToRemove, Library mainLibrary) {
-        if (mainLibrary.bookList.removeIf(book -> book.equals(bookToRemove))) {
-            FileUtils.writeObject(mainLibrary.bookList, "src/com/company/Files/Books.ser");
+    public void librarianRemoveBookByChoice(Book bookToRemove) {
+        if (library.bookList.removeIf(book -> book.equals(bookToRemove))) {
+            FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
         }
     }
 
-    public void librarianAddUser(Library mainLibrary) {
+    public void librarianAddUser() {
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter name: ");
@@ -73,8 +75,8 @@ public class Librarian extends Person implements Serializable {
             password = scan.nextLine();
         }
         User user = new User(name, username, password);
-        mainLibrary.userList.add(user);
-        FileUtils.writeObject(mainLibrary.userList, "src/com/company/Files/User.ser");
+        library.userList.add(user);
+        FileUtils.writeObject(library.userList, "src/com/company/Files/User.ser");
 
 
     }
@@ -112,17 +114,17 @@ public class Librarian extends Person implements Serializable {
         return m.matches();
     }
 
-    public void librarianRemoveUser(Library mainLibrary) {
+    public void librarianRemoveUser() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter username of user to remove: ");
         String userToRemove = scan.nextLine();
-        mainLibrary.userList.removeIf(person -> userToRemove.equalsIgnoreCase(person.getUsername()));
-        FileUtils.writeObject(mainLibrary.userList, "src/com/company/Files/User.ser");
+        library.userList.removeIf(person -> userToRemove.equalsIgnoreCase(person.getUsername()));
+        FileUtils.writeObject(library.userList, "src/com/company/Files/User.ser");
     }
 
-    public void seeAllUsers(Library mainLibrary) {
+    public void seeAllUsers() {
         System.out.println();
-        for (Person p : mainLibrary.userList) {
+        for (Person p : library.userList) {
             if (p instanceof User) {
                 System.out.println("Name of user: " + p.getName() +
                         "\nBorrowed books:");
@@ -134,13 +136,17 @@ public class Librarian extends Person implements Serializable {
         }
     }
 
-    public void seeAllBorrowedBooks(Library library){
+    public void seeAllBorrowedBooks(){
         System.out.println("The following books are out on loan: ");
         for (Book book: library.bookList) {
             if(!book.available){
                 System.out.println(book.getTitle() + " by " + book.getAuthor());
             }
         }
+    }
+
+    public void setLibrary(Library thisLibrary) {
+        library = thisLibrary;
     }
 
 }
