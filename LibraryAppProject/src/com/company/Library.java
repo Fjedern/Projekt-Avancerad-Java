@@ -97,8 +97,8 @@ public class Library {
     public void checkLoginV2(){
         Scanner scan = new Scanner(System.in);
 
-        System.out.println(RED + "Please login");
-        System.out.println("[0] to return\n" + BLACK + " == Username ==");
+        System.out.println("\n" +RED + "Please login");
+        System.out.println(RESET + "[0] to return\n\n" + PURPLE + " == Username ==" + RESET);
 
         String scanUsername = scan.nextLine();
         boolean isKeyPresent = userListAsMap.containsKey(scanUsername);
@@ -109,33 +109,41 @@ public class Library {
                 System.out.println("Already logged in");
             } else {
                 do {
-                    System.out.println("Please enter your password");
+                    System.out.println(PURPLE + "== Password ==" + RESET);
                     String scanPass = scan.nextLine();
                     if(scanPass.equals(person.getPassword())){
                         if(person instanceof User){
-                            System.out.println("User");
-
-                            menuHelper.setCurrentUser(person);
+                            System.out.println(GREEN + "\nWelcome " + person.getName() +  "!\nYou are logged in as a " + YELLOW +  "User" + RESET);
                             menuHelper.initMenu(UserMenu.values());
                         }else{
-                            System.out.println("Librarian");
+                            System.out.println(GREEN + "\nWelcome " + person.getName() +  "!\nYou are logged in as a " + YELLOW +  "Librarian" + RESET);
                             menuHelper.initMenu(AdminMenu.values());
                         }
+                        menuHelper.setCurrentUser(person);
                         break;
+                    }else {
+                        System.out.println(RED + "Wrong password please try again" + RESET);
                     }
                 } while(true);
             }
         } else {
-            System.out.println("Wrong username please try again");
+            System.out.println(RED + "Wrong username please try again" + RESET);
             checkLoginV2();
         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="Colors lol">
+    //Text Colors
     private static final String RED = "\u001B[31m";
     private static final String BLACK = "\u001B[30m";
-    private static final String ANSI_RESET = "\u001B[0m";
-    private static final String ANSI_GREEN = "\u001B[32m";
+    private static final String RESET = "\u001B[0m";
+    private static final String GREEN = "\u001B[32m";
+    private static final String PURPLE = "\u001B[35m";
+    private static final String YELLOW = "\u001B[33m";
+
+    //Background Colors
+    private static final String CYAN_BACKGROUND = "\u001B[46m";
+    private static final String BLUE_BACKGROUND = "\u001B[44m";
     // </editor-fold>
 
     public void showAllBooks() {
