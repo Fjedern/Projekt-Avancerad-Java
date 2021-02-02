@@ -1,6 +1,9 @@
 package com.company;
 
 
+import com.company.Entities.Book;
+import com.company.Entities.Librarian;
+import com.company.Entities.User;
 import com.company.Helpers.MenuHelper;
 
 public class Main {
@@ -29,7 +32,7 @@ public class Main {
 
         MenuHelper menuHelper = new MenuHelper();
 
-        /*Book b1 = new Book("Sagan om ringen", "Frodo walking and having fun with his friends","J.R.R. Tolkien");
+        Book b1 = new Book("Sagan om ringen", "Frodo walking and having fun with his friends","J.R.R. Tolkien");
         Book b2 = new Book("Sagan om de två tornen", "Frodo having some more fun with his friends","J.R.R. Tolkien");
         Book b3 = new Book("Sagan om de konungens återkomst", "Frodo having even more fun with his friends","J.R.R. Tolkien");
         Book b4 = new Book("Papillion", "Papillion having fun on his own","Henri Charriere");
@@ -52,10 +55,10 @@ public class Main {
         library.addBookToList(b8);
         library.addBookToList(b9);
         library.addBookToList(b10);
-        *//*library.showAllBooks();
-        library.searchBookByTitle();
-        library.searchBookByAuthor();
-*//*
+        //library.showAllBooks();
+//        library.searchBookByTitle();
+//        library.searchBookByAuthor();
+
         User user1 = new User("Oskar Andersson" , "o-dog", "password123");
         User user2 = new User("David Nilsson" , "d-dog", "123456");
         User user3 = new User("Ludvig Anderbeck" , "l-dog", "picture1");
@@ -74,7 +77,7 @@ public class Main {
 
 
 
-        user1.showUserBooks();*/
+        //user1.showUserBooks();
 
 
 

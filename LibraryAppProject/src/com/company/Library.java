@@ -31,9 +31,9 @@ public class Library {
         System.out.println("== Welcome to the library ==");
         //FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
 
-        bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
+//        bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
-        userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
+//        userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
 
 
        /* Librarian.librarianRemoveBook();
