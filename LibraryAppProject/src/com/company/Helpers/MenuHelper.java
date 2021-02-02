@@ -13,6 +13,7 @@ import com.company.Menus.UserMenu;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class MenuHelper {
 
     Library library;
@@ -83,6 +84,7 @@ public class MenuHelper {
             }
             case 4 -> {
                 library.checkLogin();
+
             }
             case 5 -> {
                 System.out.println("Logging out");
@@ -170,6 +172,7 @@ public class MenuHelper {
             case 4 -> {
                 System.out.println("User menu");
                 generalReturnMenu(UserMenu.values());
+
             }
 
             case 5 -> {

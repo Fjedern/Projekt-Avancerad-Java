@@ -29,14 +29,11 @@ public class Library {
     public void openLibrary() {
         System.out.println("== Welcome to the library ==");
         //FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
-
-
         //bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
         //userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
 
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
-
 
 
        /* Librarian.librarianRemoveBook();
@@ -47,10 +44,12 @@ public class Library {
     }
 
 
+
     public void checkLogin() {
         try (Scanner scan = new Scanner(System.in)) {
             System.out.println(RED + "Please login");
             System.out.println("[0] to return\n" + BLACK + " == Username ==");
+
 
             String scanUsername = scan.nextLine();
 
@@ -96,6 +95,7 @@ public class Library {
     // </editor-fold>
 
     public void showAllBooks() {
+        Scanner scan = new Scanner(System.in);
         int i = 1;
         bookList.sort(Comparator.comparing(Book::getTitle));
         System.out.println("\n== All Books ==");
@@ -105,6 +105,45 @@ public class Library {
             System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor());
             i++;
         }
+
+        System.out.println("\nWould you like to sort list by Author or Title?");
+
+        String sortOption = scan.nextLine();
+        if(sortOption.equalsIgnoreCase("Author") || sortOption.equalsIgnoreCase("Title")){
+            sortBooks(sortOption);
+
+        }
+
+
+
+
+    }
+
+    public void sortBooks(String compare){
+        int i=1;
+        if(compare == "T"){
+            bookList.sort(Comparator.comparing(Book::getTitle));
+
+
+            for (Book book : bookList) {
+                book.setI(i);
+                System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor());
+                i++;
+            }
+
+        }
+        else {
+            bookList.sort(Comparator.comparing(Book::getAuthor));
+            for (Book book : bookList) {
+                book.setI(i);
+                System.out.println("[" + i + "] " + book.getAuthor() + " - " + book.getTitle());
+                i++;
+            }
+
+
+        }
+
+
     }
 
     public void searchBookByTitle() {
