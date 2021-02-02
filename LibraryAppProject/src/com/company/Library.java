@@ -3,7 +3,6 @@ package com.company;
 import com.company.Entities.Book;
 import com.company.Entities.Person;
 import com.company.Entities.User;
-import com.company.Helpers.FileUtils;
 import com.company.Helpers.MenuHelper;
 import com.company.Menus.AdminMenu;
 import com.company.Menus.UserMenu;
@@ -33,9 +32,9 @@ public class Library {
         System.out.println("== Welcome to the library ==");
         //FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
 
-        bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
+        //bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
-        userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
+        //userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
 
 
        /* Librarian.librarianRemoveBook();
@@ -229,7 +228,7 @@ public class Library {
         userList.add(user);
     }
 
-    public static List<Person> getUserList() {
+    public List<Person> getUserList() {
         return userList;
     }
 

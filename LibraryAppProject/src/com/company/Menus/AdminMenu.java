@@ -4,6 +4,7 @@ public enum AdminMenu implements HasDescription {
     SHOW_ALL_BOOKS("Show all books"),
     SEARCH_BOOK_BY_NAME("Search book by title"),
     SEARCH_BOOK_BY_AUTHOR("Search book by author"),
+    ALL_USERS("All users"),
     ADD_USER("Add user"),
     REMOVE_USER("Remove user"),
     ADD_BOOK("Add book"),
