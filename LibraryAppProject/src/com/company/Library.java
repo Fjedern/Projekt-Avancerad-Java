@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
 
 public class Library {
 
-    public static List<Book> bookList = new ArrayList<>();
-    public static List<Person> userList = new ArrayList<>();
+    public List<Book> bookList = new ArrayList<>();
+    public List<Person> userList = new ArrayList<>();
     public Boolean isOpen = true;
     MenuHelper menuHelper = new MenuHelper();
 
@@ -35,12 +35,19 @@ public class Library {
 
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
 
-
+        logOutAllUsers();
        /* Librarian.librarianRemoveBook();
         for(Book book : bookList) {
             System.out.println(book.getTitle());
         }*/
         menuHelper.runSystem(this);
+    }
+
+
+    public void logOutAllUsers() {
+        for(Person person : userList) {
+            person.setLoggedIn(false);
+        }
     }
 
 
