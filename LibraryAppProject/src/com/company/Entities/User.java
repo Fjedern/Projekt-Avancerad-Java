@@ -30,10 +30,7 @@ public class User extends Person implements Serializable{
                 '}';
     }
 
-    public void borrowBook(){
-        //books.add(book);
-        //book.setAvailable(false);
-
+    public void borrowBooks(User user){
         Library library = new Library();
         Scanner scanner = new Scanner(System.in);
 
@@ -45,23 +42,27 @@ public class User extends Person implements Serializable{
             if(book.getTitle().equalsIgnoreCase(title)){
                 System.out.print(book.getTitle() + title);
                 if(book.isAvailable()){
-
-                    Library.bookList.remove(book);
-
                     book.setAvailable(false);
-
                     Library.bookList.add(book);
 
 
                     FileUtils.writeObject(Library.bookList, "src/com/company/Files/Books.ser");
-                    System.out.print(FileUtils.readObject("src/com/company/Files/Books.ser"));
+                    //FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
+                    //System.out.print(FileUtils.readObject("src/com/company/Files/Books.ser"));
                     String hej = scanner.nextLine();
                 }
-
-
             }
-
         }
+
+    }
+
+    public void borrowBook(Book book){
+        //books.add(book);
+        //book.setAvailable(false);
+
+
+
+
 
 
 
