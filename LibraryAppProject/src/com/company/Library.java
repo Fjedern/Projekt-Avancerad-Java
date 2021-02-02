@@ -101,8 +101,12 @@ public class Library {
         System.out.println(RESET + "[0] to return\n\n" + PURPLE + " == Username ==" + RESET);
 
         String scanUsername = scan.nextLine();
+        if(scanUsername.equals("0")){
+            menuHelper.initMenu(MainMenu.values());
+            return;
+        }
+        
         boolean isKeyPresent = userListAsMap.containsKey(scanUsername);
-
         if(isKeyPresent){
             Person person = userListAsMap.get(scanUsername);
             if(person.isLoggedIn()){
