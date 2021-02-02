@@ -32,7 +32,9 @@ public class Library {
 
     //Funktionen som kör igång programmet
     public void openLibrary() {
-        System.out.println(BLUE + "\n== Welcome to the library ==" + RESET);
+        System.out.println(CYAN + "\n============================" + BLUE +
+                "\n== WELCOME TO THE LIBRARY ==" + PURPLE +
+                "\n============================" + RESET);
         //FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
         //bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
