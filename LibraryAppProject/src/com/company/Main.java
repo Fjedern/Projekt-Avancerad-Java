@@ -81,8 +81,6 @@ public class Main {
         library.addUserToList(user3);
         library.getUserList().add(librarian);
 
-        library.showAllBooks();
-        //library.openLibrary();
 
 
 
@@ -91,19 +89,19 @@ public class Main {
 
 
 
-        //user1.borrowBook(b1);
-        /*user1.borrowBook(b2);
+        user1.borrowBook(b1);
+        user1.borrowBook(b2);
         user2.borrowBook(b3);
         user2.borrowBook(b4);
         user3.borrowBook(b5);
-        user3.borrowBook(b6);*/
+        user3.borrowBook(b6);
 
 
         
 
 
 
-        //library.openLibrary();
+        library.openLibrary();
 
 
 

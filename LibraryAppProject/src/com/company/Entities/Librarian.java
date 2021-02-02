@@ -4,9 +4,7 @@ import com.company.Helpers.FileUtils;
 import com.company.Library;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Librarian extends Person implements Serializable {
 
@@ -90,9 +88,9 @@ public class Librarian extends Person implements Serializable {
         }
     }
 
-    public static void seeAllBorrowedBooks(){
+    public void seeAllBorrowedBooks(Library library){
         System.out.println("The following books are out on loan: ");
-        for (Book book: Library.bookList) {
+        for (Book book: library.bookList) {
             if(!book.available){
                 System.out.println(book.getTitle() + " by " + book.getAuthor());
             }
