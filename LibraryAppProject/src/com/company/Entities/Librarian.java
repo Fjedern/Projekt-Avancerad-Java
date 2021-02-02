@@ -2,7 +2,7 @@ package com.company.Entities;
 
 import com.company.Helpers.FileUtils;
 import com.company.Library;
-
+import java.util.regex.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -55,16 +55,62 @@ public class Librarian extends Person implements Serializable {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter name: ");
         String name = scan.nextLine();
+        while(isNameValid(name) != true){
+            System.out.println("Enter name again, this time correct: ");
+            name = scan.nextLine();
+        }
         System.out.println("Enter username: ");
         String username = scan.nextLine();
-        System.out.println("Enter password: ");
+        while (isUsernameValid(username)!=true){
+            System.out.println("A username can't contain white space!\n"+
+                    "Please enter username again: ");
+            username = scan.nextLine();
+        }
+        System.out.println("Enter password(minimum of 6 letters, including one number and one uppercase letter): ");
         String password = scan.nextLine();
-
+        while (isPasswordValid(password)!=true){
+            System.out.println("Wrong, enter correct password format!\n"+
+                    "(minimum of 6 letters, including one number and one uppercase letter):");
+            password = scan.nextLine();
+        }
         User user = new User(name, username, password);
         mainLibrary.userList.add(user);
         FileUtils.writeObject(mainLibrary.userList, "src/com/company/Files/User.ser");
 
 
+    }
+
+    public boolean isPasswordValid(String password){
+        String regex = "^(?=.*[0-9])"
+                + "(?=.*[a-z])(?=.*[A-Z])"
+                + "(?=\\S+$).{6,20}$";
+        Pattern p = Pattern.compile(regex);
+
+        if (password == null) {
+            return false;
+        }
+        Matcher m = p.matcher(password);
+        return m.matches();
+    }
+
+    public boolean isUsernameValid(String username){
+        String regex = "^(?=\\S+$).{2,20}$";
+        Pattern p = Pattern.compile(regex);
+        if (username == null) {
+            return false;
+        }
+        Matcher m = p.matcher(username);
+        return m.matches();
+    }
+
+    public boolean isNameValid(String name){
+        String regex = "^[a-zåäöA-ZÅÄÖ\s]{3,40}"+"[^0-9]$";
+        Pattern p = Pattern.compile(regex);
+        if (name == null) {
+            return false;
+        }
+        Matcher m = p.matcher(name);
+        return m.matches();
     }
 
     public void librarianRemoveUser(Library mainLibrary) {
