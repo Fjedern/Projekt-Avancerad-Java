@@ -56,7 +56,6 @@ public class Main {
         library.addBookToList(b9);
         library.addBookToList(b10);
 
-
         User user1 = new User("Oskar Andersson" , "o-dog", "password123");
         User user2 = new User("David Nilsson" , "d-dog", "123456");
         User user3 = new User("Ludvig Anderbeck" , "l-dog", "picture1");
@@ -73,7 +72,7 @@ public class Main {
         user3.borrowBook(b5);
         user3.borrowBook(b6);
 
-
+        
 
 
 

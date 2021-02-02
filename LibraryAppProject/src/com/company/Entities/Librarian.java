@@ -4,7 +4,9 @@ import com.company.Helpers.FileUtils;
 import com.company.Library;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Librarian extends Person implements Serializable {
 
@@ -83,6 +85,15 @@ public class Librarian extends Person implements Serializable {
                     System.out.println(book.getTitle() + " (" + book.showDaysRemainingOnLoan() + ")");
                 }
                 System.out.println();
+            }
+        }
+    }
+
+    public static void seeAllBorrowedBooks(){
+        System.out.println("The following books are out on loan: ");
+        for (Book book: Library.bookList) {
+            if(!book.available){
+                System.out.println(book.getTitle() + " by " + book.getAuthor());
             }
         }
     }
