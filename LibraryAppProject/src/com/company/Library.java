@@ -87,6 +87,47 @@ public class Library {
         }
     }
 
+    public void checkLoginV2(){
+        Scanner scan = new Scanner(System.in);
+        Map<String, Person> userListAsMap = new HashMap<>();
+        for(Person person : userList){
+            userListAsMap.put(person.getUsername(), person);
+        }
+
+        System.out.println(RED + "Please login");
+        System.out.println("[0] to return\n" + BLACK + " == Username ==");
+
+        String scanUsername = scan.nextLine();
+        boolean isKeyPresent = userListAsMap.containsKey(scanUsername);
+
+        if(isKeyPresent){
+            Person person = userListAsMap.get(scanUsername);
+            if(person.isLoggedIn()){
+                System.out.println("Already logged in");
+            } else {
+                do {
+                    System.out.println("Please enter your password");
+                    String scanPass = scan.nextLine();
+                    if(scanPass.equals(person.getPassword())){
+                        if(person instanceof User){
+                            System.out.println("User");
+
+                            menuHelper.setCurrentUser(person);
+                            menuHelper.initMenu(UserMenu.values());
+                        }else{
+                            System.out.println("Librarian");
+                            menuHelper.initMenu(AdminMenu.values());
+                        }
+                        break;
+                    }
+                } while(true);
+            }
+        } else {
+            System.out.println("Wrong username please try again");
+            checkLoginV2();
+        }
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Colors lol">
     private static final String RED = "\u001B[31m";
     private static final String BLACK = "\u001B[30m";

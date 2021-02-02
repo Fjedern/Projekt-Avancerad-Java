@@ -81,8 +81,8 @@ public class Main {
         library.addUserToList(user3);
         library.getUserList().add(librarian);
 
-        library.showAllBooks();
-        //library.openLibrary();
+        //library.showAllBooks();
+        library.openLibrary();
 
 
 

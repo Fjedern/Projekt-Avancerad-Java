@@ -83,8 +83,8 @@ public class MenuHelper {
                 selectBookOption(MainMenu.values(), library.getBookList());
             }
             case 4 -> {
-                library.checkLogin();
-
+//                library.checkLogin();
+                library.checkLoginV2();
             }
             case 5 -> {
                 System.out.println("Logging out");
