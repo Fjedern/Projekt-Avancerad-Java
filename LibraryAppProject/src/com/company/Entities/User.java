@@ -30,7 +30,7 @@ public class User extends Person implements Serializable{
                 '}';
     }
 
-    public void borrowBooks(User user){
+    public void borrowBooks(){
         Library library = new Library();
         Scanner scanner = new Scanner(System.in);
 
@@ -44,9 +44,11 @@ public class User extends Person implements Serializable{
                 if(book.isAvailable()){
                     book.setAvailable(false);
                     Library.bookList.add(book);
-
-
                     FileUtils.writeObject(Library.bookList, "src/com/company/Files/Books.ser");
+
+
+
+
                     //FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
                     //System.out.print(FileUtils.readObject("src/com/company/Files/Books.ser"));
                     String hej = scanner.nextLine();
@@ -56,19 +58,15 @@ public class User extends Person implements Serializable{
 
     }
 
-    public void borrowBook(Book book){
-        //books.add(book);
-        //book.setAvailable(false);
 
 
+    public void borrowBook(Book book) {
 
-
-
+        books.add(book);
+        book.setAvailable(false);
 
 
     }
-
-
     public void showUserBooks(){
         int i = 1;
         books.sort(Comparator.comparing(Book::getTitle));

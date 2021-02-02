@@ -163,7 +163,7 @@ public class MenuHelper {
 
             case 4 -> {
 
-                user.borrowBooks(user);
+                user.borrowBooks();
                 selectBookOption(UserMenu.values(), user.getBooks());
 
             }

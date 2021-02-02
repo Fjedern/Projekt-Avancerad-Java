@@ -30,6 +30,7 @@ public class Main {
         menuHelper.initMenu(UserMenu.values());*/
 
 
+
         Library library = new Library();
 
 
@@ -74,17 +75,20 @@ public class Main {
         //library.showAllBooks();
         //library.searchBookByTitle();
         //library.searchBookByAuthor();
-        User user = new User("lada", "lado", "user");
 
 
-        /*User user1 = new User("Oskar Andersson" , "o-dog", "password123");
+
+        User user1 = new User("Oskar Andersson" , "o-dog", "password123");
         User user2 = new User("David Nilsson" , "d-dog", "123456");
         User user3 = new User("Ludvig Anderbeck" , "l-dog", "picture1");
         Librarian librarian = new Librarian("Eli Svensson", "admin", "admin");
-        library.addUserToList(user1);;
+        library.addUserToList(user1);
         library.addUserToList(user2);
         library.addUserToList(user3);
-        library.getUserList().add(librarian);*/
+        library.getUserList().add(librarian);
+
+        library.showAllBooks();
+        //library.openLibrary();
 
 
 
@@ -92,8 +96,9 @@ public class Main {
 
 
 
-        /*user1.borrowBook(b1);
-        user1.borrowBook(b2);
+
+        //user1.borrowBook(b1);
+        /*user1.borrowBook(b2);
         user2.borrowBook(b3);
         user2.borrowBook(b4);
         user3.borrowBook(b5);
