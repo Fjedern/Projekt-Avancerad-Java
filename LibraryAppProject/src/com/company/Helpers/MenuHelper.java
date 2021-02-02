@@ -1,6 +1,7 @@
 package com.company.Helpers;
 
 import com.company.Entities.Book;
+import com.company.Entities.Librarian;
 import com.company.Entities.Person;
 import com.company.Entities.User;
 import com.company.Library;
@@ -16,6 +17,7 @@ public class MenuHelper {
 
     Library library;
     User user;
+    Librarian librarian;
 
 
     public MenuHelper() {
@@ -84,8 +86,8 @@ public class MenuHelper {
             }
             case 5 -> {
                 System.out.println("Logging out");
-                /*library.setOpen(false);
-                initMenu(MainMenu.values(), library);*/
+                library.setOpen(false);
+                initMenu(MainMenu.values());
 
 
             }
@@ -93,6 +95,7 @@ public class MenuHelper {
     }
 
     public void adminMenuChoice(int choice) {
+        librarian = new Librarian();
 
         switch (choice) {
 
@@ -113,21 +116,26 @@ public class MenuHelper {
 
 
             case 4 -> {
-                System.out.println("Admin menu");
+                librarian.seeAllUsers(library);
+                generalReturnMenu(AdminMenu.values());
             }
             case 5 -> {
-                System.out.println("Admin menu");
+                librarian.librarianAddUser(library);
+                generalReturnMenu(AdminMenu.values());
             }
             case 6 -> {
-                System.out.println("Admin menu");
+                librarian.librarianRemoveUser(library);
+                generalReturnMenu(AdminMenu.values());
             }
             case 7 -> {
-                System.out.println("Admin menu");
+                librarian.librarianAddBook(library);
+                generalReturnMenu(AdminMenu.values());
             }
 
 
             case 8 -> {
-                System.out.println("Admin menu");
+                librarian.librarianRemoveBookByTitle(library);
+                generalReturnMenu(AdminMenu.values());
 
             }
 
@@ -159,12 +167,14 @@ public class MenuHelper {
                 selectBookOption(UserMenu.values(), library.getBookList());
             }
 
-            case 4 -> System.out.println("User menu");
+            case 4 -> {
+                System.out.println("User menu");
+                generalReturnMenu(UserMenu.values());
+            }
 
             case 5 -> {
                 user.showUserBooks();
                 selectBookOption(UserMenu.values(), user.getBooks());
-                System.out.println("User menu");
             }
 
             case 6 -> {
@@ -202,10 +212,10 @@ public class MenuHelper {
         }
     }
 
-    private <T> void initBookMenu(T[] menuItems, Book book) {
+    private <T extends HasDescription> void initBookMenu(T[] menuItems, Book book) {
 
         if (menuItems[0].getClass().equals(MainMenu.class)) {
-            mainBookMenu();
+            generalReturnMenu(menuItems);
 
         } else if (menuItems[0].getClass().equals(AdminMenu.class)) {
             adminBookMenu(book);
@@ -215,22 +225,22 @@ public class MenuHelper {
         }
     }
 
-    private void mainBookMenu() {
+    private <T extends HasDescription> void generalReturnMenu(T[] menuItems) {
         Scanner scan = new Scanner(System.in);
         System.out.print("\n[0] to return: ");
 
         try {
             int input = scan.nextInt();
             if (input == 0) {
-                initMenu(MainMenu.values());
+                initMenu(menuItems);
             }
         } catch (Exception e) {
-            mainBookMenu();
+            generalReturnMenu(menuItems);
         }
     }
 
     private void adminBookMenu(Book book) {
-        //Librarian librarian = new Librarian();
+        Librarian librarian = new Librarian();
         Scanner scan = new Scanner(System.in);
         System.out.println("\n[1] Remove book \n[0] to return\n");
         System.out.print("Make a choice: ");
@@ -240,7 +250,14 @@ public class MenuHelper {
             if (input == 0) {
                 initMenu(AdminMenu.values());
             } else if (input == 1) {
-                //librarian.removeBook
+                if (book.isAvailable()) {
+                    System.out.println(book.getTitle() + " by " + book.getAuthor() + " removed from system");
+                    library.getBookList().remove(book);
+                    initMenu(AdminMenu.values());
+                } else {
+                    System.out.println(book.getTitle() + " is loaned out and cannot be removed\n" + book.showDaysRemainingOnLoan() + "\n");
+                    generalReturnMenu(AdminMenu.values());
+                }
             }
         } catch (Exception e) {
             adminBookMenu(book);
@@ -249,18 +266,24 @@ public class MenuHelper {
 
     private void userBookMenu(Book book) {
         Scanner scan = new Scanner(System.in);
-        System.out.println("\n[0] to return     [1] Borrow book");
+        System.out.println("\n[1] Borrow book\n[0] to return\n");
+        System.out.print("Make a choice: ");
+
 
         try {
             int input = scan.nextInt();
             if (input == 0) {
                 initMenu(UserMenu.values());
             } else if (input == 1) {
-                //user.borrowBook(book);
+                if (book.isAvailable()) {
+
+                } else {
+
+                }
 
             }
         } catch (Exception e) {
-            mainBookMenu();
+            userBookMenu(book);
         }
     }
 

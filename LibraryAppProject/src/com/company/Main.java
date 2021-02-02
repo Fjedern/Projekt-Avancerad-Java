@@ -55,9 +55,7 @@ public class Main {
         library.addBookToList(b8);
         library.addBookToList(b9);
         library.addBookToList(b10);
-        //library.showAllBooks();
-//        library.searchBookByTitle();
-//        library.searchBookByAuthor();
+
 
         User user1 = new User("Oskar Andersson" , "o-dog", "password123");
         User user2 = new User("David Nilsson" , "d-dog", "123456");
@@ -76,8 +74,6 @@ public class Main {
         user3.borrowBook(b6);
 
 
-
-        //user1.showUserBooks();
 
 
 
