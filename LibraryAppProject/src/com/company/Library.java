@@ -6,12 +6,10 @@ import com.company.Entities.User;
 import com.company.Helpers.FileUtils;
 import com.company.Helpers.MenuHelper;
 import com.company.Menus.AdminMenu;
+import com.company.Menus.MainMenu;
 import com.company.Menus.UserMenu;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,89 +45,51 @@ public class Library {
 
 
     public void checkLogin() {
-        List<Person> persons = userList;
-        //System.out.println(persons);
-//        System.out.println(FileUtils.readFileLoginV2());
-        Scanner scan = new Scanner(System.in);
+        try (Scanner scan = new Scanner(System.in)) {
+            System.out.println(RED + "Please login");
+            System.out.println("[0] to return\n" + BLACK + " == Username ==");
 
-        System.out.println("Please login\nUsername: ");
-
-        String scanUsername = scan.nextLine();
-        for (Person person : persons) {
-            //System.out.println(person.toString());
-            if (scanUsername.equals(person.getUsername())) {
-                System.out.println("Password: ");
-                String scanPassword = scan.nextLine();
-                if (scanPassword.equals(person.getPassword())) {
-                    System.out.println("Logged in as: " + person.getName());
-                    if (person instanceof User) {
-                        System.out.println("User");
-                        menuHelper.setCurrentUser(person);
-                        menuHelper.initMenu(UserMenu.values());
-                    } else {
-                        System.out.println("Librarian");
-                        menuHelper.initMenu(AdminMenu.values());
-                    }
-                }
-            }
-
-        }
-        System.out.println("\nNo user matches '" + scanUsername + "'");
-        checkLogin();
-    }
-
-
-
-        /*try (Scanner scan = new Scanner(System.in)) {
-            System.out.println("Please login\nUsername: ");
             String scanUsername = scan.nextLine();
+
             for (Person person : userList) {
                 if (scanUsername.equals(person.getUsername())) {
-                    while(true){
+                    do {
                         System.out.println("Password: ");
                         String scanPassword = scan.nextLine();
-                        if(scanPassword.equals(person.getPassword())) break;
-                    }
-                } else {
-                    System.out.println("Fel");
+                        if (scanPassword.equals(person.getPassword())) {
+                            System.out.println("Logged in as: " + person.getName());
+                            if (person instanceof User) {
+                                System.out.println("User");
+
+                                menuHelper.setCurrentUser(person);
+                                menuHelper.initMenu(UserMenu.values());
+                            } else {
+                                System.out.println("Librarian");
+                                menuHelper.initMenu(AdminMenu.values());
+                            }
+                            person.setLoggedIn(true);
+                            break;
+                        }
+                        if (scanPassword.equals("0")) {
+                            menuHelper.initMenu(MainMenu.values());
+                            break;
+                        }
+                    } while (true);
                 }
             }
-        }*/
-
-        /*try(Scanner scan = new Scanner(System.in)){
-           System.out.println("Please login\nUsername: ");
-           String scanUsername = scan.nextLine();
-           if(userList.stream().map(Person::getUsername).anyMatch(scanUsername::equals)){
-               while(true){
-                   System.out.println("Password: ");
-                   String scanPass = scan.nextLine();
-                   if(userList.stream().map(Person::getPassword).anyMatch(scanPass::equals)) break;
-               }
-               System.out.println("Klar");
-           }else {
-               checkLogin();
-           }
-        }*/
-
-
-    // <editor-fold defaultstate="collapsed" desc="username and password checks">
-    private Boolean passCheck(String pass) {
-        for (Person person : userList) {
-            if (pass.equals(person.getPassword())) {
-                return true;
-            }
+            System.out.println("Wrong username");
+            menuHelper.initMenu(MainMenu.values());
+        } catch (Exception e){
+            System.out.println("Something went wrong");
+            menuHelper.initMenu(MainMenu.values());
         }
-        return false;
     }
 
-    private Boolean usernameCheck(String username) {
-        for (Person person : userList) {
-            if (username.equals(person.getUsername())) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // <editor-fold defaultstate="collapsed" desc="Colors lol">
+    private static final String RED = "\u001B[31m";
+    private static final String BLACK = "\u001B[30m";
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_GREEN = "\u001B[32m";
     // </editor-fold>
 
     public void showAllBooks() {
