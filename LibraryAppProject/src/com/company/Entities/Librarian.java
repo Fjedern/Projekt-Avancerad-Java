@@ -28,6 +28,7 @@ public class Librarian extends Person implements Serializable {
         String description = scan.nextLine();
         System.out.println("Enter author name: ");
         String author = scan.nextLine();
+
         Book book = new Book(titleName, description, author);
         mainLibrary.getBookList().add(book);
         FileUtils.writeObject(mainLibrary.bookList, "src/com/company/Files/Books.ser");
