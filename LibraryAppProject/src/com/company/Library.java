@@ -105,7 +105,7 @@ public class Library {
             menuHelper.initMenu(MainMenu.values());
             return;
         }
-        
+
         boolean isKeyPresent = userListAsMap.containsKey(scanUsername);
         if(isKeyPresent){
             Person person = userListAsMap.get(scanUsername);
@@ -123,6 +123,7 @@ public class Library {
                             System.out.println(GREEN + "\nWelcome " + person.getName() +  "!\nYou are logged in as a " + YELLOW +  "Librarian" + RESET);
                             menuHelper.initMenu(AdminMenu.values());
                         }
+                        person.setLoggedIn(true);
                         menuHelper.setCurrentUser(person);
                         break;
                     }else {
