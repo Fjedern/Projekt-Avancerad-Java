@@ -85,7 +85,7 @@ public class MenuHelper {
             }
             case 4 -> {
                 System.out.println();
-                library.checkLogin();
+                library.checkLoginV2();
             }
             case 5 -> {
                 System.out.println("Shutting down system");
