@@ -87,13 +87,14 @@ public class Library {
                     if(scanPass.equals(person.getPassword())){
                         if(person instanceof User){
                             System.out.println(GREEN + "\nWelcome " + person.getName() +  "!\nYou are logged in as a " + YELLOW +  "User" + RESET);
+                            menuHelper.setCurrentUser(person);
                             menuHelper.initMenu(UserMenu.values());
                         }else{
                             System.out.println(GREEN + "\nWelcome " + person.getName() +  "!\nYou are logged in as a " + YELLOW +  "Librarian" + RESET);
+                            menuHelper.setCurrentLibrarian(person);
                             menuHelper.initMenu(AdminMenu.values());
                         }
                         person.setLoggedIn(true);
-                        menuHelper.setCurrentUser(person);
                         break;
                     }else {
                         System.out.println(RED + "Wrong password please try again" + RESET);
