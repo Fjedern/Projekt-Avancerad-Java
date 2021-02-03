@@ -54,7 +54,17 @@ public class Book implements Serializable {
 
     public void setAvailable(boolean setAvailable) {
         available = setAvailable;
-        setReturnBookDate();
+        if (available == false) {
+            setReturnBookDate();
+        }
+    }
+
+    public String getLoanStatus() {
+        if (available) {
+            return GREEN + "Available" + RESET;
+        } else {
+            return RED + "Not available" + RESET;
+        }
     }
 
     private void setReturnBookDate() {
@@ -66,18 +76,14 @@ public class Book implements Serializable {
     }
 
     public String showDaysRemainingOnLoan() {
-        return LocalDate.now().until(returnBookDate).getDays() + " days left on the loan";
+        return " [" + LocalDate.now().until(returnBookDate).getDays() + " days left on the loan]";
 
     }
 
 
     public void showBookInfo() {
-        System.out.println(CYAN + "\n== " + title.toUpperCase() + " ==\n" + RESET + "Written by: " + author + "\nDescription: " + description);
-        if (available) {
-            System.out.println("* Available");
-        } else {
-            System.out.println("* Not available");
-        }
+        System.out.println(YELLOW + "\n== " + title.toUpperCase() + " ==\n" + RESET + "Written by: " + author + "\nDescription: " + description);
+        System.out.println("[" + getLoanStatus() + "]");
     }
 
     public int getI() {

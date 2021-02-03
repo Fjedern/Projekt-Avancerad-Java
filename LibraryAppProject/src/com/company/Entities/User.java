@@ -1,13 +1,14 @@
 package com.company.Entities;
 
 import com.company.Helpers.FileUtils;
-import com.company.Library;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+
+import static com.company.Helpers.Color.*;
 
 public class User extends Person implements Serializable {
     List<Book> books = new ArrayList<>();
@@ -31,25 +32,27 @@ public class User extends Person implements Serializable {
                 '}';
     }
 
-    public void borrowBooks(Library library) {
+    public void borrowBooks() {
         Scanner scanner = new Scanner(System.in);
+        System.out.println(CYAN + "\n== All books ==" + RESET);
 
-        library.showAllBooks();
-        System.out.println("\nWhich book would you like to borrow? (Use title)");
+        library.bookList.stream()
+                .sorted(Comparator.comparing(Book::getTitle))
+                .forEach(book -> System.out.println("* " + YELLOW + book.getTitle().toUpperCase() + RESET + " by " + book.getAuthor() + " (" + book.getLoanStatus() + ")"));
+
+        System.out.print("\nWhich book would you like to borrow? (Use title) ");
         String title = scanner.nextLine();
 
         for (Book book : library.getBookList()) {
             if (book.getTitle().equalsIgnoreCase(title)) {
-                System.out.print(book.getTitle() + title);
                 if (book.isAvailable()) {
+                    System.out.println("\n" + getName() + " loans " + book.getTitle());
+                    books.add(book);
                     book.setAvailable(false);
-                    library.bookList.add(book);
                     FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
-
 
                     //FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
                     //System.out.print(FileUtils.readObject("src/com/company/Files/Books.ser"));
-                    String hej = scanner.nextLine();
                 }
             }
         }
@@ -62,10 +65,10 @@ public class User extends Person implements Serializable {
     }
 
 
-    public void returnBook(Book bookToReturn, Library mainLibrary) {
+    public void returnBook(Book bookToReturn) {
         if (books.removeIf(book -> book.equals(bookToReturn))) {
             bookToReturn.setAvailable(true);
-            FileUtils.writeObject(mainLibrary.bookList, "src/com/company/Files/Books.ser");
+            FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
         }
 
     }
@@ -75,17 +78,17 @@ public class User extends Person implements Serializable {
         books.sort(Comparator.comparing(Book::getTitle));
         for (Book book : books) {
             book.setI(i);
-            System.out.println("[" + i + "] " + book.getTitle().toUpperCase() + " (" + book.showDaysRemainingOnLoan() + ") ");
+            System.out.println(BLUE + "[" + i + "] " + YELLOW + book.getTitle().toUpperCase() + RESET + book.showDaysRemainingOnLoan());
             i++;
         }
     }
 
-    public void returnBook() {
+    public void returnBookFromMenu() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("\nYour books:");
-        books.forEach(book -> System.out.println("* " + book.getTitle() + " [" + book.showDaysRemainingOnLoan() + "]"));
+        System.out.println("\n== Your loans ==");
+        books.forEach(book -> System.out.println("* " + book.getTitle() + book.showDaysRemainingOnLoan()));
         try {
-            System.out.print("\nTitle of book to return: ");
+            System.out.print("\nTitle of the book you want to return: ");
             String titleOfBookToRemove = scan.nextLine();
 
             for (Book book : books) {
@@ -96,6 +99,7 @@ public class User extends Person implements Serializable {
                     return;
                 }
             }
+            System.out.println("No book matches '" + titleOfBookToRemove + "'");
         } catch (Exception e) {
             System.out.println("Something went wrong");
         }

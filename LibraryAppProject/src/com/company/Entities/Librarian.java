@@ -1,14 +1,14 @@
 package com.company.Entities;
 
 import com.company.Helpers.FileUtils;
-import com.company.Library;
-import java.util.regex.*;
+
 import java.io.Serializable;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Librarian extends Person implements Serializable {
 
-    private Library library;
 
     public Librarian(String name, String username, String password) {
         super(name, username, password);
@@ -129,7 +129,7 @@ public class Librarian extends Person implements Serializable {
                 System.out.println("Name of user: " + p.getName() +
                         "\nBorrowed books:");
                 for (Book book : ((User) p).getBooks()) {
-                    System.out.println(book.getTitle() + " (" + book.showDaysRemainingOnLoan() + ")");
+                    System.out.println(book.getTitle() + book.showDaysRemainingOnLoan());
                 }
                 System.out.println();
             }
@@ -140,14 +140,12 @@ public class Librarian extends Person implements Serializable {
         System.out.println("The following books are out on loan: ");
         for (Book book: library.bookList) {
             if(!book.available){
-                System.out.println(book.getTitle() + " by " + book.getAuthor());
+                System.out.println(book.getTitle() + " by " + book.getAuthor() + book.showDaysRemainingOnLoan());
             }
         }
     }
 
-    public void setLibrary(Library thisLibrary) {
-        library = thisLibrary;
-    }
+
 
 }
 
