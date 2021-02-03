@@ -3,6 +3,8 @@ package com.company.Entities;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import static com.company.Helpers.Color.*;
+
 public class Book implements Serializable {
     String title;
     String description;
@@ -50,11 +52,11 @@ public class Book implements Serializable {
     }
 
 
-
     public void setAvailable(boolean setAvailable) {
         available = setAvailable;
         setReturnBookDate();
     }
+
     private void setReturnBookDate() {
         this.returnBookDate = LocalDate.now().plusDays(14);
     }
@@ -69,14 +71,11 @@ public class Book implements Serializable {
     }
 
 
-
-
     public void showBookInfo() {
-        System.out.println("\n== " + title.toUpperCase() + " ==\nWritten by: " + author + "\nDescription: " + description);
+        System.out.println(CYAN + "\n== " + title.toUpperCase() + " ==\n" + RESET + "Written by: " + author + "\nDescription: " + description);
         if (available) {
             System.out.println("* Available");
-        }
-        else {
+        } else {
             System.out.println("* Not available");
         }
     }

@@ -7,9 +7,6 @@ import com.company.Entities.User;
 import com.company.Helpers.MenuHelper;
 
 public class Main {
-
-
-
     public static void main(String[] args) {
         /*Librarian.librarianAddBook();
         Librarian.librarianAddBook();
@@ -17,11 +14,6 @@ public class Main {
         System.out.println(Library.bookList);
         Librarian.librarianRemoveBook();
         System.out.println(Library.bookList);
-
-        U
-
-
-
 
 
 
@@ -51,15 +43,6 @@ public class Main {
 
 
 
-        /*Person loke = new Person("Loke", 23);
-        loke.addPet(new Dog("Fido", 12));
-        loke.addPet(new Cat("Smulan", "Brown"));*/
-
-        /*public void addPet(Animal pet) {
-            pets.add(pet);
-        }*/
-
-
         library.addBookToList(b1);
         library.addBookToList(b2);
         library.addBookToList(b3);
@@ -82,37 +65,18 @@ public class Main {
         library.getUserList().add(librarian);
         library.fillUserListMap();
 
-        //library.showAllBooks();
-        library.openLibrary();
 
 
-
-
-
-
-
-
-        //user1.borrowBook(b1);
-        /*user1.borrowBook(b2);
+        user1.borrowBook(b1);
+        user1.borrowBook(b2);
         user2.borrowBook(b3);
         user2.borrowBook(b4);
         user3.borrowBook(b5);
-        user3.borrowBook(b6);*/
+        user3.borrowBook(b6);
 
 
         
-
-
-
-        //library.openLibrary();
-
-
-
-
-
-
-
-
+        library.openLibrary();
 
     }
 

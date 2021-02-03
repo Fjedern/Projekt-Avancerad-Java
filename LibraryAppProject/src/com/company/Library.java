@@ -8,15 +8,22 @@ import com.company.Menus.AdminMenu;
 import com.company.Menus.MainMenu;
 import com.company.Menus.UserMenu;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.company.Helpers.Color.*;
+
 public class Library {
+
 
     public static List<Book> bookList = new ArrayList<>();
     public static List<Person> userList = new ArrayList<>();
     Map<String, Person> userListAsMap = new HashMap<>();
+
     public Boolean isOpen = true;
     MenuHelper menuHelper = new MenuHelper();
 
@@ -28,7 +35,9 @@ public class Library {
 
     //Funktionen som kör igång programmet
     public void openLibrary() {
-        System.out.println("== Welcome to the library ==");
+        System.out.println(CYAN + "\n============================" + BLUE +
+                "\n== WELCOME TO THE LIBRARY ==" + PURPLE +
+                "\n============================" + RESET);
         //FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
         //bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
@@ -36,7 +45,7 @@ public class Library {
 
         //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
 
-
+        logOutAllUsers();
        /* Librarian.librarianRemoveBook();
         for(Book book : bookList) {
             System.out.println(book.getTitle());
@@ -49,6 +58,13 @@ public class Library {
             userListAsMap.put(person.getUsername(), person);
         }
     }
+  
+  public void logOutAllUsers() {
+        for (Person person : userList) {
+            person.setLoggedIn(false);
+        }
+    }
+
 
     public void checkLoginV2(){
         Scanner scan = new Scanner(System.in);
@@ -92,21 +108,7 @@ public class Library {
             checkLoginV2();
         }
     }
-
-    // <editor-fold defaultstate="collapsed" desc="Colors lol">
-    //Text Colors
-    private static final String RED = "\u001B[31m";
-    private static final String BLACK = "\u001B[30m";
-    private static final String RESET = "\u001B[0m";
-    private static final String GREEN = "\u001B[32m";
-    private static final String PURPLE = "\u001B[35m";
-    private static final String YELLOW = "\u001B[33m";
-
-    //Background Colors
-    private static final String CYAN_BACKGROUND = "\u001B[46m";
-    private static final String BLUE_BACKGROUND = "\u001B[44m";
-    // </editor-fold>
-
+  
     public void showAllBooks() {
         Scanner scan = new Scanner(System.in);
         int i = 1;
@@ -115,41 +117,39 @@ public class Library {
 
         for (Book book : bookList) {
             book.setI(i);
-            System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor());
+            System.out.println(BLUE + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor());
             i++;
         }
 
         System.out.println("\nWould you like to sort list by Author or Title?");
+        System.out.printf("Type: ");
 
         String sortOption = scan.nextLine();
-        if(sortOption.equalsIgnoreCase("Author") || sortOption.equalsIgnoreCase("Title")){
+        if (sortOption.equalsIgnoreCase("Author") || sortOption.equalsIgnoreCase("Title")) {
             sortBooks(sortOption);
 
         }
 
 
-
-
     }
 
-    public void sortBooks(String compare){
-        int i=1;
-        if(compare == "T"){
+    public void sortBooks(String compare) {
+        int i = 1;
+        if (compare == "T") {
             bookList.sort(Comparator.comparing(Book::getTitle));
 
 
             for (Book book : bookList) {
                 book.setI(i);
-                System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor());
+                System.out.println(BLUE + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor());
                 i++;
             }
 
-        }
-        else {
+        } else {
             bookList.sort(Comparator.comparing(Book::getAuthor));
             for (Book book : bookList) {
                 book.setI(i);
-                System.out.println("[" + i + "] " + book.getAuthor() + " - " + book.getTitle());
+                System.out.println(BLUE + "[" + i + "] " + RESET + book.getAuthor() + " - " + book.getTitle());
                 i++;
             }
 
@@ -179,7 +179,7 @@ public class Library {
                 if (matchFound) {
                     matches++;
                     book.setI(i);
-                    System.out.println("[" + i + "] " + book.getTitle().toUpperCase() + " by " + book.getAuthor());
+                    System.out.println(BLUE + "[" + i + "] " + RESET + book.getTitle().toUpperCase() + " by " + book.getAuthor());
                     i++;
                 }
             }
@@ -213,7 +213,7 @@ public class Library {
                 if (matchFound) {
                     matches++;
                     book.setI(i);
-                    System.out.println("[" + i + "] " + book.getTitle() + " by " + book.getAuthor().toUpperCase());
+                    System.out.println(BLUE + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor().toUpperCase());
                     i++;
                 }
             }
