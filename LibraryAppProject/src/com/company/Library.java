@@ -44,50 +44,6 @@ public class Library {
         menuHelper.runSystem(this);
     }
 
-
-
-    public void checkLogin() {
-        try (Scanner scan = new Scanner(System.in)) {
-            System.out.println(RED + "Please login");
-            System.out.println("[0] to return\n" + BLACK + " == Username ==");
-
-
-            String scanUsername = scan.nextLine();
-
-            for (Person person : userList) {
-                if (scanUsername.equals(person.getUsername())) {
-                    do {
-                        System.out.println("Password: ");
-                        String scanPassword = scan.nextLine();
-                        if (scanPassword.equals(person.getPassword())) {
-                            System.out.println("Logged in as: " + person.getName());
-                            if (person instanceof User) {
-                                System.out.println("User");
-
-                                menuHelper.setCurrentUser(person);
-                                menuHelper.initMenu(UserMenu.values());
-                            } else {
-                                System.out.println("Librarian");
-                                menuHelper.initMenu(AdminMenu.values());
-                            }
-                            person.setLoggedIn(true);
-                            break;
-                        }
-                        if (scanPassword.equals("0")) {
-                            menuHelper.initMenu(MainMenu.values());
-                            break;
-                        }
-                    } while (true);
-                }
-            }
-            System.out.println("Wrong username");
-            menuHelper.initMenu(MainMenu.values());
-        } catch (Exception e){
-            System.out.println("Something went wrong");
-            menuHelper.initMenu(MainMenu.values());
-        }
-    }
-
     public void fillUserListMap(){
         for(Person person : userList){
             userListAsMap.put(person.getUsername(), person);
