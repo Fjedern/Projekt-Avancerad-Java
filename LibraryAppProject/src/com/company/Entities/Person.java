@@ -1,12 +1,15 @@
 package com.company.Entities;
 
+import com.company.Library;
+
 import java.io.Serializable;
 
 public abstract class Person implements Serializable {
-    String name;
-    String username;
-    String password;
-    boolean isLoggedIn = false;
+    private String name;
+    private String username;
+    private String password;
+    private boolean isLoggedIn = false;
+    Library library;
 
     public Person() {
     }
@@ -47,6 +50,10 @@ public abstract class Person implements Serializable {
 
     public void setLoggedIn(boolean loggedIn) {
         isLoggedIn = loggedIn;
+    }
+
+    public void setLibrary(Library thisLibrary) {
+        this.library = thisLibrary;
     }
 
     @Override
