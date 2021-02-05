@@ -1,6 +1,7 @@
 package com.company.Entities;
 
 import com.company.Helpers.FileUtils;
+import com.company.Library;
 
 import java.io.Serializable;
 import java.util.Scanner;
@@ -30,24 +31,24 @@ public class Librarian extends Person implements Serializable {
         String author = scan.nextLine();
 
         Book book = new Book(titleName, description, author);
-        library.getBookList().add(book);
-        FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
+        Library.getInstance().getBookList().add(book);
+        FileUtils.writeObject(Library.getInstance().bookList, "src/com/company/Files/Books.ser");
     }
 
     public void librarianRemoveBookByTitle() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter book title to remove from library");
         String bookTitleToRemove = scan.nextLine();
-        if (library.bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove))) {
+        if (Library.getInstance().bookList.removeIf(book -> book.getTitle().equalsIgnoreCase(bookTitleToRemove))) {
             //FileUtils.deleteObjectBook(bookTitleToRemove);
-            FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
+            FileUtils.writeObject(Library.getInstance().bookList, "src/com/company/Files/Books.ser");
         }
 
     }
 
     public void librarianRemoveBookByChoice(Book bookToRemove) {
-        if (library.bookList.removeIf(book -> book.equals(bookToRemove))) {
-            FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
+        if (Library.getInstance().bookList.removeIf(book -> book.equals(bookToRemove))) {
+            FileUtils.writeObject(Library.getInstance().bookList, "src/com/company/Files/Books.ser");
         }
     }
 
@@ -75,8 +76,8 @@ public class Librarian extends Person implements Serializable {
             password = scan.nextLine();
         }
         User user = new User(name, username, password);
-        library.userList.add(user);
-        FileUtils.writeObject(library.userList, "src/com/company/Files/User.ser");
+        Library.getInstance().userList.add(user);
+        FileUtils.writeObject(Library.getInstance().userList, "src/com/company/Files/User.ser");
 
 
     }
@@ -118,13 +119,13 @@ public class Librarian extends Person implements Serializable {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter username of user to remove: ");
         String userToRemove = scan.nextLine();
-        library.userList.removeIf(person -> userToRemove.equalsIgnoreCase(person.getUsername()));
-        FileUtils.writeObject(library.userList, "src/com/company/Files/User.ser");
+        Library.getInstance().userList.removeIf(person -> userToRemove.equalsIgnoreCase(person.getUsername()));
+        FileUtils.writeObject(Library.getInstance().userList, "src/com/company/Files/User.ser");
     }
 
     public void seeAllUsers() {
         System.out.println();
-        for (Person p : library.userList) {
+        for (Person p : Library.getInstance().userList) {
             if (p instanceof User) {
                 System.out.println("Name of user: " + p.getName() +
                         "\nBorrowed books:");
@@ -138,7 +139,7 @@ public class Librarian extends Person implements Serializable {
 
     public void seeAllBorrowedBooks(){
         System.out.println("The following books are out on loan: ");
-        for (Book book: library.bookList) {
+        for (Book book: Library.getInstance().bookList) {
             if(!book.available){
                 System.out.println(book.getTitle() + " by " + book.getAuthor() + book.showDaysRemainingOnLoan());
             }
