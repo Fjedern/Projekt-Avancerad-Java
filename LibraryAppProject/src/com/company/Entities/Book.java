@@ -13,6 +13,8 @@ public class Book implements Serializable {
     boolean available = true;
     long timeStamp;
     private LocalDate returnBookDate;
+    private static final long serialVersionUID = 3L;
+
 
     public Book() {
     }

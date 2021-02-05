@@ -1,0 +1,1 @@
+java.io.InvalidClassException: com.company.Entities.Librarian; local class incompatible: stream classdesc serialVersionUID = -1000728592351762196, local class serialVersionUID = -7633135445980541892

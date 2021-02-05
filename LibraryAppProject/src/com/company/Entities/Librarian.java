@@ -2,17 +2,17 @@ package com.company.Entities;
 
 import com.company.Helpers.FileUtils;
 import com.company.Library;
-import static com.company.Helpers.Color.*;
 
 import java.io.Serializable;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.company.Helpers.Color.CYAN;
-import static com.company.Helpers.Color.RESET;
+import static com.company.Helpers.Color.*;
 
 public class Librarian extends Person implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
 
     public Librarian(String name, String username, String password) {
