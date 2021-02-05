@@ -117,41 +117,46 @@ public class MenuHelper implements Serializable {
             }
 
             case 2 -> {
+                librarian.seeAllBorrowedBooks();
+                generalReturnMenu(AdminMenu.values());
+            }
+
+            case 3 -> { //Search by name
                 Library.getInstance().searchBookByTitle();
                 selectBookOption(AdminMenu.values(), Library.getInstance().getBookList());
             }
 
-            case 3 -> {
+            case 4 -> { //Search by author
                 Library.getInstance().searchBookByAuthor();
                 selectBookOption(AdminMenu.values(), Library.getInstance().getBookList());
             }
 
-            case 4 -> {
+            case 5 -> { //All users
                 librarian.seeAllUsers();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 5 -> {
+            case 6 -> { //Add user
                 librarian.librarianAddUser();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 6 -> {
+            case 7 -> { //Remove user
                 librarian.librarianRemoveUser();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 7 -> {
+            case 8 -> { //Add Book
                 librarian.librarianAddBook();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 8 -> {
+            case 9 -> { //Remove Book
                 librarian.librarianRemoveBookByTitle();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 9 -> {
+            case 10 -> { //Quit
                 System.out.println("Logging out");
                 librarian.setLoggedIn(false);
                 initMenu(MainMenu.values());

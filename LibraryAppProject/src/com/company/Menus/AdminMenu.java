@@ -2,6 +2,7 @@ package com.company.Menus;
 
 public enum AdminMenu implements HasDescription {
     SHOW_ALL_BOOKS("Show all books"),
+    SHOW_ALL_BORROWED_BOOKS("Show all borrowed books"),
     SEARCH_BOOK_BY_NAME("Search book by title"),
     SEARCH_BOOK_BY_AUTHOR("Search book by author"),
     ALL_USERS("All users"),
