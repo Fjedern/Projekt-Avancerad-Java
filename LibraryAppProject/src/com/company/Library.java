@@ -42,9 +42,9 @@ public class Library implements Serializable {
     public void openLibrary() {
 
 
-        //FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
+        FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
         bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
-        //FileUtils.writeObject(library.userList, "src/com/company/Files/User.ser");
+        FileUtils.writeObject(library.userList, "src/com/company/Files/User.ser");
         userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
 
         logOutAllUsers();

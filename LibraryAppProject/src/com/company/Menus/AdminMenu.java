@@ -10,6 +10,7 @@ public enum AdminMenu implements HasDescription {
     REMOVE_USER("Remove user"),
     ADD_BOOK("Add book"),
     REMOVE_BOOK("Remove book"),
+    SEARCH_FOR_USER_BY_NAME("Search for a user by name"),
     QUIT("Logout");
 
     private String description;

@@ -156,7 +156,12 @@ public class MenuHelper implements Serializable {
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 10 -> { //Quit
+            case 10 -> {
+                librarian.searchForUserByName();
+                generalReturnMenu(AdminMenu.values());
+            }
+
+            case 11 -> { //Quit
                 System.out.println("Logging out");
                 librarian.setLoggedIn(false);
                 initMenu(MainMenu.values());
