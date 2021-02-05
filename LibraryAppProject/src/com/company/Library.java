@@ -87,6 +87,11 @@ public class Library implements Serializable {
                 do {
                     System.out.println(PURPLE + "== Password ==" + RESET);
                     String scanPass = scan.nextLine();
+
+                    if(scanPass.equals("0")){
+                        menuHelper.initMenu(MainMenu.values());
+                        break;
+                    }
                     if (scanPass.equals(person.getPassword())) {
                         if (person instanceof User) {
                             System.out.println(GREEN + "\nWelcome " + person.getName() + "!\nYou are logged in as a " + YELLOW + "User" + RESET);

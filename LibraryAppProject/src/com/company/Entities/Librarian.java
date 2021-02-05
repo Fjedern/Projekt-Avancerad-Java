@@ -2,6 +2,7 @@ package com.company.Entities;
 
 import com.company.Helpers.FileUtils;
 import com.company.Library;
+import static com.company.Helpers.Color.*;
 
 import java.io.Serializable;
 import java.util.Scanner;
@@ -144,7 +145,7 @@ public class Librarian extends Person implements Serializable {
         System.out.println("The following books are out on loan: ");
         for (Book book: Library.getInstance().bookList) {
             if(!book.available){
-                System.out.println(book.getTitle() + " by " + book.getAuthor() + book.showDaysRemainingOnLoan());
+                System.out.println("* " + YELLOW + book.getTitle() + RESET + " by " + book.getAuthor() + RED + book.showDaysRemainingOnLoan() + RESET);
             }
         }
     }
