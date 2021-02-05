@@ -8,6 +8,9 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.company.Helpers.Color.CYAN;
+import static com.company.Helpers.Color.RESET;
+
 public class Librarian extends Person implements Serializable {
 
 
@@ -146,6 +149,27 @@ public class Librarian extends Person implements Serializable {
         }
     }
 
+    public static  void searchForUserByName(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Type in a name: ");
+        String regex = scan.nextLine();
+        Pattern pa = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        System.out.println(CYAN + "\n== Names of users matching: '" + regex + "' ==\n" + RESET);
+
+        for (Person person: Library.getInstance().getUserList()) {
+            if (person instanceof User){
+                Matcher matcher = pa.matcher(person.getName());
+                boolean matchFound = matcher.find();
+                if (matchFound){
+                    System.out.println("Name of user: " + person.getName() +
+                            "\nBorrowed books:");
+                    for (Book book : ((User) person).getBooks()) {
+                        System.out.println(book.getTitle() + book.showDaysRemainingOnLoan());
+                    }
+                }
+            }
+        }
+    }
 
 
 }
