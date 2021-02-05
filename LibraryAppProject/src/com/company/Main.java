@@ -1,12 +1,16 @@
 package com.company;
 
 
+import com.company.Entities.Book;
+import com.company.Entities.Librarian;
+import com.company.Entities.User;
+
 public class Main {
     public static void main(String[] args) {
 
         Library library = Library.getInstance();
 
-        /*Book b1 = new Book("Sagan om ringen", "Frodo walking and having fun with his friends", "J.R.R. Tolkien");
+        Book b1 = new Book("Sagan om ringen", "Frodo walking and having fun with his friends", "J.R.R. Tolkien");
         Book b2 = new Book("Sagan om de två tornen", "Frodo having some more fun with his friends", "J.R.R. Tolkien");
         Book b3 = new Book("Sagan om de konungens återkomst", "Frodo having even more fun with his friends", "J.R.R. Tolkien");
         Book b4 = new Book("Papillion", "Papillion having fun on his own", "Henri Charriere");
@@ -49,7 +53,7 @@ public class Main {
         user2.borrowBook(b3);
         user2.borrowBook(b4);
         user3.borrowBook(b5);
-        user3.borrowBook(b6);*/
+        user3.borrowBook(b6);
 
 
         library.openLibrary();

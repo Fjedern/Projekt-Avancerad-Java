@@ -115,6 +115,11 @@ public class Librarian extends Person implements Serializable {
         if (name == null) {
             return false;
         }
+        for (Person person : Library.getInstance().userList) {
+            if (name.equalsIgnoreCase(person.getName())){
+                return false;
+            }
+        }
         Matcher m = p.matcher(name);
         return m.matches();
     }
@@ -150,7 +155,7 @@ public class Librarian extends Person implements Serializable {
         }
     }
 
-    public static  void searchForUserByName(){
+    public void searchForUserByName(){
         Scanner scan = new Scanner(System.in);
         System.out.println("Type in a name: ");
         String regex = scan.nextLine();
