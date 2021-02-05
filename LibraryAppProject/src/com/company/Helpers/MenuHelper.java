@@ -10,14 +10,15 @@ import com.company.Menus.HasDescription;
 import com.company.Menus.MainMenu;
 import com.company.Menus.UserMenu;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 
 import static com.company.Helpers.Color.*;
 
-public class MenuHelper {
+public class MenuHelper implements Serializable {
 
-    Library library;
+
     User user;
     Librarian librarian;
 
@@ -25,23 +26,23 @@ public class MenuHelper {
     public MenuHelper() {
     }
 
-    public void runSystem(Library openLibrary) {
-        library = openLibrary;
+    public void runSystem() {
+        System.out.println(CYAN + "\n============================" + BLUE +
+                "\n== WELCOME TO THE LIBRARY ==" + PURPLE +
+                "\n============================" + RESET);
         initMenu(MainMenu.values());
     }
 
     public void setCurrentUser(Person loggedInUser) {
         user = (User) loggedInUser;
-        user.setLibrary(library);
     }
 
     public void setCurrentLibrarian(Person loggedInLibrarian) {
         librarian = (Librarian) loggedInLibrarian;
-        librarian.setLibrary(library);
     }
 
     public <T extends HasDescription> void initMenu(T[] menuItems) {
-        if (library.getOpen()) {
+        if (Library.getInstance().getOpen()) {
             System.out.println();
             int i = 1;
 
@@ -82,23 +83,23 @@ public class MenuHelper {
 
         switch (choice) {
             case 1 -> {
-                library.showAllBooks();
-                selectBookOption(MainMenu.values(), library.getBookList());
+                Library.getInstance().showAllBooks();
+                selectBookOption(MainMenu.values(), Library.getInstance().getBookList());
             }
             case 2 -> {
-                library.searchBookByTitle();
-                selectBookOption(MainMenu.values(), library.getBookList());
+                Library.getInstance().searchBookByTitle();
+                selectBookOption(MainMenu.values(), Library.getInstance().getBookList());
             }
             case 3 -> {
-                library.searchBookByAuthor();
-                selectBookOption(MainMenu.values(), library.getBookList());
+                Library.getInstance().searchBookByAuthor();
+                selectBookOption(MainMenu.values(), Library.getInstance().getBookList());
             }
             case 4 -> {
-                library.checkLoginV2();
+                Library.getInstance().checkLoginV2();
             }
             case 5 -> {
                 System.out.println("Shutting down system");
-                library.setOpen(false);
+                Library.getInstance().setOpen(false);
                 initMenu(MainMenu.values());
 
 
@@ -111,18 +112,18 @@ public class MenuHelper {
         switch (choice) {
 
             case 1 -> {
-                library.showAllBooks();
-                selectBookOption(AdminMenu.values(), library.getBookList());
+                Library.getInstance().showAllBooks();
+                selectBookOption(AdminMenu.values(), Library.getInstance().getBookList());
             }
 
             case 2 -> {
-                library.searchBookByTitle();
-                selectBookOption(AdminMenu.values(), library.getBookList());
+                Library.getInstance().searchBookByTitle();
+                selectBookOption(AdminMenu.values(), Library.getInstance().getBookList());
             }
 
             case 3 -> {
-                library.searchBookByAuthor();
-                selectBookOption(AdminMenu.values(), library.getBookList());
+                Library.getInstance().searchBookByAuthor();
+                selectBookOption(AdminMenu.values(), Library.getInstance().getBookList());
             }
 
             case 4 -> {
@@ -163,18 +164,18 @@ public class MenuHelper {
 
         switch (choice) {
             case 1 -> {
-                library.showAllBooks();
-                selectBookOption(UserMenu.values(), library.getBookList());
+                Library.getInstance().showAllBooks();
+                selectBookOption(UserMenu.values(), Library.getInstance().getBookList());
             }
 
             case 2 -> {
-                library.searchBookByTitle();
-                selectBookOption(UserMenu.values(), library.getBookList());
+                Library.getInstance().searchBookByTitle();
+                selectBookOption(UserMenu.values(), Library.getInstance().getBookList());
             }
 
             case 3 -> {
-                library.searchBookByAuthor();
-                selectBookOption(UserMenu.values(), library.getBookList());
+                Library.getInstance().searchBookByAuthor();
+                selectBookOption(UserMenu.values(), Library.getInstance().getBookList());
             }
 
             case 4 -> {
@@ -183,6 +184,7 @@ public class MenuHelper {
             }
 
             case 5 -> {
+                System.out.println(CYAN + "\nUSER: " + RESET + user.getName() + "\n");
                 user.showUserBooks();
                 selectBookOption(UserMenu.values(), user.getBooks());
             }
@@ -206,6 +208,7 @@ public class MenuHelper {
     public <T extends HasDescription> void selectBookOption(T[] menuItems, List<Book> booksToChoose) {
         Scanner scan = new Scanner(System.in);
         System.out.print(CYAN + "\n[T]" + RESET + " Sort by Title" + CYAN + "  [A]" + RESET + " Sort by Author" + CYAN + "  [0]" + RESET + " Back to menu \n\nMake a choice: ");
+
         try {
             String menuChoice = scan.nextLine();
 
@@ -216,21 +219,26 @@ public class MenuHelper {
             } else if (menuChoice.equalsIgnoreCase("A")) {
                 System.out.println("\nHÄR SORTERAR VI EFTER AUTHOR\n");
                 generalReturnMenu(menuItems);
+
             } else {
                 try {
                     int intChoice = Integer.parseInt(menuChoice);
+
                     if (intChoice == 0) {
                         initMenu(menuItems);
                     } else if (intChoice > 0) {
+
                         for (Book book : booksToChoose) {
                             if (intChoice == book.getI()) {
                                 book.showBookInfo();
                                 initBookMenu(menuItems, book, booksToChoose);
                             }
                         }
+
                     } else {
                         selectBookOption(menuItems, booksToChoose);
                     }
+
                 } catch (Exception e) {
                     selectBookOption(menuItems, booksToChoose);
 
@@ -252,6 +260,7 @@ public class MenuHelper {
             adminBookMenu(book);
 
         } else {
+            System.out.println(CYAN + "\nUSER: " + RESET + user.getName() + "\n");
             userBookMenu(book, booksToChoose);
         }
     }
@@ -289,7 +298,7 @@ public class MenuHelper {
             } else if (input == 1) {
                 if (book.isAvailable()) {
                     System.out.println(book.getTitle() + " by " + book.getAuthor() + " removed from system");
-                    library.getBookList().remove(book);
+                    Library.getInstance().getBookList().remove(book);
 
                 } else {
                     System.out.println(book.getTitle() + " is loaned out and cannot be removed\n" + book.showDaysRemainingOnLoan() + "\n");
@@ -311,7 +320,7 @@ public class MenuHelper {
     private void userBookMenu(Book book, List<Book> books) {
         Scanner scan = new Scanner(System.in);
 
-        if (books.equals(library.getBookList())) {
+        if (books.equals(Library.getInstance().getBookList())) {
             System.out.println(CYAN + "\n[1]" + RESET + " Borrow book \n" + CYAN + "[0]" + RESET + " Back to menu\n");
 
         } else {
@@ -327,19 +336,19 @@ public class MenuHelper {
             if (input == 0) {
                 initMenu(UserMenu.values());
 
-            } else if (input == 1 && books.equals(library.getBookList())) {
+            } else if (input == 1 && books.equals(Library.getInstance().getBookList())) {
                 if (book.isAvailable()) {
-                    System.out.println(user.getName() + " loans " + book.getTitle());
+                    System.out.println("\n" + user.getName() + " loans " + book.getTitle());
                     user.borrowBook(book);
                     generalReturnMenu(UserMenu.values());
 
                 } else {
-                    System.out.println(book.getTitle() + " is already loaned out\n" + book.showDaysRemainingOnLoan() + "\n");
+                    System.out.println("\n" + book.getTitle() + " is already loaned out\n" + book.showDaysRemainingOnLoan() + "\n");
                     generalReturnMenu(UserMenu.values());
                 }
 
             } else if (input == 1 && books.equals(user.getBooks())) {
-                System.out.println(book.getTitle() + " by " + book.getAuthor() + " returned to library");
+                System.out.println("\n" + book.getTitle() + " by " + book.getAuthor() + " returned to library");
                 user.returnBook(book);
                 generalReturnMenu(UserMenu.values());
 

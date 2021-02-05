@@ -1,6 +1,7 @@
 package com.company.Entities;
 
 import com.company.Helpers.FileUtils;
+import com.company.Library;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,20 +37,20 @@ public class User extends Person implements Serializable {
         Scanner scanner = new Scanner(System.in);
         System.out.println(CYAN + "\n== All books ==" + RESET);
 
-        library.bookList.stream()
+        Library.getInstance().bookList.stream()
                 .sorted(Comparator.comparing(Book::getTitle))
                 .forEach(book -> System.out.println("* " + YELLOW + book.getTitle().toUpperCase() + RESET + " by " + book.getAuthor() + " (" + book.getLoanStatus() + ")"));
 
         System.out.print("\nWhich book would you like to borrow? (Use title) ");
         String title = scanner.nextLine();
 
-        for (Book book : library.getBookList()) {
+        for (Book book : Library.getInstance().getBookList()) {
             if (book.getTitle().equalsIgnoreCase(title)) {
                 if (book.isAvailable()) {
                     System.out.println("\n" + getName() + " loans " + book.getTitle());
                     books.add(book);
                     book.setAvailable(false);
-                    FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
+                    FileUtils.writeObject(Library.getInstance().bookList, "src/com/company/Files/Books.ser");
 
                     //FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
                     //System.out.print(FileUtils.readObject("src/com/company/Files/Books.ser"));
@@ -68,7 +69,7 @@ public class User extends Person implements Serializable {
     public void returnBook(Book bookToReturn) {
         if (books.removeIf(book -> book.equals(bookToReturn))) {
             bookToReturn.setAvailable(true);
-            FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
+            FileUtils.writeObject(Library.getInstance().bookList, "src/com/company/Files/Books.ser");
         }
 
     }
@@ -87,6 +88,10 @@ public class User extends Person implements Serializable {
         Scanner scan = new Scanner(System.in);
         System.out.println("\n== Your loans ==");
         books.forEach(book -> System.out.println("* " + book.getTitle() + book.showDaysRemainingOnLoan()));
+
+        books.stream()
+                .sorted(Comparator.comparing(Book::getTitle))
+                .forEach(book -> System.out.println("* " + YELLOW + book.getTitle().toUpperCase() + book.showDaysRemainingOnLoan()));
         try {
             System.out.print("\nTitle of the book you want to return: ");
             String titleOfBookToRemove = scan.nextLine();

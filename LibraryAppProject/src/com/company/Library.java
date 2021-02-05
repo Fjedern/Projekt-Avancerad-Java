@@ -9,15 +9,16 @@ import com.company.Menus.AdminMenu;
 import com.company.Menus.MainMenu;
 import com.company.Menus.UserMenu;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.company.Helpers.Color.*;
 
-public class Library {
+public class Library implements Serializable {
 
-
+    private static Library library;
     public List<Book> bookList = new ArrayList<>();
     public List<Person> userList = new ArrayList<>();
     Map<String, Person> userListAsMap = new HashMap<>();
@@ -26,26 +27,30 @@ public class Library {
     MenuHelper menuHelper = new MenuHelper();
 
 
-    public Library() {
 
+    private Library() {}
+
+    public static Library getInstance() {
+        if (library == null) {
+            library = new Library();
+        }
+        return library;
     }
     //Test
 
     //Funktionen som kör igång programmet
     public void openLibrary() {
-        System.out.println(CYAN + "\n============================" + BLUE +
-                "\n== WELCOME TO THE LIBRARY ==" + PURPLE +
-                "\n============================" + RESET);
 
-        //FileUtils.writeObject(bookList, "src/com/company/Files/Books.ser");
+
+        //FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
         bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
-        //FileUtils.writeObject(userList, "src/com/company/Files/User.ser");
+        //FileUtils.writeObject(library.userList, "src/com/company/Files/User.ser");
         userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
 
         logOutAllUsers();
         fillUserListMap();
 
-        menuHelper.runSystem(this);
+        menuHelper.runSystem();
     }
 
     public void fillUserListMap() {
@@ -119,17 +124,6 @@ public class Library {
             System.out.println(CYAN + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor());
             i++;
         }
-
-        /*System.out.println("\nWould you like to sort list by Author or Title?");
-        System.out.printf("Type: ");
-
-        String sortOption = scan.nextLine();
-        if (sortOption.equalsIgnoreCase("Author") || sortOption.equalsIgnoreCase("Title")) {
-            sortBooks(sortOption);
-
-        }*/
-
-
     }
 
     public void sortBooks(String compare) {
@@ -202,7 +196,6 @@ public class Library {
             String regex = scan.nextLine();
             Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
             bookList.sort(Comparator.comparing(Book::getAuthor));
-
             System.out.println(CYAN + "\n== Books by authors matching: '" + regex + "' ==\n" + RESET);
             for (Book book : bookList) {
                 book.setI(-1);
