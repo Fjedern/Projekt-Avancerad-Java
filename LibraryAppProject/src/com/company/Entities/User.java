@@ -12,6 +12,8 @@ import java.util.Scanner;
 import static com.company.Helpers.Color.*;
 
 public class User extends Person implements Serializable {
+
+    private static final long serialVersionUID = 2L;
     List<Book> books = new ArrayList<>();
 
     public User(String name, String username, String password) {
