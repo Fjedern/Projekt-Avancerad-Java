@@ -13,22 +13,23 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.company.Helpers.Color.*;
 
 public class Library implements Serializable {
 
     private static Library library;
-    public List<Book> bookList = new ArrayList<>();
-    public List<Person> userList = new ArrayList<>();
-    Map<String, Person> userListAsMap = new HashMap<>();
+    public Map<String, Book> books = new HashMap<>();
+    public Map<String, Person> users = new HashMap<>();
 
-    public Boolean isOpen = true;
-    MenuHelper menuHelper = new MenuHelper();
-
+    private Boolean isOpen = true;
+    private final MenuHelper menuHelper;
 
 
-    private Library() {}
+    private Library() {
+        this.menuHelper = new MenuHelper();
+    }
 
     public static Library getInstance() {
         if (library == null) {
@@ -36,51 +37,61 @@ public class Library implements Serializable {
         }
         return library;
     }
-    //Test
 
     //Funktionen som kör igång programmet
     public void openLibrary() {
 
+        if (FileUtils.readObject("src/com/company/Files/Books.ser") == null) {
+            FileUtils.addBooks();
 
-        FileUtils.writeObject(library.bookList, "src/com/company/Files/Books.ser");
-        bookList = (List<Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
-        FileUtils.writeObject(library.userList, "src/com/company/Files/User.ser");
-        userList = (List<Person>) FileUtils.readObject("src/com/company/Files/User.ser");
+        } else if (FileUtils.readObject("src/com/company/Files/User.ser") == null) {
+            FileUtils.addUsers();
 
-        logOutAllUsers();
-        fillUserListMap();
+        } else {
+            books = (Map<String, Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
+            users = (Map<String, Person>) FileUtils.readObject("src/com/company/Files/User.ser");
+        }
+
+        /*FileUtils.addUsers();
+        FileUtils.addBooks();*/
+
+        /*FileUtils.writeObject(books, "src/com/company/Files/Books.ser");
+        FileUtils.writeObject(users, "src/com/company/Files/User.ser");*/
 
         menuHelper.runSystem();
     }
 
-    public void fillUserListMap() {
-        for (Person person : userList) {
-            userListAsMap.put(person.getUsername(), person);
-        }
+    public List<Person> getUsersAsList() {
+        Collection<Person> persons = users.values();
+        return persons.stream().parallel()
+                .filter(person -> person instanceof User)
+                .sorted(Comparator.comparing(Person::getName))
+                .collect(Collectors.toList());
     }
 
-    public void logOutAllUsers() {
-        for (Person person : userList) {
-            person.setLoggedIn(false);
-        }
+    public List<Book> getBooksAsList() {
+        Collection<Book> bookList = books.values();
+        return bookList.stream().parallel()
+                .sorted(Comparator.comparing(Book::getTitle))
+                .collect(Collectors.toList());
     }
-
 
     public void checkLoginV2() {
         Scanner scan = new Scanner(System.in);
-
+        boolean checkLogin = true;
         System.out.println("\n" + RED + "Please login");
         System.out.println(RESET + "[0] to return\n\n" + PURPLE + " == Username ==" + RESET);
 
         String scanUsername = scan.nextLine();
         if (scanUsername.equals("0")) {
+
             menuHelper.initMenu(MainMenu.values());
             return;
         }
 
-        boolean isKeyPresent = userListAsMap.containsKey(scanUsername);
+        boolean isKeyPresent = users.containsKey(scanUsername);
         if (isKeyPresent) {
-            Person person = userListAsMap.get(scanUsername);
+            Person person = users.get(scanUsername);
             if (person.isLoggedIn()) {
                 System.out.println("Already logged in");
             } else {
@@ -88,45 +99,50 @@ public class Library implements Serializable {
                     System.out.println(PURPLE + "== Password ==" + RESET);
                     String scanPass = scan.nextLine();
 
-                    if(scanPass.equals("0")){
+                    if (scanPass.equals("0")) {
+                        checkLogin = false;
                         menuHelper.initMenu(MainMenu.values());
-                        break;
+
                     }
                     if (scanPass.equals(person.getPassword())) {
+                        checkLogin = false;
+
                         if (person instanceof User) {
                             System.out.println(GREEN + "\nWelcome " + person.getName() + "!\nYou are logged in as a " + YELLOW + "User" + RESET);
                             menuHelper.setCurrentUser(person);
                             person.setLoggedIn(true);
 
                             menuHelper.initMenu(UserMenu.values());
+
                         } else {
                             System.out.println(GREEN + "\nWelcome " + person.getName() + "!\nYou are logged in as a " + YELLOW + "Librarian" + RESET);
                             menuHelper.setCurrentLibrarian(person);
                             person.setLoggedIn(true);
-
                             menuHelper.initMenu(AdminMenu.values());
                         }
-                        break;
+
+
                     } else {
-                        System.out.println(RED + "Wrong password please try again" + RESET);
+                        System.out.println(RED + "\nWrong password! Try again" + RESET);
+
+
                     }
-                } while (true);
+                } while (checkLogin);
             }
         } else {
-            System.out.println(RED + "Wrong username please try again" + RESET);
+            System.out.println(RED + "\nWrong username! Please try again" + RESET);
             checkLoginV2();
         }
+
     }
 
     public void showAllBooks() {
-        Scanner scan = new Scanner(System.in);
         int i = 1;
-        bookList.sort(Comparator.comparing(Book::getTitle));
-        System.out.println(CYAN + "\n== All Books ==\n" + RESET);
+        System.out.println(YELLOW + "\n== ALL BOOKS ==" + RESET);
 
-        for (Book book : bookList) {
+        for (Book book : getBooksAsList()) {
             book.setI(i);
-            System.out.println(CYAN + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor());
+            System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getTitle() + RESET + " by " + book.getAuthor());
             i++;
         }
     }
@@ -134,27 +150,22 @@ public class Library implements Serializable {
     public void sortBooks(String compare) {
         int i = 1;
         if (compare == "T") {
-            bookList.sort(Comparator.comparing(Book::getTitle));
 
 
-            for (Book book : bookList) {
+            for (Book book : getBooksAsList()) {
                 book.setI(i);
                 System.out.println(CYAN + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor());
                 i++;
             }
 
         } else {
-            bookList.sort(Comparator.comparing(Book::getAuthor));
-            for (Book book : bookList) {
+            getBooksAsList().sort(Comparator.comparing(Book::getAuthor));
+            for (Book book : getBooksAsList()) {
                 book.setI(i);
                 System.out.println(CYAN + "[" + i + "] " + RESET + book.getAuthor() + " - " + book.getTitle());
                 i++;
             }
-
-
         }
-
-
     }
 
     public void searchBookByTitle() {
@@ -166,10 +177,9 @@ public class Library implements Serializable {
         try {
             String regex = scan.nextLine();
             Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-            bookList.sort(Comparator.comparing(Book::getTitle));
+            System.out.println(YELLOW + "\n== TITLE OF BOOKS MATCHING: '" + regex + "' ==" + RESET);
 
-            System.out.println(CYAN + "\n== Title of books matching: '" + regex + "' ==\n" + RESET);
-            for (Book book : bookList) {
+            for (Book book : getBooksAsList()) {
                 book.setI(-1);
                 Matcher matcher = pattern.matcher(book.getTitle());
                 boolean matchFound = matcher.find();
@@ -183,7 +193,7 @@ public class Library implements Serializable {
             }
 
             if (matches == 0) {
-                System.out.println("No books matches your search");
+                System.out.println("\nNo books matches your search");
             }
 
         } catch (Exception e) {
@@ -193,6 +203,9 @@ public class Library implements Serializable {
 
     public void searchBookByAuthor() {
         Scanner scan = new Scanner(System.in);
+        List<Book> booksByAuthor = getBooksAsList();
+        booksByAuthor.sort(Comparator.comparing(Book::getAuthor));
+
         int i = 1;
         int matches = 0;
         System.out.print("\nSearch books by author: ");
@@ -200,9 +213,9 @@ public class Library implements Serializable {
         try {
             String regex = scan.nextLine();
             Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-            bookList.sort(Comparator.comparing(Book::getAuthor));
-            System.out.println(CYAN + "\n== Books by authors matching: '" + regex + "' ==\n" + RESET);
-            for (Book book : bookList) {
+            System.out.println(YELLOW + "\n== BOOKS BY AUTHORS MATCHING: '" + regex + "' ==" + RESET);
+
+            for (Book book : booksByAuthor) {
                 book.setI(-1);
                 Matcher matcher = pattern.matcher(book.getAuthor());
                 boolean matchFound = matcher.find();
@@ -232,20 +245,15 @@ public class Library implements Serializable {
         return isOpen;
     }
 
-
-    public void addBookToList(Book book) {
-        bookList.add(book);
+    public void addBookToMap(Book book) {
+        books.put(book.getTitle(), book);
     }
 
     public void addUserToList(User user) {
-        userList.add(user);
+        users.put(user.getUsername(), user);
     }
 
-    public List<Person> getUserList() {
-        return userList;
-    }
-
-    public List<Book> getBookList() {
-        return bookList;
+    public MenuHelper getMenuHelper() {
+        return menuHelper;
     }
 }

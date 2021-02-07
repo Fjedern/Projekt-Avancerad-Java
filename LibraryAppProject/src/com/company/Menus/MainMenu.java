@@ -1,14 +1,13 @@
 package com.company.Menus;
 
-public enum MainMenu implements HasDescription {
+public enum MainMenu implements GetMenuValues {
     SHOW_ALL_BOOKS("Show all books"),
     SEARCH_BOOK_BY_NAME("Search book by title"),
     SEARCH_BOOK_BY_AUTHOR("Search book by author"),
     LOGIN("Login"),
     QUIT("Quit");
 
-    private String description;
-
+    private final String description;
 
 
     MainMenu(String description){
@@ -19,6 +18,10 @@ public enum MainMenu implements HasDescription {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getHeader() {
+        return "\n== MAIN MENU ==";
     }
 
 
