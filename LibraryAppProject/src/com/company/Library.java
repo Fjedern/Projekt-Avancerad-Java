@@ -10,6 +10,7 @@ import com.company.Menus.MainMenu;
 import com.company.Menus.UserMenu;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -120,7 +121,9 @@ public class Library implements Serializable {
                             System.out.println(GREEN + "\nWelcome " + person.getName() + "!\nYou are logged in as a " + YELLOW + "User" + RESET);
                             menuHelper.setCurrentUser(person);
                             person.setLoggedIn(true);
-
+                            if(((User) person).getBooks().size() > 0){
+                                reminder(((User) person).userBooks);
+                            }
                             menuHelper.initMenu(UserMenu.values());
 
                         } else {
@@ -143,6 +146,17 @@ public class Library implements Serializable {
             checkLoginV2();
         }
 
+    }
+
+    private void reminder(List<Book> books){
+        boolean overdue = false;
+
+        System.out.println(RED + "Overdue book(s): \n" + RESET);
+        for(Book book : books){
+            if(LocalDate.now().until(book.getReturnBookDate()).getDays() < 1) {
+                System.out.println(YELLOW + book.getTitle() + RESET);
+            }
+        }
     }
 
     public void showAllBooks() {
