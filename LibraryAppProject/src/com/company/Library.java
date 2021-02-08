@@ -20,6 +20,7 @@ public class Library implements Serializable {
 
     private static Library library;
     public List<Book> bookList = new ArrayList<>();
+    public List<Book> bookListBySearch = new ArrayList<>();
     public List<Person> userList = new ArrayList<>();
     Map<String, Person> userListAsMap = new HashMap<>();
 
@@ -131,33 +132,33 @@ public class Library implements Serializable {
         }
     }
 
-    public void sortBooks(String compare) {
+    public static void sortBooks(List<Book>books, String choice) {
         int i = 1;
-        if (compare == "T") {
-            bookList.sort(Comparator.comparing(Book::getTitle));
 
 
-            for (Book book : bookList) {
+        if(choice.equals("T")) {
+            books.sort(Comparator.comparing(Book::getTitle));
+            for (Book book : books) {
                 book.setI(i);
                 System.out.println(CYAN + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor());
                 i++;
             }
-
-        } else {
-            bookList.sort(Comparator.comparing(Book::getAuthor));
-            for (Book book : bookList) {
-                book.setI(i);
-                System.out.println(CYAN + "[" + i + "] " + RESET + book.getAuthor() + " - " + book.getTitle());
-                i++;
-            }
-
-
         }
-
+        else {
+            if(choice.equals("A")) {
+                books.sort(Comparator.comparing(Book::getAuthor));
+                for (Book book : books) {
+                    book.setI(i);
+                    System.out.println(CYAN + "[" + i + "] " + RESET + book.getAuthor() + " - " + book.getTitle());
+                    i++;
+                }
+            }
+        }
 
     }
 
     public void searchBookByTitle() {
+        bookListBySearch.clear();
         Scanner scan = new Scanner(System.in);
         int i = 1;
         int matches = 0;
@@ -175,8 +176,10 @@ public class Library implements Serializable {
                 boolean matchFound = matcher.find();
 
                 if (matchFound) {
+                    bookListBySearch.add(book);
                     matches++;
                     book.setI(i);
+
                     System.out.println(CYAN + "[" + i + "] " + RESET + YELLOW + book.getTitle().toUpperCase() + RESET + " by " + book.getAuthor());
                     i++;
                 }
@@ -192,6 +195,7 @@ public class Library implements Serializable {
     }
 
     public void searchBookByAuthor() {
+        bookListBySearch.clear();
         Scanner scan = new Scanner(System.in);
         int i = 1;
         int matches = 0;
@@ -210,6 +214,7 @@ public class Library implements Serializable {
                 if (matchFound) {
                     matches++;
                     book.setI(i);
+                    bookListBySearch.add(book);
                     System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getAuthor().toUpperCase() + RESET + " - " + book.getTitle());
                     i++;
                 }
@@ -247,5 +252,10 @@ public class Library implements Serializable {
 
     public List<Book> getBookList() {
         return bookList;
+    }
+
+    public List<Book>getBookListBySearch(){
+        return bookListBySearch;
+
     }
 }

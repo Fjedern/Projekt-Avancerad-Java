@@ -23,6 +23,7 @@ public class Main {
         Book b11 = new Book("Människohamn", "A story about a coasttown", "John Ajvide Lindqvist");
         Book b12 = new Book("Ek", "Spooky story about an old ship", "Frida Andersson Johansson");
         Book b13 = new Book("Dränkt", "Spooky story about a guy playing the violin", "Frida Andersson Johansson");
+        Book b14 = new Book("Bilbo", "Bilbo on wild adventures", "J.R.R. Tolkien");
 
         library.addBookToList(b1);
         library.addBookToList(b2);
@@ -37,6 +38,7 @@ public class Main {
         library.addBookToList(b11);
         library.addBookToList(b12);
         library.addBookToList(b13);
+        library.addBookToList(b14);
 
         User user1 = new User("Oskar Andersson", "o-dog", "password123");
         User user2 = new User("David Nilsson", "d-dog", "123456");
