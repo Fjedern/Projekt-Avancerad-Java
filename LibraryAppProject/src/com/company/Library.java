@@ -6,6 +6,7 @@ import com.company.Entities.User;
 import com.company.Helpers.FileUtils;
 import com.company.Helpers.MenuHelper;
 import com.company.Menus.AdminMenu;
+import com.company.Menus.GetMenuValues;
 import com.company.Menus.MainMenu;
 import com.company.Menus.UserMenu;
 
@@ -23,7 +24,7 @@ public class Library implements Serializable {
     public Map<String, Book> books = new HashMap<>();
     public Map<String, Person> users = new HashMap<>();
 
-    public Map<String, Book>booksBySearch = new HashMap<>();
+
 
     private Boolean isOpen = true;
     private final MenuHelper menuHelper;
@@ -73,13 +74,6 @@ public class Library implements Serializable {
 
     public List<Book> getBooksAsList() {
         Collection<Book> bookList = books.values();
-        return bookList.stream().parallel()
-                .sorted(Comparator.comparing(Book::getTitle))
-                .collect(Collectors.toList());
-    }
-
-    public List<Book> getBooksBySearch() {
-        Collection<Book> bookList = booksBySearch.values();
         return bookList.stream().parallel()
                 .sorted(Comparator.comparing(Book::getTitle))
                 .collect(Collectors.toList());
@@ -156,96 +150,92 @@ public class Library implements Serializable {
         }
     }
 
-    public void sortBooks(List<Book>booksToSort, String compare) {
+    public <T extends GetMenuValues> void sortBooks(List<Book> booksToSort, String compare, T[] menuItems) {
         int i = 1;
-        if (compare.equals("T")) {
+        if (compare.equalsIgnoreCase("T")) {
             booksToSort.sort(Comparator.comparing(Book::getTitle));
-
+            System.out.println(YELLOW + "\n== SORTED BY TITLE ==" + RESET);
             for (Book book : booksToSort) {
                 book.setI(i);
-                System.out.println(CYAN + "[" + i + "] " + RESET + book.getTitle() + " by " + book.getAuthor());
+                System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getTitle().toUpperCase() + RESET + " by " + book.getAuthor());
                 i++;
             }
+            menuHelper.selectBookOption(menuItems, booksToSort);
 
-        } else {
+        } else if (compare.equalsIgnoreCase("A")) {
             booksToSort.sort(Comparator.comparing(Book::getAuthor));
+            System.out.println(YELLOW + "\n== SORTED BY AUTHOR ==" + RESET);
             for (Book book : booksToSort) {
                 book.setI(i);
-                System.out.println(CYAN + "[" + i + "] " + RESET + book.getAuthor() + " - " + book.getTitle());
+                System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getAuthor().toUpperCase() + RESET + " - " + book.getTitle());
                 i++;
             }
+            menuHelper.selectBookOption(menuItems, booksToSort);
         }
-        booksBySearch.clear();
     }
 
-    public void searchBookByTitle() {
+    public <T extends GetMenuValues> void searchBookByTitle(T[] menuItems) {
         Scanner scan = new Scanner(System.in);
+        List<Book> booksByTitle = new ArrayList<>();
         int i = 1;
         int matches = 0;
         System.out.print("\nSearch books by title: ");
-
         try {
             String regex = scan.nextLine();
             Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
             System.out.println(YELLOW + "\n== TITLE OF BOOKS MATCHING: '" + regex + "' ==" + RESET);
-
             for (Book book : getBooksAsList()) {
                 book.setI(-1);
                 Matcher matcher = pattern.matcher(book.getTitle());
                 boolean matchFound = matcher.find();
-
                 if (matchFound) {
                     matches++;
-                    booksBySearch.put(book.getTitle(), book);
                     book.setI(i);
+                    booksByTitle.add(book);
                     System.out.println(CYAN + "[" + i + "] " + RESET + YELLOW + book.getTitle().toUpperCase() + RESET + " by " + book.getAuthor());
                     i++;
                 }
             }
-
             if (matches == 0) {
                 System.out.println("\nNo books matches your search");
+            } else {
+                menuHelper.selectBookOption(menuItems, booksByTitle);
             }
-
         } catch (Exception e) {
-            searchBookByTitle();
+            searchBookByTitle(menuItems);
         }
     }
-
-    public void searchBookByAuthor() {
+    public <T extends GetMenuValues> void searchBookByAuthor(T[] menuItems) {
         Scanner scan = new Scanner(System.in);
-        List<Book> booksByAuthor = getBooksAsList();
-        booksByAuthor.sort(Comparator.comparing(Book::getAuthor));
-
+        List<Book> tempList = getBooksAsList();
+        List<Book> booksByAuthor = new ArrayList<>();
+        tempList.sort(Comparator.comparing(Book::getAuthor));
         int i = 1;
         int matches = 0;
         System.out.print("\nSearch books by author: ");
-
         try {
             String regex = scan.nextLine();
             Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
             System.out.println(YELLOW + "\n== BOOKS BY AUTHORS MATCHING: '" + regex + "' ==" + RESET);
-
-            for (Book book : booksByAuthor) {
+            for (Book book : tempList) {
                 book.setI(-1);
                 Matcher matcher = pattern.matcher(book.getAuthor());
                 boolean matchFound = matcher.find();
-
                 if (matchFound) {
                     matches++;
-                    booksBySearch.put(book.getTitle(), book);
+                    booksByAuthor.add(book);
                     book.setI(i);
                     System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getAuthor().toUpperCase() + RESET + " - " + book.getTitle());
                     i++;
                 }
             }
-
             if (matches == 0) {
                 System.out.println("No authors matches your search");
+            } else {
+                menuHelper.selectBookOption(menuItems, booksByAuthor);
             }
-
         } catch (Exception e) {
-            searchBookByTitle();
+            searchBookByTitle(menuItems);
         }
     }
 
