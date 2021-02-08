@@ -3,19 +3,19 @@
   <ID>JAVA</ID>
   <OriginalElement>com.company</OriginalElement>
   <nodes>
-    <node x="0.0" y="357.74707544372484">com.company.Menus.MainMenu</node>
-    <node x="0.0" y="1406.4357594097648">com.company.Helpers.FileUtils</node>
-    <node x="855.7631936994509" y="0.0">com.company.Library</node>
-    <node x="313.86916762580597" y="448.44008996939925">com.company.Menus.GetMenuValues</node>
-    <node x="317.0" y="1030.935759409765">com.company.Entities.User</node>
-    <node x="270.0" y="1406.4357594097648">com.company.Main</node>
-    <node x="1059.850384305382" y="976.435759409765">com.company.Entities.Librarian</node>
-    <node x="0.0" y="976.4357594097648">com.company.Helpers.MenuHelper</node>
-    <node x="1094.7631936994508" y="0.0">com.company.Entities.Book</node>
-    <node x="555.1625485803517" y="633.4357594097648">com.company.Menus.UserMenu</node>
-    <node x="1377.850384305382" y="976.4357594097648">com.company.Helpers.Color</node>
-    <node x="673.9609095634166" y="1030.935759409765">com.company.Entities.Person</node>
-    <node x="610.7631936994509" y="0.0">com.company.Menus.AdminMenu</node>
+    <node x="941.2514686383214" y="528.4269281755558">com.company.Menus.MainMenu</node>
+    <node x="778.0" y="1107.5182493201505">com.company.Helpers.FileUtils</node>
+    <node x="1198.083690196906" y="0.0">com.company.Library</node>
+    <node x="725.1976249975899" y="365.3202482079657">com.company.Menus.GetMenuValues</node>
+    <node x="0.0" y="830.5182493201506">com.company.Entities.User</node>
+    <node x="1048.0" y="1107.5182493201505">com.company.Main</node>
+    <node x="30.359610115866403" y="0.0">com.company.Entities.Librarian</node>
+    <node x="288.0" y="1107.5182493201505">com.company.Helpers.MenuHelper</node>
+    <node x="0.0" y="1107.5182493201505">com.company.Entities.Book</node>
+    <node x="966.083690196906" y="0.0">com.company.Menus.UserMenu</node>
+    <node x="605.0" y="1107.5182493201505">com.company.Helpers.Color</node>
+    <node x="30.413783266421945" y="474.85535732301696">com.company.Entities.Person</node>
+    <node x="348.3596101158664" y="210.95224066716673">com.company.Menus.AdminMenu</node>
   </nodes>
   <notes />
   <edges>
@@ -40,9 +40,9 @@
       <point x="0.0" y="0.0" />
     </edge>
   </edges>
-  <settings layout="Circular" zoom="0.5497448979591836" x="753.0" y="697.2204176334108" />
+  <settings layout="Circular" zoom="0.5497448979591836" x="753.0" y="663.9535962877031" />
   <SelectedNodes>
-    <node>com.company.Menus.MainMenu</node>
+    <node>com.company.Menus.AdminMenu</node>
   </SelectedNodes>
   <Categories>
     <Category>Fields</Category>
