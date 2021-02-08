@@ -207,14 +207,15 @@ public class MenuHelper implements Serializable {
             String menuChoice = scan.nextLine();
 
             if (menuChoice.equalsIgnoreCase("T")) {
-                System.out.println("\nHÄR SORTERAR VI EFTER TITEL\n");
+
                 Library.getInstance().sortBooks(booksToChoose, menuChoice);
-                generalReturnMenu(menuItems);
+                selectBookOption(menuItems, booksToChoose);
 
             } else if (menuChoice.equalsIgnoreCase("A")) {
-                System.out.println("\nHÄR SORTERAR VI EFTER AUTHOR\n");
+
                 Library.getInstance().sortBooks(booksToChoose, menuChoice);
-                generalReturnMenu(menuItems);
+                selectBookOption(menuItems, booksToChoose);
+
 
             } else {
                 try {
