@@ -14,102 +14,95 @@ import static com.company.Helpers.Color.*;
 public class User extends Person implements Serializable {
 
     private static final long serialVersionUID = 2L;
-    List<Book> books = new ArrayList<>();
+
+    public List<Book> userBooks = new ArrayList<>();
 
     public User(String name, String username, String password) {
         super(name, username, password);
     }
 
     public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "books=" + books +
-                '}';
+        return userBooks;
     }
 
     public void borrowBooks() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(CYAN + "\n== All books ==" + RESET);
+        System.out.println();
 
-        Library.getInstance().bookList.stream()
-                .sorted(Comparator.comparing(Book::getTitle))
-                .forEach(book -> System.out.println("* " + YELLOW + book.getTitle().toUpperCase() + RESET + " by " + book.getAuthor() + " (" + book.getLoanStatus() + ")"));
+        Library.getInstance().getBooksAsList()
+                .forEach(book -> System.out.println("* " + YELLOW + book.getTitle() + RESET + " by " + book.getAuthor() + " (" + book.getLoanStatus() + ")"));
 
         System.out.print("\nWhich book would you like to borrow? (Use title) ");
         String title = scanner.nextLine();
 
-        for (Book book : Library.getInstance().getBookList()) {
+        for (Book book : Library.getInstance().getBooksAsList()) {
             if (book.getTitle().equalsIgnoreCase(title)) {
                 if (book.isAvailable()) {
                     System.out.println("\n" + getName() + " loans " + book.getTitle());
-                    books.add(book);
+                    userBooks.add(book);
                     book.setAvailable(false);
-                    FileUtils.writeObject(Library.getInstance().bookList, "src/com/company/Files/Books.ser");
-
-                    //FileUtils.writeObject(Library.userList, "src/com/company/Files/User.ser");
-                    //System.out.print(FileUtils.readObject("src/com/company/Files/Books.ser"));
+                    FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
                 }
             }
         }
-
     }
 
     public void borrowBook(Book book) {
-        books.add(book);
+        userBooks.add(book);
+        System.out.println(GREEN + "\n" + getName() + " loans " + book.getTitle() + RESET);
         book.setAvailable(false);
+        FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
+
     }
 
-
     public void returnBook(Book bookToReturn) {
-        if (books.removeIf(book -> book.equals(bookToReturn))) {
+        if (userBooks.removeIf(book -> book.equals(bookToReturn))) {
+            System.out.println(GREEN + "\n" + bookToReturn.getTitle() + " by " + bookToReturn.getAuthor() + " returned to library" + RESET);
             bookToReturn.setAvailable(true);
-            FileUtils.writeObject(Library.getInstance().bookList, "src/com/company/Files/Books.ser");
+            FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
         }
-
     }
 
     public void showUserBooks() {
         int i = 1;
-        books.sort(Comparator.comparing(Book::getTitle));
-        for (Book book : books) {
+        userBooks.sort(Comparator.comparing(Book::getTitle));
+        System.out.println();
+        for (Book book : userBooks) {
             book.setI(i);
-            System.out.println(BLUE + "[" + i + "] " + YELLOW + book.getTitle().toUpperCase() + RESET + book.showDaysRemainingOnLoan());
+            System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getTitle().toUpperCase() + RESET + book.showDaysRemainingOnLoan());
             i++;
         }
     }
 
     public void returnBookFromMenu() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("\n== Your loans ==");
-        books.forEach(book -> System.out.println("* " + book.getTitle() + book.showDaysRemainingOnLoan()));
+        System.out.println();
 
-        books.stream()
+        userBooks.stream()
                 .sorted(Comparator.comparing(Book::getTitle))
-                .forEach(book -> System.out.println("* " + YELLOW + book.getTitle().toUpperCase() + book.showDaysRemainingOnLoan()));
+                .forEach(book -> System.out.println("* " + YELLOW + book.getTitle() + RESET + book.showDaysRemainingOnLoan()));
         try {
             System.out.print("\nTitle of the book you want to return: ");
             String titleOfBookToRemove = scan.nextLine();
 
-            for (Book book : books) {
+            for (Book book : userBooks) {
                 if (titleOfBookToRemove.equalsIgnoreCase(book.title)) {
-                    books.remove(book);
+                    userBooks.remove(book);
                     book.setAvailable(true);
-                    System.out.println(book.getTitle() + " by " + book.getAuthor() + " returned to library");
+                    System.out.println(GREEN + "\n" + book.getTitle() + " by " + book.getAuthor() + " returned to library" + RESET);
                     return;
                 }
             }
-            System.out.println("No book matches '" + titleOfBookToRemove + "'");
+
+            System.out.println(RED + "\nNo book matches: '" + titleOfBookToRemove + "'");
+
         } catch (Exception e) {
             System.out.println("Something went wrong");
         }
+    }
 
+    @Override
+    public String toString() {
+        return getName() + ", " + getUsername() + ", " + getPassword();
     }
 }

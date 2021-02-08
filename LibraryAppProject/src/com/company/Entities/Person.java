@@ -7,6 +7,8 @@ public abstract class Person implements Serializable {
     private String username;
     private String password;
     private boolean isLoggedIn = false;
+    private static final long serialVersionUID = 0L;
+
 
 
     public Person() {
@@ -48,6 +50,10 @@ public abstract class Person implements Serializable {
 
     public void setLoggedIn(boolean loggedIn) {
         isLoggedIn = loggedIn;
+    }
+
+    public String getTypeOfPerson() {
+        return "person";
     }
 
     @Override

@@ -56,7 +56,7 @@ public class Book implements Serializable {
 
     public void setAvailable(boolean setAvailable) {
         available = setAvailable;
-        if (available == false) {
+        if (!available) {
             setReturnBookDate();
         }
     }
@@ -78,13 +78,14 @@ public class Book implements Serializable {
     }
 
     public String showDaysRemainingOnLoan() {
+        if (LocalDate.now().until(returnBookDate).getDays() < 1) {
+            return " [" + RED + LocalDate.now().until(returnBookDate).getDays() + " days left on the loan!" + RESET + "]";
+        }
         return " [" + LocalDate.now().until(returnBookDate).getDays() + " days left on the loan]";
-
     }
 
-
     public void showBookInfo() {
-        System.out.println(YELLOW + "\n== " + title.toUpperCase() + " ==\n" + RESET + "Written by: " + author + "\nDescription: " + description);
+        System.out.println(YELLOW + "\n== " + title.toUpperCase() + " ==\n" + CYAN + "Written by: " + RESET + author + CYAN + "\nDescription: " + RESET + description);
         System.out.println("[" + getLoanStatus() + "]");
     }
 
@@ -98,12 +99,6 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "Book{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", author='" + author + '\'' +
-                ", available=" + available +
-                ", timeStamp=" + timeStamp +
-                '}';
+        return title + " by " + author;
     }
 }
