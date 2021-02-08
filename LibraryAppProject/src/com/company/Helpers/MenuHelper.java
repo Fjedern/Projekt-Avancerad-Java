@@ -90,11 +90,11 @@ public class MenuHelper implements Serializable {
             }
             case 2 -> {
                 Library.getInstance().searchBookByTitle();
-                selectBookOption(MainMenu.values(), Library.getInstance().getBooksAsList());
+                selectBookOption(MainMenu.values(), Library.getInstance().getBooksBySearch());
             }
             case 3 -> {
                 Library.getInstance().searchBookByAuthor();
-                selectBookOption(MainMenu.values(), Library.getInstance().getBooksAsList());
+                selectBookOption(MainMenu.values(), Library.getInstance().getBooksBySearch());
             }
             case 4 -> Library.getInstance().checkLoginV2();
 
@@ -118,12 +118,12 @@ public class MenuHelper implements Serializable {
 
             case 3 -> { //Search by name
                 Library.getInstance().searchBookByTitle();
-                selectBookOption(AdminMenu.values(), Library.getInstance().getBooksAsList());
+                selectBookOption(AdminMenu.values(), Library.getInstance().getBooksBySearch());
             }
 
             case 4 -> { //Search by author
                 Library.getInstance().searchBookByAuthor();
-                selectBookOption(AdminMenu.values(), Library.getInstance().getBooksAsList());
+                selectBookOption(AdminMenu.values(), Library.getInstance().getBooksBySearch());
             }
 
             case 5 -> { //All users
@@ -171,12 +171,12 @@ public class MenuHelper implements Serializable {
 
             case 2 -> {
                 Library.getInstance().searchBookByTitle();
-                selectBookOption(UserMenu.values(), Library.getInstance().getBooksAsList());
+                selectBookOption(UserMenu.values(), Library.getInstance().getBooksBySearch());
             }
 
             case 3 -> {
                 Library.getInstance().searchBookByAuthor();
-                selectBookOption(UserMenu.values(), Library.getInstance().getBooksAsList());
+                selectBookOption(UserMenu.values(), Library.getInstance().getBooksBySearch());
             }
 
             case 4 -> {
@@ -208,10 +208,12 @@ public class MenuHelper implements Serializable {
 
             if (menuChoice.equalsIgnoreCase("T")) {
                 System.out.println("\nHÄR SORTERAR VI EFTER TITEL\n");
+                Library.getInstance().sortBooks(booksToChoose, menuChoice);
                 generalReturnMenu(menuItems);
 
             } else if (menuChoice.equalsIgnoreCase("A")) {
                 System.out.println("\nHÄR SORTERAR VI EFTER AUTHOR\n");
+                Library.getInstance().sortBooks(booksToChoose, menuChoice);
                 generalReturnMenu(menuItems);
 
             } else {
