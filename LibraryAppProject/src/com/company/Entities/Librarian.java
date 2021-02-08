@@ -27,10 +27,25 @@ public class Librarian extends Person implements Serializable {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter book title: ");
         String titleName = scan.nextLine();
+        if(!isBookTitleValid(titleName)){
+            System.out.println("The book does already exist\n ");
+        }
+        while (titleName.isBlank() || titleName.isEmpty()){
+            System.out.println("Enter a book title, it can't be empty: ");
+            titleName = scan.nextLine();
+        }
         System.out.println("Enter a short description: ");
         String description = scan.nextLine();
+        while (description.isBlank() || description.isEmpty()){
+            System.out.println("The description can't be empty, enter again:");
+            description = scan.nextLine();
+        }
         System.out.println("Enter author name: ");
         String author = scan.nextLine();
+        while (author.isBlank() || author.isEmpty()){
+            System.out.println("The book needs to have an author! Enter name again:");
+            author = scan.nextLine();
+        }
 
         Book book = new Book(titleName, description, author);
         Library.getInstance().addBookToMap(book);
@@ -186,6 +201,14 @@ public class Librarian extends Person implements Serializable {
                 System.out.println(PURPLE + "---------------------------------------------------------------------------" + RESET);
             }
         }
+    }
+    public boolean isBookTitleValid(String title){
+        for (Book book : Library.getInstance().getBooksAsList()) {
+            if (book.getTitle().equalsIgnoreCase(title)){
+                return false;
+            }
+        }
+        return true;
     }
 }
 
