@@ -27,22 +27,22 @@ public class Librarian extends Person implements Serializable {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter book title: ");
         String titleName = scan.nextLine();
-        if(!isBookTitleValid(titleName)){
+        if (!isBookTitleValid(titleName)) {
             System.out.println("The book does already exist\n ");
         }
-        while (titleName.isBlank() || titleName.isEmpty()){
+        while (titleName.isBlank() || titleName.isEmpty()) {
             System.out.println("Enter a book title, it can't be empty: ");
             titleName = scan.nextLine();
         }
         System.out.println("Enter a short description: ");
         String description = scan.nextLine();
-        while (description.isBlank() || description.isEmpty()){
+        while (description.isBlank() || description.isEmpty()) {
             System.out.println("The description can't be empty, enter again:");
             description = scan.nextLine();
         }
         System.out.println("Enter author name: ");
         String author = scan.nextLine();
-        while (author.isBlank() || author.isEmpty()){
+        while (author.isBlank() || author.isEmpty()) {
             System.out.println("The book needs to have an author! Enter name again:");
             author = scan.nextLine();
         }
@@ -105,7 +105,7 @@ public class Librarian extends Person implements Serializable {
         FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
     }
 
-    public boolean isPasswordValid(String password) {
+    private boolean isPasswordValid(String password) {
         String regex = "^(?=.*[0-9])"
                 + "(?=.*[a-z])(?=.*[A-Z])"
                 + "(?=\\S+$).{6,20}$";
@@ -118,7 +118,7 @@ public class Librarian extends Person implements Serializable {
         return m.matches();
     }
 
-    public boolean isUsernameValid(String username) {
+    private boolean isUsernameValid(String username) {
         String regex = "^(?=\\S+$).{2,20}$";
         Pattern p = Pattern.compile(regex);
         if (username == null) {
@@ -128,7 +128,7 @@ public class Librarian extends Person implements Serializable {
         return m.matches();
     }
 
-    public boolean isNameValid(String name) {
+    private boolean isNameValid(String name) {
         String regex = "^[a-zåäöA-ZÅÄÖ\s]{3,40}" + "[^0-9]$";
         Pattern p = Pattern.compile(regex);
         if (name == null) {
@@ -162,6 +162,9 @@ public class Librarian extends Person implements Serializable {
         for (Person p : Library.getInstance().getUsersAsList()) {
             System.out.println(i + " " + YELLOW + p.getName() + CYAN + "\nUsername: " + RESET + p.getUsername() + CYAN + "\nPassword: " + RESET + p.getPassword() + CYAN +
                     "\nBorrowed books:" + RESET);
+            if (p.isLoggedIn()) {
+                System.out.println(RED + p.isLoggedIn());
+            }
 
             for (Book book : ((User) p).getBooks()) {
                 System.out.println("* " + YELLOW + book.getTitle() + RESET + book.showDaysRemainingOnLoan());
@@ -202,9 +205,10 @@ public class Librarian extends Person implements Serializable {
             }
         }
     }
-    public boolean isBookTitleValid(String title){
+
+    private boolean isBookTitleValid(String title) {
         for (Book book : Library.getInstance().getBooksAsList()) {
-            if (book.getTitle().equalsIgnoreCase(title)){
+            if (book.getTitle().equalsIgnoreCase(title)) {
                 return false;
             }
         }
