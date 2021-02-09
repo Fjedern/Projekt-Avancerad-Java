@@ -83,14 +83,14 @@ public class Book implements Serializable {
     public String showDaysRemainingOnLoan() {
 
         if (LocalDate.now().until(returnBookDate).getDays() == 0) {
-            return " [" + PURPLE + LocalDate.now().until(returnBookDate).getDays() + " days left on the loan!" + RESET + "]";
+            return " [" + CYAN + LocalDate.now().until(returnBookDate).getDays() + " days left on the loan!" + RESET + "]";
 
         } else if (LocalDate.now().until(returnBookDate).getDays() < 0) {
             int days = LocalDate.now().until(returnBookDate).getDays();
             days *= days;
             days = (int) Math.sqrt(days);
 
-            return " [ " + RED + "THE BOOK IS OVERDUE BY " + days + " DAYS!" + RESET + " ]";
+            return " [" + RED + "THE BOOK IS OVERDUE BY " + days + " DAY(S)!" + RESET + "]";
         }
 
         return " [" + GREEN + LocalDate.now().until(returnBookDate).getDays() + RESET + " days left on the loan]";
