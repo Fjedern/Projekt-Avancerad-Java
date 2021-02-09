@@ -28,22 +28,23 @@ public class Librarian extends Person implements Serializable {
         System.out.println("Enter book title: ");
         String titleName = scan.nextLine();
         if(!isBookTitleValid(titleName)){
-            System.out.println("The book does already exist\n ");
+            System.out.println(YELLOW+"The book does already exist"+RESET);
+            return;
         }
         while (titleName.isBlank() || titleName.isEmpty()){
-            System.out.println("Enter a book title, it can't be empty: ");
+            System.out.println(RED+"Enter a book title, it can't be empty: "+RESET);
             titleName = scan.nextLine();
         }
         System.out.println("Enter a short description: ");
         String description = scan.nextLine();
         while (description.isBlank() || description.isEmpty()){
-            System.out.println("The description can't be empty, enter again:");
+            System.out.println(RED+"The description can't be empty,"+RESET+" enter again:");
             description = scan.nextLine();
         }
         System.out.println("Enter author name: ");
         String author = scan.nextLine();
         while (author.isBlank() || author.isEmpty()){
-            System.out.println("The book needs to have an author! Enter name again:");
+            System.out.println(RED + "The book needs to have an author! "+ RESET +"Enter name again:");
             author = scan.nextLine();
         }
 
@@ -83,20 +84,20 @@ public class Librarian extends Person implements Serializable {
         System.out.println("Enter name: ");
         String name = scan.nextLine();
         while (!isNameValid(name)) {
-            System.out.println("Enter name again, this time correct: ");
+            System.out.println(RED + "Enter name again,"+RESET+" this time correct: ");
             name = scan.nextLine();
         }
         System.out.println("Enter username: ");
         String username = scan.nextLine();
         while (!isUsernameValid(username)) {
-            System.out.println("A username can't contain white space!\n" +
+            System.out.println(RED + "A username can't contain white space!\n"+ RESET +
                     "Please enter username again: ");
             username = scan.nextLine();
         }
         System.out.println("Enter password(minimum of 6 letters, including one number and one uppercase letter): ");
         String password = scan.nextLine();
         while (!isPasswordValid(password)) {
-            System.out.println("Wrong, enter correct password format!\n" +
+            System.out.println(RED + "Wrong, enter correct password format!\n" + RESET +
                     "(minimum of 6 letters, including one number and one uppercase letter):");
             password = scan.nextLine();
         }
