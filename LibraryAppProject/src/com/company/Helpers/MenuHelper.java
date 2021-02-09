@@ -10,6 +10,7 @@ import com.company.Menus.GetMenuValues;
 import com.company.Menus.MainMenu;
 import com.company.Menus.UserMenu;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
@@ -43,15 +44,16 @@ public class MenuHelper implements Serializable {
     }
 
     public <T extends GetMenuValues> void initMenu(T[] menuItems) {
-        int i = 1;
-        System.out.println(YELLOW + menuItems[0].getHeader() + RESET);
+        if (Library.getInstance().getOpen()) {
+            int i = 1;
 
-        for (T menuItem : menuItems) {
-            System.out.println(CYAN + "[" + i + "] " + RESET + menuItem.getDescription());
-            i++;
+            System.out.println(YELLOW + menuItems[0].getHeader() + RESET);
+            for (T menuItem : menuItems) {
+                System.out.println(CYAN + "[" + i + "] " + RESET + menuItem.getDescription());
+                i++;
+            }
+            setMenuChoice(menuItems);
         }
-
-        setMenuChoice(menuItems);
     }
 
 
@@ -61,18 +63,15 @@ public class MenuHelper implements Serializable {
         System.out.print("\nMake a choice: ");
 
         try {
-            int menuInput = scan.nextInt();
-
+           int menuInput = scan.nextInt();
             if (menuInput < 1 || menuInput > menuItems.length) {
                 setMenuChoice(menuItems);
             }
 
-            if (menuItems[0] instanceof MainMenu) {
+            if (menuItems[0].getClass().equals(MainMenu.class)) {
                 mainMenuChoice(menuInput);
-
-            } else if (menuItems[0] instanceof AdminMenu) {
+            } else if (menuItems[0].getClass().equals(AdminMenu.class)) {
                 adminMenuChoice(menuInput);
-
             } else {
                 userMenuChoice(menuInput);
             }
@@ -80,9 +79,9 @@ public class MenuHelper implements Serializable {
         } catch (Exception e) {
             setMenuChoice(menuItems);
         }
+
     }
 
-    // MAIN MENU
     public void mainMenuChoice(int choice) {
 
         switch (choice) {
@@ -90,19 +89,21 @@ public class MenuHelper implements Serializable {
                 Library.getInstance().showAllBooks();
                 selectBookOption(MainMenu.values(), Library.getInstance().getBooksAsList());
             }
-
-            case 2 -> Library.getInstance().searchBookByTitle(MainMenu.values());
-
-            case 3 -> Library.getInstance().searchBookByAuthor(MainMenu.values());
-
+            case 2 -> {
+                Library.getInstance().searchBookByTitle();
+                selectBookOption(MainMenu.values(), Library.getInstance().getBooksAsList());
+            }
+            case 3 -> {
+                Library.getInstance().searchBookByAuthor();
+                selectBookOption(MainMenu.values(), Library.getInstance().getBooksAsList());
+            }
             case 4 -> Library.getInstance().checkLoginV2();
 
-            case 5 -> System.out.println(GREEN + "\nShutting down system" + RESET);
+            case 5 -> exitSystem();
         }
     }
 
-    // ADMIN MENU
-    public void adminMenuChoice(int choice) {
+    public void adminMenuChoice(int choice)  {
 
         switch (choice) {
 
@@ -115,14 +116,18 @@ public class MenuHelper implements Serializable {
                 librarian.seeAllBorrowedBooks();
                 generalReturnMenu(AdminMenu.values());
             }
-            //Search by name
-            case 3 -> Library.getInstance().searchBookByTitle(AdminMenu.values());
 
-            //Search by author
-            case 4 -> Library.getInstance().searchBookByAuthor(AdminMenu.values());
+            case 3 -> { //Search by name
+                Library.getInstance().searchBookByTitle();
+                selectBookOption(AdminMenu.values(), Library.getInstance().getBooksAsList());
+            }
 
-            //All users
-            case 5 -> {
+            case 4 -> { //Search by author
+                Library.getInstance().searchBookByAuthor();
+                selectBookOption(AdminMenu.values(), Library.getInstance().getBooksAsList());
+            }
+
+            case 5 -> { //All users
                 librarian.seeAllUsers();
                 generalReturnMenu(AdminMenu.values());
             }
@@ -156,7 +161,7 @@ public class MenuHelper implements Serializable {
         }
     }
 
-    // USER MENU
+
     public void userMenuChoice(int choice) {
 
         switch (choice) {
@@ -165,16 +170,25 @@ public class MenuHelper implements Serializable {
                 selectBookOption(UserMenu.values(), Library.getInstance().getBooksAsList());
             }
 
-            case 2 -> Library.getInstance().searchBookByTitle(UserMenu.values());
+            case 2 -> {
+                Library.getInstance().searchBookByTitle();
+                selectBookOption(UserMenu.values(), Library.getInstance().getBooksAsList());
+            }
 
-            case 3 -> Library.getInstance().searchBookByAuthor(UserMenu.values());
+            case 3 -> {
+                Library.getInstance().searchBookByAuthor();
+                selectBookOption(UserMenu.values(), Library.getInstance().getBooksAsList());
+            }
 
             case 4 -> {
                 user.borrowBooks();
                 generalReturnMenu(UserMenu.values());
             }
 
-            case 5 -> user.showUserBooks();
+            case 5 -> {
+                user.showUserBooks();
+                selectBookOption(UserMenu.values(), user.getBooks());
+            }
 
             case 6 -> {
                 user.returnBookFromMenu();
@@ -182,6 +196,7 @@ public class MenuHelper implements Serializable {
             }
 
             case 7 -> logOutCurrentPerson();
+
         }
     }
 
@@ -193,19 +208,19 @@ public class MenuHelper implements Serializable {
             String menuChoice = scan.nextLine();
 
             if (menuChoice.equalsIgnoreCase("T")) {
-                Library.getInstance().sortBooks(booksToChoose, menuChoice, menuItems);
+                System.out.println("\nHÄR SORTERAR VI EFTER TITEL\n");
+                generalReturnMenu(menuItems);
 
             } else if (menuChoice.equalsIgnoreCase("A")) {
-                Library.getInstance().sortBooks(booksToChoose, menuChoice, menuItems);
+                System.out.println("\nHÄR SORTERAR VI EFTER AUTHOR\n");
+                generalReturnMenu(menuItems);
 
             } else {
-
                 try {
                     int intChoice = Integer.parseInt(menuChoice);
 
                     if (intChoice == 0) {
                         initMenu(menuItems);
-
                     } else if (intChoice > 0 && intChoice <= booksToChoose.size()) {
 
                         for (Book book : booksToChoose) {
@@ -217,29 +232,26 @@ public class MenuHelper implements Serializable {
                         }
 
                     } else {
-                        System.out.println(RED + "\nInvalid option!" + RESET);
-                        generalReturnMenu(menuItems);
+                        selectBookOption(menuItems, booksToChoose);
                     }
 
                 } catch (Exception e) {
-                    System.out.println(RED + "\nInvalid option!" + RESET);
-                    generalReturnMenu(menuItems);
+                    selectBookOption(menuItems, booksToChoose);
+
                 }
             }
 
         } catch (Exception e) {
-            System.out.println(RED + "\nInvalid option!" + RESET);
-            generalReturnMenu(menuItems);
+            selectBookOption(menuItems, booksToChoose);
         }
     }
 
-
     private <T extends GetMenuValues> void initBookMenu(T[] menuItems, Book book, List<Book> booksToChoose) {
 
-        if (menuItems[0] instanceof MainMenu) {
+        if (menuItems[0].getClass().equals(MainMenu.class)) {
             generalReturnMenu(menuItems);
 
-        } else if (menuItems[0] instanceof AdminMenu) {
+        } else if (menuItems[0].getClass().equals(AdminMenu.class)) {
             adminBookMenu(book);
 
         } else {
@@ -247,9 +259,10 @@ public class MenuHelper implements Serializable {
         }
     }
 
+
     // General method for returning to main/admin/user menu (depending on type of user)
     // by entering 0
-    public <T extends GetMenuValues> void generalReturnMenu(T[] menuItems) {
+    private <T extends GetMenuValues> void generalReturnMenu(T[] menuItems) {
         Scanner scan = new Scanner(System.in);
         System.out.print(CYAN + "\n[0]" + RESET + " to return: ");
 
@@ -293,11 +306,11 @@ public class MenuHelper implements Serializable {
     private void userBookMenu(Book book, List<Book> books) {
         Scanner scan = new Scanner(System.in);
 
-        if (books.equals(user.getBooks())) {
-            System.out.println(CYAN + "\n[1]" + RESET + " Return book to library \n" + CYAN + "[0]" + RESET + " Back to menu\n");
+        if (books.equals(Library.getInstance().getBooksAsList())) {
+            System.out.println(CYAN + "\n[1]" + RESET + " Borrow book \n" + CYAN + "[0]" + RESET + " Back to menu\n");
 
         } else {
-            System.out.println(CYAN + "\n[1]" + RESET + " Borrow book \n" + CYAN + "[0]" + RESET + " Back to menu\n");
+            System.out.println(CYAN + "\n[1]" + RESET + " Return book to library \n" + CYAN + "[0]" + RESET + " Back to menu\n");
         }
 
         System.out.print("Make a choice: ");
@@ -308,12 +321,17 @@ public class MenuHelper implements Serializable {
             if (input == 0) {
                 initMenu(UserMenu.values());
 
-            } else if (input == 1 && books.equals(user.getBooks())) {
-                user.returnBook(book);
+            } else if (input == 1 && books.equals(Library.getInstance().getBooksAsList())) {
+                if (book.isAvailable()) {
+                    user.borrowBook(book);
+
+                } else {
+                    System.out.println(RED + "\n" + book.getTitle() + " is already loaned out\n" + RESET + book.showDaysRemainingOnLoan() + "\n");
+                }
                 generalReturnMenu(UserMenu.values());
 
-            } else if (input == 1 && !books.equals(user.getBooks())) {
-                user.borrowBook(book);
+            } else if (input == 1 && books.equals(user.getBooks())) {
+                user.returnBook(book);
                 generalReturnMenu(UserMenu.values());
 
             } else {
@@ -335,10 +353,15 @@ public class MenuHelper implements Serializable {
         if (librarian != null) {
             librarian.setLoggedIn(false);
         }
-
         FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
         FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
 
+        initMenu(MainMenu.values());
+    }
+
+    public void exitSystem() {
+        System.out.println(GREEN + "\nShutting down system" + RESET);
+        Library.getInstance().setOpen(false);
         initMenu(MainMenu.values());
     }
 }
