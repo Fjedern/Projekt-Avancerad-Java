@@ -91,13 +91,15 @@ public class MenuHelper implements Serializable {
                 selectBookOption(MainMenu.values(), Library.getInstance().getBooksAsList());
             }
 
-            case 2 -> Library.getInstance().searchBookByTitle(MainMenu.values());
+            case 2 -> Library.getInstance().showAvailableBooks(MainMenu.values());
 
-            case 3 -> Library.getInstance().searchBookByAuthor(MainMenu.values());
+            case 3 -> Library.getInstance().searchBookByTitle(MainMenu.values());
 
-            case 4 -> Library.getInstance().checkLoginV2();
+            case 4 -> Library.getInstance().searchBookByAuthor(MainMenu.values());
 
-            case 5 -> System.out.println(GREEN + "\nShutting down system" + RESET);
+            case 5 -> Library.getInstance().checkLoginV2();
+
+            case 6 -> System.out.println(GREEN + "\nShutting down system" + RESET);
         }
     }
 
@@ -111,48 +113,51 @@ public class MenuHelper implements Serializable {
                 selectBookOption(AdminMenu.values(), Library.getInstance().getBooksAsList());
             }
 
-            case 2 -> {
+            case 2 -> Library.getInstance().showAvailableBooks(AdminMenu.values());
+
+
+            case 3 -> {
                 librarian.seeAllBorrowedBooks();
                 generalReturnMenu(AdminMenu.values());
             }
             //Search by name
-            case 3 -> Library.getInstance().searchBookByTitle(AdminMenu.values());
+            case 4 -> Library.getInstance().searchBookByTitle(AdminMenu.values());
 
             //Search by author
-            case 4 -> Library.getInstance().searchBookByAuthor(AdminMenu.values());
+            case 5 -> Library.getInstance().searchBookByAuthor(AdminMenu.values());
 
             //All users
-            case 5 -> {
+            case 6 -> {
                 librarian.seeAllUsers();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 6 -> {
+            case 7 -> {
                 librarian.searchForUserByName();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 7 -> { //Add user
+            case 8 -> { //Add user
                 librarian.librarianAddUser();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 8 -> { //Remove user
+            case 9 -> { //Remove user
                 librarian.librarianRemoveUser();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 9 -> { //Add Book
+            case 10 -> { //Add Book
                 librarian.librarianAddBook();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 10 -> { //Remove Book
+            case 11 -> { //Remove Book
                 librarian.librarianRemoveBookByTitle();
                 generalReturnMenu(AdminMenu.values());
             }
 
-            case 11 -> logOutCurrentPerson();
+            case 12 -> logOutCurrentPerson();
         }
     }
 
@@ -165,23 +170,25 @@ public class MenuHelper implements Serializable {
                 selectBookOption(UserMenu.values(), Library.getInstance().getBooksAsList());
             }
 
-            case 2 -> Library.getInstance().searchBookByTitle(UserMenu.values());
+            case 2 -> Library.getInstance().showAvailableBooks(UserMenu.values());
 
-            case 3 -> Library.getInstance().searchBookByAuthor(UserMenu.values());
+            case 3 -> Library.getInstance().searchBookByTitle(UserMenu.values());
 
-            case 4 -> {
+            case 4 -> Library.getInstance().searchBookByAuthor(UserMenu.values());
+
+            case 5 -> {
                 user.borrowBooks();
                 generalReturnMenu(UserMenu.values());
             }
 
-            case 5 -> user.showUserBooks();
+            case 6 -> user.showUserBooks();
 
-            case 6 -> {
+            case 7 -> {
                 user.returnBookFromMenu();
                 generalReturnMenu(UserMenu.values());
             }
 
-            case 7 -> logOutCurrentPerson();
+            case 8 -> logOutCurrentPerson();
         }
     }
 

@@ -145,6 +145,36 @@ public class Library implements Serializable {
         }
     }
 
+    public <T extends GetMenuValues> void showAvailableBooks(T[]menuItems){
+        List<Book> booksAvailable = new ArrayList<>();
+        int matches = 0;
+        int i = 1;
+        System.out.println(YELLOW + "\n== AVAILABLE BOOKS ==" + RESET);
+        for(Book book: getBooksAsList()){
+            if(book.isAvailable()){
+                System.out.print("Check");
+                book.setI(i);
+                booksAvailable.add(book);
+                System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getTitle() + RESET + " by " + book.getAuthor());
+                matches++;
+                i++;
+
+            }
+
+
+        }
+        if(matches==0){
+            System.out.print("There are no books available");
+
+        }
+        else{
+            menuHelper.selectBookOption(menuItems, booksAvailable);
+
+        }
+
+
+    }
+
     public void showAllBooks() {
         int i = 1;
         System.out.println(YELLOW + "\n== ALL BOOKS ==" + RESET);
