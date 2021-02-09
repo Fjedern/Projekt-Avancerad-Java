@@ -49,7 +49,6 @@ public class FileUtils {
         }
     }
 
-
     public static List<String> readFromFile(String path) {
         List<String> test = new ArrayList<>();
         try {
