@@ -227,6 +227,7 @@ public class Library implements Serializable {
         int i = 1;
         int matches = 0;
         System.out.print("\nSearch books by author: ");
+
         try {
             String input = scan.nextLine();
 
