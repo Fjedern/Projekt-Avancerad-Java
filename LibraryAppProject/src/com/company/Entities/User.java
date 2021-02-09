@@ -120,6 +120,7 @@ public class User extends Person implements Serializable {
         } catch (Exception e) {
             System.out.println("Something went wrong");
         }
+        FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
     }
 
     @Override
