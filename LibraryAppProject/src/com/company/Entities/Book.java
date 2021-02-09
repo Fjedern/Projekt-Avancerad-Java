@@ -6,12 +6,12 @@ import java.time.LocalDate;
 import static com.company.Helpers.Color.*;
 
 public class Book implements Serializable {
-    String title;
-    String description;
-    String author;
+
+    private String title;
+    private String description;
+    private String author;
     private int i;
-    boolean available = true;
-    long timeStamp;
+    private boolean available = true;
     private LocalDate returnBookDate;
     private static final long serialVersionUID = 3L;
 
@@ -24,6 +24,7 @@ public class Book implements Serializable {
         this.description = description;
         this.author = author;
     }
+
 
     public String getTitle() {
         return title;
@@ -70,18 +71,29 @@ public class Book implements Serializable {
     }
 
     private void setReturnBookDate() {
+
         this.returnBookDate = LocalDate.now().plusDays(14);
     }
 
     public LocalDate getReturnBookDate() {
+
         return returnBookDate;
     }
 
     public String showDaysRemainingOnLoan() {
-        if (LocalDate.now().until(returnBookDate).getDays() < 1) {
-            return " [" + RED + LocalDate.now().until(returnBookDate).getDays() + " days left on the loan!" + RESET + "]";
+
+        if (LocalDate.now().until(returnBookDate).getDays() == 0) {
+            return " [" + PURPLE + LocalDate.now().until(returnBookDate).getDays() + " days left on the loan!" + RESET + "]";
+
+        } else if (LocalDate.now().until(returnBookDate).getDays() < 0) {
+            int days = LocalDate.now().until(returnBookDate).getDays();
+            days *= days;
+            days = (int) Math.sqrt(days);
+
+            return " [ " + RED + "THE BOOK IS OVERDUE BY " + days + " DAYS!" + RESET + " ]";
         }
-        return " [" + LocalDate.now().until(returnBookDate).getDays() + " days left on the loan]";
+
+        return " [" + GREEN + LocalDate.now().until(returnBookDate).getDays() + RESET + " days left on the loan]";
     }
 
     public void showBookInfo() {

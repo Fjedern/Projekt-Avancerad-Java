@@ -174,8 +174,8 @@ public class Librarian extends Person implements Serializable {
     public void seeAllBorrowedBooks() {
         System.out.println("\nThe following books are out on loan: ");
         for (Book book : Library.getInstance().getBooksAsList()) {
-            if (!book.available) {
-                System.out.println("* " + YELLOW + book.getTitle() + RESET + " by " + book.getAuthor() + RED + book.showDaysRemainingOnLoan() + RESET);
+            if (!book.isAvailable()) {
+                System.out.println("* " + YELLOW + book.getTitle() + RESET + " by " + book.getAuthor() + book.showDaysRemainingOnLoan());
             }
         }
     }

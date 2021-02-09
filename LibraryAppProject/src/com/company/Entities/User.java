@@ -2,6 +2,7 @@ package com.company.Entities;
 
 import com.company.Helpers.FileUtils;
 import com.company.Library;
+import com.company.Menus.UserMenu;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,22 +38,32 @@ public class User extends Person implements Serializable {
 
         for (Book book : Library.getInstance().getBooksAsList()) {
             if (book.getTitle().equalsIgnoreCase(title)) {
+
                 if (book.isAvailable()) {
-                    System.out.println("\n" + getName() + " loans " + book.getTitle());
+                    System.out.println(GREEN + "\n" + getName() + " loans " + book.getTitle() + RESET);
                     userBooks.add(book);
                     book.setAvailable(false);
                     FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
+
+                } else {
+                    System.out.println(RED + "\n" + book.getTitle() + " is already loaned out" + RESET);
                 }
+                return;
             }
         }
+        System.out.println(RED + "\nNo book matches: '" + "'" + RESET);
     }
 
     public void borrowBook(Book book) {
-        userBooks.add(book);
-        System.out.println(GREEN + "\n" + getName() + " loans " + book.getTitle() + RESET);
-        book.setAvailable(false);
-        FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
+        if (book.isAvailable()) {
+            userBooks.add(book);
+            System.out.println(GREEN + "\n" + getName() + " loans " + book.getTitle() + RESET);
+            book.setAvailable(false);
+            FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
 
+        } else {
+            System.out.println(RED + "\n" + book.getTitle() + " is already loaned out" + RESET);
+        }
     }
 
     public void returnBook(Book bookToReturn) {
@@ -67,10 +78,19 @@ public class User extends Person implements Serializable {
         int i = 1;
         userBooks.sort(Comparator.comparing(Book::getTitle));
         System.out.println();
-        for (Book book : userBooks) {
-            book.setI(i);
-            System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getTitle().toUpperCase() + RESET + book.showDaysRemainingOnLoan());
-            i++;
+
+        if (userBooks.size() != 0) {
+
+            for (Book book : userBooks) {
+                book.setI(i);
+                System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getTitle().toUpperCase() + RESET + book.showDaysRemainingOnLoan());
+                i++;
+            }
+            Library.getInstance().getMenuHelper().selectBookOption(UserMenu.values(), userBooks);
+
+        } else {
+            System.out.println(GREEN + "You don´t have any loans" + RESET);
+            Library.getInstance().getMenuHelper().generalReturnMenu(UserMenu.values());
         }
     }
 
@@ -81,12 +101,13 @@ public class User extends Person implements Serializable {
         userBooks.stream()
                 .sorted(Comparator.comparing(Book::getTitle))
                 .forEach(book -> System.out.println("* " + YELLOW + book.getTitle() + RESET + book.showDaysRemainingOnLoan()));
+
         try {
             System.out.print("\nTitle of the book you want to return: ");
             String titleOfBookToRemove = scan.nextLine();
 
             for (Book book : userBooks) {
-                if (titleOfBookToRemove.equalsIgnoreCase(book.title)) {
+                if (titleOfBookToRemove.equalsIgnoreCase(book.getTitle())) {
                     userBooks.remove(book);
                     book.setAvailable(true);
                     System.out.println(GREEN + "\n" + book.getTitle() + " by " + book.getAuthor() + " returned to library" + RESET);

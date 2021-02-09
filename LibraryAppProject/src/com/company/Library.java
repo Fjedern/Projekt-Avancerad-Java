@@ -24,16 +24,13 @@ public class Library implements Serializable {
     private static Library library;
     public Map<String, Book> books = new HashMap<>();
     public Map<String, Person> users = new HashMap<>();
-
-
-
-    private Boolean isOpen = true;
     private final MenuHelper menuHelper;
 
 
     private Library() {
         this.menuHelper = new MenuHelper();
     }
+
 
     public static Library getInstance() {
         if (library == null) {
@@ -117,17 +114,22 @@ public class Library implements Serializable {
                                 reminder(((User) person).userBooks);
                             }
                             menuHelper.initMenu(UserMenu.values());
+
                         } else {
                             System.out.println(GREEN + "\nWelcome " + person.getName() + "!\nYou are logged in as a " + YELLOW + "Librarian" + RESET);
                             menuHelper.setCurrentLibrarian(person);
                             person.setLoggedIn(true);
                             menuHelper.initMenu(AdminMenu.values());
                         }
+
                     } else {
                         System.out.println(RED + "\nWrong password! Try again" + RESET);
                     }
+
+
                 } while (checkLogin);
             }
+
         } else {
             System.out.println(RED + "\nWrong username! Please try again" + RESET);
             checkLoginV2();
@@ -135,9 +137,9 @@ public class Library implements Serializable {
     }
 
     private void reminder(List<Book> books){
-        System.out.println(RED + "Overdue book(s): \n" + RESET);
+        System.out.println(RED + "\nOverdue book(s): \n" + RESET);
         for(Book book : books){
-            if(LocalDate.now().until(book.getReturnBookDate()).getDays() < 1) {
+            if(LocalDate.now().until(book.getReturnBookDate()).getDays() < 0) {
                 System.out.println(YELLOW + book.getTitle() + RESET);
             }
         }
@@ -156,9 +158,11 @@ public class Library implements Serializable {
 
     public <T extends GetMenuValues> void sortBooks(List<Book> booksToSort, String compare, T[] menuItems) {
         int i = 1;
+
         if (compare.equalsIgnoreCase("T")) {
             booksToSort.sort(Comparator.comparing(Book::getTitle));
             System.out.println(YELLOW + "\n== SORTED BY TITLE ==" + RESET);
+
             for (Book book : booksToSort) {
                 book.setI(i);
                 System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getTitle().toUpperCase() + RESET + " by " + book.getAuthor());
@@ -166,9 +170,11 @@ public class Library implements Serializable {
             }
             menuHelper.selectBookOption(menuItems, booksToSort);
 
+
         } else if (compare.equalsIgnoreCase("A")) {
             booksToSort.sort(Comparator.comparing(Book::getAuthor));
             System.out.println(YELLOW + "\n== SORTED BY AUTHOR ==" + RESET);
+
             for (Book book : booksToSort) {
                 book.setI(i);
                 System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getAuthor().toUpperCase() + RESET + " - " + book.getTitle());
@@ -184,15 +190,15 @@ public class Library implements Serializable {
         int i = 1;
         int matches = 0;
         System.out.print("\nSearch books by title: ");
+
         try {
-            String regex = scan.nextLine();
-            Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-            System.out.println(YELLOW + "\n== TITLE OF BOOKS MATCHING: '" + regex + "' ==" + RESET);
+            String input = scan.nextLine();
+            System.out.println(YELLOW + "\n== TITLE OF BOOKS MATCHING: '" + input + "' ==" + RESET);
+
             for (Book book : getBooksAsList()) {
                 book.setI(-1);
-                Matcher matcher = pattern.matcher(book.getTitle());
-                boolean matchFound = matcher.find();
-                if (matchFound) {
+
+                if (book.getTitle().contains(input)) {
                     matches++;
                     book.setI(i);
                     booksByTitle.add(book);
@@ -200,32 +206,35 @@ public class Library implements Serializable {
                     i++;
                 }
             }
+
             if (matches == 0) {
                 System.out.println("\nNo books matches your search");
             } else {
                 menuHelper.selectBookOption(menuItems, booksByTitle);
+
             }
         } catch (Exception e) {
             searchBookByTitle(menuItems);
         }
     }
+
     public <T extends GetMenuValues> void searchBookByAuthor(T[] menuItems) {
         Scanner scan = new Scanner(System.in);
         List<Book> tempList = getBooksAsList();
         List<Book> booksByAuthor = new ArrayList<>();
         tempList.sort(Comparator.comparing(Book::getAuthor));
+
         int i = 1;
         int matches = 0;
         System.out.print("\nSearch books by author: ");
         try {
-            String regex = scan.nextLine();
-            Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-            System.out.println(YELLOW + "\n== BOOKS BY AUTHORS MATCHING: '" + regex + "' ==" + RESET);
+            String input = scan.nextLine();
+
+            System.out.println(YELLOW + "\n== BOOKS BY AUTHORS MATCHING: '" + input + "' ==" + RESET);
             for (Book book : tempList) {
                 book.setI(-1);
-                Matcher matcher = pattern.matcher(book.getAuthor());
-                boolean matchFound = matcher.find();
-                if (matchFound) {
+
+                if (book.getAuthor().contains(input)) {
                     matches++;
                     booksByAuthor.add(book);
                     book.setI(i);
@@ -233,22 +242,18 @@ public class Library implements Serializable {
                     i++;
                 }
             }
+
             if (matches == 0) {
-                System.out.println("No authors matches your search");
+                System.out.println(RED + "\nNo authors matches your search" + RESET);
+                menuHelper.generalReturnMenu(menuItems);
+
             } else {
                 menuHelper.selectBookOption(menuItems, booksByAuthor);
             }
+
         } catch (Exception e) {
             searchBookByTitle(menuItems);
         }
-    }
-
-    public void setOpen(Boolean open) {
-        isOpen = open;
-    }
-
-    public Boolean getOpen() {
-        return isOpen;
     }
 
     public void addBookToMap(Book book) {
