@@ -34,12 +34,28 @@ public class MenuHelper implements Serializable {
         initMenu(MainMenu.values());
     }
 
-    public void setCurrentUser(Person loggedInUser) {
-        user = (User) loggedInUser;
+    public void setCurrentPerson(Person loggedInPerson) {
+        if (loggedInPerson instanceof User) {
+            user = (User) loggedInPerson;
+
+        } else {
+            librarian = (Librarian) loggedInPerson;
+        }
     }
 
-    public void setCurrentLibrarian(Person loggedInLibrarian) {
-        librarian = (Librarian) loggedInLibrarian;
+    private void logOutCurrentPerson() {
+        System.out.println(GREEN + "\nLogging out" + RESET);
+
+        if (user != null) {
+            user.setLoggedIn(false);
+        }
+
+        if (librarian != null) {
+            librarian.setLoggedIn(false);
+        }
+
+        FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
+        initMenu(MainMenu.values());
     }
 
     public <T extends GetMenuValues> void initMenu(T[] menuItems) {
@@ -53,7 +69,6 @@ public class MenuHelper implements Serializable {
 
         setMenuChoice(menuItems);
     }
-
 
     private <T extends GetMenuValues> void setMenuChoice(T[] menuItems) {
         Scanner scan = new Scanner(System.in);
@@ -83,7 +98,7 @@ public class MenuHelper implements Serializable {
     }
 
     // MAIN MENU
-    public void mainMenuChoice(int choice) {
+    private void mainMenuChoice(int choice) {
 
         switch (choice) {
             case 1 -> {
@@ -104,7 +119,7 @@ public class MenuHelper implements Serializable {
     }
 
     // ADMIN MENU
-    public void adminMenuChoice(int choice) {
+    private void adminMenuChoice(int choice) {
 
         switch (choice) {
 
@@ -162,7 +177,7 @@ public class MenuHelper implements Serializable {
     }
 
     // USER MENU
-    public void userMenuChoice(int choice) {
+    private void userMenuChoice(int choice) {
 
         switch (choice) {
             case 1 -> {
@@ -192,6 +207,7 @@ public class MenuHelper implements Serializable {
         }
     }
 
+    // Gives the programs user options to sort books by author/title, select a book from the list by number or return
     public <T extends GetMenuValues> void selectBookOption(T[] menuItems, List<Book> booksToChoose) {
         Scanner scan = new Scanner(System.in);
         System.out.print(CYAN + "\n[T]" + RESET + " Sort by Title" + CYAN + "  [A]" + RESET + " Sort by Author" + CYAN + "  [0]" + RESET + " Back to menu \n\nMake a choice: ");
@@ -240,7 +256,7 @@ public class MenuHelper implements Serializable {
         }
     }
 
-
+    //Checks what type of menu-object is in use and sends the programs user to the right book-menu
     private <T extends GetMenuValues> void initBookMenu(T[] menuItems, Book book, List<Book> booksToChoose) {
 
         if (menuItems[0] instanceof MainMenu) {
@@ -255,18 +271,21 @@ public class MenuHelper implements Serializable {
     }
 
     // General method for returning to main/admin/user menu (depending on type of user)
-    // by entering 0
+    // by entering '0'
     public <T extends GetMenuValues> void generalReturnMenu(T[] menuItems) {
         Scanner scan = new Scanner(System.in);
         System.out.print(CYAN + "\n[0]" + RESET + " to return: ");
 
         try {
             int input = scan.nextInt();
+
             if (input == 0) {
                 initMenu(menuItems);
+
             } else {
                 generalReturnMenu(menuItems);
             }
+
         } catch (Exception e) {
             generalReturnMenu(menuItems);
         }
@@ -296,7 +315,7 @@ public class MenuHelper implements Serializable {
         }
     }
 
-    //If List<Book> books is a
+    //Gives logged in User user different options depending on what List<Book> is in use (User loaned books || Books in library)
     private void userBookMenu(Book book, List<Book> books) {
         Scanner scan = new Scanner(System.in);
 
@@ -330,22 +349,5 @@ public class MenuHelper implements Serializable {
         } catch (Exception e) {
             userBookMenu(book, books);
         }
-    }
-
-    public void logOutCurrentPerson() {
-        System.out.println(GREEN + "\nLogging out" + RESET);
-
-        if (user != null) {
-            user.setLoggedIn(false);
-        }
-
-        if (librarian != null) {
-            librarian.setLoggedIn(false);
-        }
-
-        FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
-        FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
-
-        initMenu(MainMenu.values());
     }
 }

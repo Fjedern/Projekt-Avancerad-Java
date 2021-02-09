@@ -108,7 +108,7 @@ public class Library implements Serializable {
                         checkLogin = false;
                         if (person instanceof User) {
                             System.out.println(GREEN + "\nWelcome " + person.getName() + "!\nYou are logged in as a " + YELLOW + "User" + RESET);
-                            menuHelper.setCurrentUser(person);
+                            menuHelper.setCurrentPerson(person);
                             person.setLoggedIn(true);
                             if(((User) person).getBooks().size() > 0){
                                 reminder(((User) person).userBooks);
@@ -117,7 +117,7 @@ public class Library implements Serializable {
 
                         } else {
                             System.out.println(GREEN + "\nWelcome " + person.getName() + "!\nYou are logged in as a " + YELLOW + "Librarian" + RESET);
-                            menuHelper.setCurrentLibrarian(person);
+                            menuHelper.setCurrentPerson(person);
                             person.setLoggedIn(true);
                             menuHelper.initMenu(AdminMenu.values());
                         }
@@ -125,7 +125,6 @@ public class Library implements Serializable {
                     } else {
                         System.out.println(RED + "\nWrong password! Try again" + RESET);
                     }
-
 
                 } while (checkLogin);
             }

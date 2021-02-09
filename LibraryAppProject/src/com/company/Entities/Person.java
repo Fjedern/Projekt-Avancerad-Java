@@ -52,10 +52,6 @@ public abstract class Person implements Serializable {
         isLoggedIn = loggedIn;
     }
 
-    public String getTypeOfPerson() {
-        return "person";
-    }
-
     @Override
     public String toString() {
         return "Person{" +

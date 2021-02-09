@@ -44,6 +44,8 @@ public class User extends Person implements Serializable {
                     userBooks.add(book);
                     book.setAvailable(false);
                     FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
+                    FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
+
 
                 } else {
                     System.out.println(RED + "\n" + book.getTitle() + " is already loaned out" + RESET);
@@ -60,6 +62,8 @@ public class User extends Person implements Serializable {
             System.out.println(GREEN + "\n" + getName() + " loans " + book.getTitle() + RESET);
             book.setAvailable(false);
             FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
+            FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
+
 
         } else {
             System.out.println(RED + "\n" + book.getTitle() + " is already loaned out" + RESET);
@@ -71,6 +75,7 @@ public class User extends Person implements Serializable {
             System.out.println(GREEN + "\n" + bookToReturn.getTitle() + " by " + bookToReturn.getAuthor() + " returned to library" + RESET);
             bookToReturn.setAvailable(true);
             FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
+            FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
         }
     }
 
@@ -111,6 +116,8 @@ public class User extends Person implements Serializable {
                     userBooks.remove(book);
                     book.setAvailable(true);
                     System.out.println(GREEN + "\n" + book.getTitle() + " by " + book.getAuthor() + " returned to library" + RESET);
+                    FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
+                    FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
                     return;
                 }
             }
@@ -120,7 +127,7 @@ public class User extends Person implements Serializable {
         } catch (Exception e) {
             System.out.println("Something went wrong");
         }
-        FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
+
     }
 
     @Override

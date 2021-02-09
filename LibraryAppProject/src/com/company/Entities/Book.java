@@ -87,8 +87,7 @@ public class Book implements Serializable {
 
         } else if (LocalDate.now().until(returnBookDate).getDays() < 0) {
             int days = LocalDate.now().until(returnBookDate).getDays();
-            days *= days;
-            days = (int) Math.sqrt(days);
+            days = (int) Math.sqrt(days * days);
 
             return " [" + RED + "THE BOOK IS OVERDUE BY " + days + " DAY(S)!" + RESET + "]";
         }
