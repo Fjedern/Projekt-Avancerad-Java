@@ -30,8 +30,12 @@ public class MenuHelper implements Serializable {
                 "\n================================" + BLUE +
                 "\n==== " + RESET + "WELCOME TO THE LIBRARY" + BLUE + " ====" + PURPLE +
                 "\n================================" + RESET);
-
+        logOutAllPersons();
         initMenu(MainMenu.values());
+    }
+
+    public void logOutAllPersons() {
+        Library.getInstance().users.values().forEach(person -> person.setLoggedIn(false));
     }
 
     public void setCurrentPerson(Person loggedInPerson) {
@@ -58,6 +62,9 @@ public class MenuHelper implements Serializable {
         initMenu(MainMenu.values());
     }
 
+
+
+    // Prints out the main/admin/user menu
     public <T extends GetMenuValues> void initMenu(T[] menuItems) {
         int i = 1;
         System.out.println(YELLOW + menuItems[0].getHeader() + RESET);
@@ -69,6 +76,8 @@ public class MenuHelper implements Serializable {
 
         setMenuChoice(menuItems);
     }
+
+
 
     private <T extends GetMenuValues> void setMenuChoice(T[] menuItems) {
         Scanner scan = new Scanner(System.in);
@@ -291,6 +300,7 @@ public class MenuHelper implements Serializable {
         }
     }
 
+    // Librarian can choose to remove book or go back to admin menu when viewing a specific book
     private void adminBookMenu(Book book) {
         Scanner scan = new Scanner(System.in);
         System.out.println(CYAN + "\n[1]" + RESET + " Remove book \n" + CYAN + "[0]" + RESET + " Back to menu\n");
@@ -315,7 +325,8 @@ public class MenuHelper implements Serializable {
         }
     }
 
-    //Gives logged in User user different options depending on what List<Book> is in use (User loaned books || Books in library)
+    // Gives logged in User user different options depending on what List<Book> is
+    // in use (Users loaned books || Books in library) when viewing a specific book
     private void userBookMenu(Book book, List<Book> books) {
         Scanner scan = new Scanner(System.in);
 

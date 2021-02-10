@@ -83,13 +83,13 @@ public class Librarian extends Person implements Serializable {
         System.out.println("Enter name: ");
         String name = scan.nextLine();
         while (!isNameValid(name)) {
-            System.out.println(RED + "Enter name again,"+RESET+" this time correct: ");
+            System.out.println(RED + "Enter name again," + RESET + " this time correct: ");
             name = scan.nextLine();
         }
         System.out.println("Enter username: ");
         String username = scan.nextLine();
         while (!isUsernameValid(username)) {
-            System.out.println(RED + "A username can't contain white space!\n"+ RESET +
+            System.out.println(RED + "A username can't contain white space!\n" + RESET +
                     "Please enter username again: ");
             username = scan.nextLine();
         }
@@ -148,6 +148,7 @@ public class Librarian extends Person implements Serializable {
         System.out.println("\nEnter username of user to remove: ");
         String userToRemove = scan.nextLine();
         if (Library.getInstance().users.containsKey(userToRemove)) {
+            ;
             Library.getInstance().users.remove(userToRemove);
             FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
         } else {
@@ -189,6 +190,7 @@ public class Librarian extends Person implements Serializable {
         System.out.println("\nType in a name: ");
         String regex = scan.nextLine();
         Pattern pa = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+
         System.out.println(YELLOW + "\n== NAMES OF USERS MATCHING: '" + regex + "' ==" + RESET);
         System.out.println(PURPLE + "---------------------------------------------------------------------------" + RESET);
 
