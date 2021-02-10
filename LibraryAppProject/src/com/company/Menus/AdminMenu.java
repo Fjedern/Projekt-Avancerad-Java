@@ -23,7 +23,6 @@ public enum AdminMenu implements GetMenuValues {
 
     }
 
-
     public String getDescription() {
         return description;
     }

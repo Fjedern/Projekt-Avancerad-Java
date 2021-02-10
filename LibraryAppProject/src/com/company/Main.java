@@ -9,9 +9,10 @@ public class Main {
 
         Library library = Library.getInstance();
 
+        //<editor-fold desc="Skräp">
         /*Book b1 = new Book("Sagan om ringen", "Frodo walking and having fun with his friends", "J.R.R. Tolkien");
         Book b2 = new Book("Sagan om de två tornen", "Frodo having some more fun with his friends", "J.R.R. Tolkien");
-        Book b3 = new Book("Sagan om de konungens återkomst", "Frodo having even more fun with his friends", "J.R.R. Tolkien");
+        Book b3 = new Book("Sagan om konungens återkomst", "Frodo having even more fun with his friends", "J.R.R. Tolkien");
         Book b4 = new Book("Papillion", "Papillion having fun on his own", "Henri Charriere");
         Book b5 = new Book("Fakta om Finland", "Interesting fact about Finland", "Erland Loe");
         Book b6 = new Book("Oryx and Crake", "A story about life in the future", "Margaret Atwood");
@@ -42,6 +43,7 @@ public class Main {
 
         FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
         FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");*/
+        //</editor-fold>
 
 
         library.openLibrary();

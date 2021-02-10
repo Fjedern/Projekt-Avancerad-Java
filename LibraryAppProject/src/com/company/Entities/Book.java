@@ -30,30 +30,17 @@ public class Book implements Serializable {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public boolean isAvailable() {
         return available;
     }
-
 
     public void setAvailable(boolean setAvailable) {
         available = setAvailable;
@@ -71,7 +58,6 @@ public class Book implements Serializable {
     }
 
     private void setReturnBookDate() {
-
         this.returnBookDate = LocalDate.now().plusDays(14);
     }
 

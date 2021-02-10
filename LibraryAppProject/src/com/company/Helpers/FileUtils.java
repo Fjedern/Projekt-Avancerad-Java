@@ -4,7 +4,6 @@ import com.company.Entities.Book;
 import com.company.Entities.Librarian;
 import com.company.Entities.User;
 import com.company.Library;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -49,6 +48,7 @@ public class FileUtils {
         }
     }
 
+    //<editor-fold desc="Backup">
     public static List<String> readFromFile(String path) {
         List<String> test = new ArrayList<>();
         try {
@@ -87,4 +87,5 @@ public class FileUtils {
         }
 
     }
+    //</editor-fold>
 }
