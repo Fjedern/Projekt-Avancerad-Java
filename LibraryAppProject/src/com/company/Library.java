@@ -39,25 +39,23 @@ public class Library implements Serializable {
         return library;
     }
 
-    //Funktionen som kör igång programmet
+    // Checks if it can read the .ser-files. If not it clears hashmaps 'users' and 'books'
+    // and fills them with new users and books from backup text-files
+    // Then calls method to start the "System"
     public void openLibrary() {
 
-        if (FileUtils.readObject("src/com/company/Files/Books.ser") == null) {
+        if (FileUtils.readObject("src/com/company/Files/Books.ser") == null || FileUtils.readObject("src/com/company/Files/User.ser") == null) {
+            users.clear();
+            books.clear();
             FileUtils.addBooks();
-
-        } else if (FileUtils.readObject("src/com/company/Files/User.ser") == null) {
             FileUtils.addUsers();
+            FileUtils.writeObject(books, "src/com/company/Files/Books.ser");
+            FileUtils.writeObject(users, "src/com/company/Files/User.ser");
 
         } else {
             books = (Map<String, Book>) FileUtils.readObject("src/com/company/Files/Books.ser");
             users = (Map<String, Person>) FileUtils.readObject("src/com/company/Files/User.ser");
         }
-
-        /*FileUtils.addUsers();
-        FileUtils.addBooks();*/
-
-        /*FileUtils.writeObject(books, "src/com/company/Files/Books.ser");
-        FileUtils.writeObject(users, "src/com/company/Files/User.ser");*/
 
         menuHelper.runSystem();
     }
@@ -66,14 +64,14 @@ public class Library implements Serializable {
         Collection<Person> persons = users.values();
         return persons.stream().parallel()
                 .filter(person -> person instanceof User)
-                .sorted(Comparator.comparing(Person::getName))
+                .sorted(Comparator.comparing(p -> p.getName().toUpperCase()))
                 .collect(Collectors.toList());
     }
 
     public List<Book> getBooksAsList() {
         Collection<Book> bookList = books.values();
         return bookList.stream().parallel()
-                .sorted(Comparator.comparing(Book::getTitle))
+                .sorted(Comparator.comparing(b -> b.getTitle().toUpperCase()))
                 .collect(Collectors.toList());
     }
 
@@ -110,10 +108,14 @@ public class Library implements Serializable {
                             System.out.println(GREEN + "\nWelcome " + person.getName() + "!\nYou are logged in as a " + YELLOW + "User" + RESET);
                             menuHelper.setCurrentPerson(person);
                             person.setLoggedIn(true);
-                            if(((User) person).getBooks().size() > 0){
+                            if (((User) person).getBooks().size() > 0) {
                                 reminder(((User) person).userBooks);
+                                return;
+                            } else {
+                                menuHelper.initMenu(UserMenu.values());
+
                             }
-                            menuHelper.initMenu(UserMenu.values());
+
 
                         } else {
                             System.out.println(GREEN + "\nWelcome " + person.getName() + "!\nYou are logged in as a " + YELLOW + "Librarian" + RESET);
@@ -135,43 +137,47 @@ public class Library implements Serializable {
         }
     }
 
-    private void reminder(List<Book> books){
-        System.out.println(RED + "\nOverdue book(s): \n" + RESET);
-        for(Book book : books){
-            if(LocalDate.now().until(book.getReturnBookDate()).getDays() < 0) {
-                System.out.println(YELLOW + book.getTitle() + RESET);
+    private void reminder(List<Book> books) {
+        List<Book> overdueBooks = new ArrayList<>();
+        for (Book book : books) {
+            if (LocalDate.now().until(book.getReturnBookDate()).getDays() < 0) {
+                overdueBooks.add(book);
             }
         }
+        if (overdueBooks.size() > 0) {
+            System.out.println("\n--------------------------------------------");
+            System.out.println(RED + "YOU HAVE OVERDUE BOOKS!" + RESET);
+            overdueBooks.forEach(book -> System.out.println("* " + YELLOW + book.getTitle() + RESET));
+            System.out.println("--------------------------------------------");
+            menuHelper.generalReturnMenu(UserMenu.values());
+
+        } else {
+            menuHelper.initMenu(UserMenu.values());
+        }
+
     }
 
-    public <T extends GetMenuValues> void showAvailableBooks(T[]menuItems){
+    public <T extends GetMenuValues> void showAvailableBooks(T[] menuItems) {
         List<Book> booksAvailable = new ArrayList<>();
         int matches = 0;
         int i = 1;
         System.out.println(YELLOW + "\n== AVAILABLE BOOKS ==" + RESET);
-        for(Book book: getBooksAsList()){
-            if(book.isAvailable()){
+        for (Book book : getBooksAsList()) {
+            if (book.isAvailable()) {
                 System.out.print("Check");
                 book.setI(i);
                 booksAvailable.add(book);
                 System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getTitle() + RESET + " by " + book.getAuthor());
                 matches++;
                 i++;
-
             }
-
-
         }
-        if(matches==0){
+
+        if (matches == 0) {
             System.out.print("There are no books available");
-
-        }
-        else{
+        } else {
             menuHelper.selectBookOption(menuItems, booksAvailable);
-
         }
-
-
     }
 
     public void showAllBooks() {
@@ -198,7 +204,6 @@ public class Library implements Serializable {
                 i++;
             }
             menuHelper.selectBookOption(menuItems, booksToSort);
-
 
         } else if (compare.equalsIgnoreCase("A")) {
             booksToSort.sort(Comparator.comparing(Book::getAuthor));
@@ -227,7 +232,7 @@ public class Library implements Serializable {
             for (Book book : getBooksAsList()) {
                 book.setI(-1);
 
-                if (book.getTitle().contains(input)) {
+                if (book.getTitle().toUpperCase().contains(input.toUpperCase())) {
                     matches++;
                     book.setI(i);
                     booksByTitle.add(book);
@@ -237,10 +242,9 @@ public class Library implements Serializable {
             }
 
             if (matches == 0) {
-                System.out.println("\nNo books matches your search");
+                System.out.println(RED + "\nNo books matches your search" + RESET);
             } else {
                 menuHelper.selectBookOption(menuItems, booksByTitle);
-
             }
         } catch (Exception e) {
             searchBookByTitle(menuItems);
@@ -264,7 +268,7 @@ public class Library implements Serializable {
             for (Book book : tempList) {
                 book.setI(-1);
 
-                if (book.getAuthor().contains(input)) {
+                if (book.getAuthor().toUpperCase().contains(input.toUpperCase())) {
                     matches++;
                     booksByAuthor.add(book);
                     book.setI(i);

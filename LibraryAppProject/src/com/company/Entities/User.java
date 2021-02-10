@@ -53,7 +53,7 @@ public class User extends Person implements Serializable {
                 return;
             }
         }
-        System.out.println(RED + "\nNo book matches: '" + "'" + RESET);
+        System.out.println(RED + "\nNo book matches: '" + title + "'" + RESET);
     }
 
     public void borrowBook(Book book) {
@@ -127,7 +127,6 @@ public class User extends Person implements Serializable {
         } catch (Exception e) {
             System.out.println("Something went wrong");
         }
-
     }
 
     @Override
