@@ -75,7 +75,7 @@ public class Library implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public void checkLoginV2() {
+    public void checkLogin() {
         Scanner scan = new Scanner(System.in);
         boolean checkLogin = true;
         System.out.println("\n" + RED + "Please login");
@@ -109,7 +109,7 @@ public class Library implements Serializable {
                             menuHelper.setCurrentPerson(person);
                             person.setLoggedIn(true);
                             if (((User) person).getBooks().size() > 0) {
-                                reminder(((User) person).userBooks);
+                                overdueBookReminder(((User) person).userBooks);
                                 return;
                             } else {
                                 menuHelper.initMenu(UserMenu.values());
@@ -133,11 +133,11 @@ public class Library implements Serializable {
 
         } else {
             System.out.println(RED + "\nWrong username! Please try again" + RESET);
-            checkLoginV2();
+            checkLogin();
         }
     }
 
-    private void reminder(List<Book> books) {
+    private void overdueBookReminder(List<Book> books) {
         List<Book> overdueBooks = new ArrayList<>();
         for (Book book : books) {
             if (LocalDate.now().until(book.getReturnBookDate()).getDays() < 0) {
@@ -164,7 +164,6 @@ public class Library implements Serializable {
         System.out.println(YELLOW + "\n== AVAILABLE BOOKS ==" + RESET);
         for (Book book : getBooksAsList()) {
             if (book.isAvailable()) {
-                System.out.print("Check");
                 book.setI(i);
                 booksAvailable.add(book);
                 System.out.println(CYAN + "[" + i + "] " + YELLOW + book.getTitle() + RESET + " by " + book.getAuthor());
@@ -243,6 +242,7 @@ public class Library implements Serializable {
 
             if (matches == 0) {
                 System.out.println(RED + "\nNo books matches your search" + RESET);
+                menuHelper.generalReturnMenu(menuItems);
             } else {
                 menuHelper.selectBookOption(menuItems, booksByTitle);
             }
@@ -292,10 +292,6 @@ public class Library implements Serializable {
 
     public void addBookToMap(Book book) {
         books.put(book.getTitle(), book);
-    }
-
-    public void addUserToList(User user) {
-        users.put(user.getUsername(), user);
     }
 
     public MenuHelper getMenuHelper() {

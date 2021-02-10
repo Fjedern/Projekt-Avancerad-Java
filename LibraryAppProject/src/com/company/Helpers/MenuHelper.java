@@ -18,7 +18,6 @@ import static com.company.Helpers.Color.*;
 
 public class MenuHelper implements Serializable {
 
-
     private User user;
     private Librarian librarian;
 
@@ -62,8 +61,6 @@ public class MenuHelper implements Serializable {
         initMenu(MainMenu.values());
     }
 
-
-
     // Prints out the main/admin/user menu
     public <T extends GetMenuValues> void initMenu(T[] menuItems) {
         int i = 1;
@@ -73,11 +70,8 @@ public class MenuHelper implements Serializable {
             System.out.println(CYAN + "[" + i + "] " + RESET + menuItem.getDescription());
             i++;
         }
-
         setMenuChoice(menuItems);
     }
-
-
 
     private <T extends GetMenuValues> void setMenuChoice(T[] menuItems) {
         Scanner scan = new Scanner(System.in);
@@ -121,7 +115,7 @@ public class MenuHelper implements Serializable {
 
             case 4 -> Library.getInstance().searchBookByAuthor(MainMenu.values());
 
-            case 5 -> Library.getInstance().checkLoginV2();
+            case 5 -> Library.getInstance().checkLogin();
 
             case 6 -> System.out.println(GREEN + "\nShutting down system" + RESET);
         }
@@ -138,7 +132,6 @@ public class MenuHelper implements Serializable {
             }
 
             case 2 -> Library.getInstance().showAvailableBooks(AdminMenu.values());
-
 
             case 3 -> {
                 librarian.seeAllBorrowedBooks();

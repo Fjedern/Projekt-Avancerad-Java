@@ -49,18 +49,24 @@ public class Librarian extends Person implements Serializable {
 
         Book book = new Book(titleName, description, author);
         Library.getInstance().addBookToMap(book);
+        System.out.println("\n" + GREEN + book.getTitle() + " by " + book.getAuthor() + " added to library" + RESET);
         FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
     }
 
     public void librarianRemoveBookByTitle() {
         Scanner scan = new Scanner(System.in);
-        System.out.println("Enter book title to remove from library");
+        Library.getInstance().getBooksAsList().forEach(book -> System.out.println("* " + YELLOW + book.getTitle() + RESET + ", by " + book.getAuthor()));
+        System.out.println("\nEnter book title to remove from library");
         String bookTitleToRemove = scan.nextLine();
 
-        if (Library.getInstance().books.containsKey(bookTitleToRemove)) {
+        if (Library.getInstance().books.containsKey(bookTitleToRemove) && Library.getInstance().books.get(bookTitleToRemove).isAvailable()) {
             Library.getInstance().books.remove(bookTitleToRemove);
             System.out.println(GREEN + "\n" + bookTitleToRemove.toUpperCase() + " removed from system" + RESET);
             FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
+
+        } else if (Library.getInstance().books.containsKey(bookTitleToRemove) && !Library.getInstance().books.get(bookTitleToRemove).isAvailable()) {
+            System.out.println(RED + "\n" + Library.getInstance().books.get(bookTitleToRemove) + " is loaned out and cannot be removed" + RESET);
+
         } else {
             System.out.println(RED + "\nNo book matches: '" + bookTitleToRemove + "'" + RESET);
         }
@@ -102,6 +108,7 @@ public class Librarian extends Person implements Serializable {
         }
         User user = new User(name, username, password);
         Library.getInstance().users.put(user.getName(), user);
+        System.out.println(GREEN + "\nUser: " + user.getName() + " added to system" + RESET);
         FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
     }
 
@@ -145,10 +152,11 @@ public class Librarian extends Person implements Serializable {
 
     public void librarianRemoveUser() {
         Scanner scan = new Scanner(System.in);
+        Library.getInstance().getUsersAsList().forEach(person -> System.out.println("* " + YELLOW + person.getName() + RESET + ", " + person.getUsername()));
         System.out.println("\nEnter username of user to remove: ");
         String userToRemove = scan.nextLine();
         if (Library.getInstance().users.containsKey(userToRemove)) {
-            ;
+
             Library.getInstance().users.remove(userToRemove);
             FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
         } else {
@@ -217,5 +225,3 @@ public class Librarian extends Person implements Serializable {
         return true;
     }
 }
-
-
