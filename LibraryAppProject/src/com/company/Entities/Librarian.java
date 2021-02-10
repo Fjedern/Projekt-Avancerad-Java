@@ -155,8 +155,20 @@ public class Librarian extends Person implements Serializable {
         Library.getInstance().getUsersAsList().forEach(person -> System.out.println("* " + YELLOW + person.getName() + RESET + ", " + person.getUsername()));
         System.out.println("\nEnter username of user to remove: ");
         String userToRemove = scan.nextLine();
+
         if (Library.getInstance().users.containsKey(userToRemove)) {
-            for (Person user: Library.getInstance().getUsersAsList()) {
+            User user = ((User) Library.getInstance().users.get(userToRemove));
+
+            if (user.getBooks().size() < 1) {
+                Library.getInstance().users.remove(userToRemove);
+                System.out.println(GREEN + "\n" + user.getName() + " removed from system" + RESET);
+                FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
+
+            } else {
+                System.out.println(RED + "\nThe user still got books borrowed and can therefore not be removed from the library." + RESET);
+            }
+
+           /* for (Person user: Library.getInstance().getUsersAsList()) {
                 if (user.getUsername().equals(userToRemove) && ((User)user).getBooks().isEmpty()){
                     Library.getInstance().users.remove(userToRemove);
                     FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
@@ -165,7 +177,7 @@ public class Librarian extends Person implements Serializable {
                     System.out.println(RED + "The user still got books borrowed and can therefore not be removed from the library."+RESET);
                     return;
                 }
-            }
+            }*/
 
         } else {
             System.out.println(RED + "\nNo user matches: '" + userToRemove + "'" + RESET);
