@@ -25,7 +25,6 @@ public class Book implements Serializable {
         this.author = author;
     }
 
-
     public String getTitle() {
         return title;
     }
