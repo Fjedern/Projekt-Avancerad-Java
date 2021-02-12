@@ -152,6 +152,7 @@ public class Librarian extends Person implements Serializable {
 
     public void librarianRemoveUser() {
         Scanner scan = new Scanner(System.in);
+        System.out.println();
         Library.getInstance().getUsersAsList().forEach(person -> System.out.println("* " + YELLOW + person.getName() + RESET + ", " + person.getUsername()));
         System.out.println("\nEnter username of user to remove: ");
         String userToRemove = scan.nextLine();
@@ -168,32 +169,20 @@ public class Librarian extends Person implements Serializable {
                 System.out.println(RED + "\nThe user still got books borrowed and can therefore not be removed from the library." + RESET);
             }
 
-           /* for (Person user: Library.getInstance().getUsersAsList()) {
-                if (user.getUsername().equals(userToRemove) && ((User)user).getBooks().isEmpty()){
-                    Library.getInstance().users.remove(userToRemove);
-                    FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
-                }
-                else {
-                    System.out.println(RED + "The user still got books borrowed and can therefore not be removed from the library."+RESET);
-                    return;
-                }
-            }*/
-
         } else {
             System.out.println(RED + "\nNo user matches: '" + userToRemove + "'" + RESET);
         }
     }
 
+    // Only shows user passwords to make development/testing easier
     public void seeAllUsers() {
         int i = 1;
         System.out.println();
         System.out.println(PURPLE + "---------------------------------------------------------------------------" + RESET);
+
         for (Person p : Library.getInstance().getUsersAsList()) {
             System.out.println(i + " " + YELLOW + p.getName() + CYAN + "\nUsername: " + RESET + p.getUsername() + CYAN + "\nPassword: " + RESET + p.getPassword() + CYAN +
                     "\nBorrowed books:" + RESET);
-            if (p.isLoggedIn()) {
-                System.out.println(RED + p.isLoggedIn());
-            }
 
             for (Book book : ((User) p).getBooks()) {
                 System.out.println("* " + YELLOW + book.getTitle() + RESET + book.showDaysRemainingOnLoan());

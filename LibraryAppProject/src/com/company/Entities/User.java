@@ -46,7 +46,6 @@ public class User extends Person implements Serializable {
                     FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
                     FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
 
-
                 } else {
                     System.out.println(RED + "\n" + book.getTitle() + " is already loaned out" + RESET);
                 }
@@ -63,7 +62,6 @@ public class User extends Person implements Serializable {
             book.setAvailable(false);
             FileUtils.writeObject(Library.getInstance().books, "src/com/company/Files/Books.ser");
             FileUtils.writeObject(Library.getInstance().users, "src/com/company/Files/User.ser");
-
 
         } else {
             System.out.println(RED + "\n" + book.getTitle() + " is already loaned out" + RESET);
@@ -104,7 +102,7 @@ public class User extends Person implements Serializable {
         System.out.println();
 
         userBooks.stream()
-                .sorted(Comparator.comparing(Book::getTitle))
+                .sorted(Comparator.comparing(b -> b.getTitle().toUpperCase())) // Ändrad
                 .forEach(book -> System.out.println("* " + YELLOW + book.getTitle() + RESET + book.showDaysRemainingOnLoan()));
 
         try {
